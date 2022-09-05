@@ -98,9 +98,6 @@ void	ft_lstclear(t_token **lst)
 	}
 }
 
-
-
-
 int	is_operator(char c)
 {
 	return (c == '>' || c == '<' || c == '|');
@@ -118,6 +115,7 @@ int	is_quote(char c)
 
 void	get_error(int error, char *tmp, t_token_info *info)		// free도 추가
 {
+	printf("now get_error\n");
 	if (tmp)
 		free(tmp);
 	if (info->token_list)
@@ -156,9 +154,10 @@ t_token	*tokenize(char *str)
 	token_info.quoted_flag = 0;
 	token_info.token_type = NONE;
 	token_info.token_list = NULL;
+
 	while (str[token_info.cur_idx])
 	{
-		if (!token_info.quoted_flag && ((token_info.token_type == T_REDIR) || (token_info.token_type == T_PIPE)))
+		if (!token_info.quoted_flag && ((token_info.token_type == T_REDIR || token_info.token_type == T_PIPE)))
 		{ // 2~3 인용중이지 않고, 이전 문자가 연산자의 일부
 			if (is_operator(str[token_info.cur_idx]))
 			{
@@ -167,9 +166,14 @@ t_token	*tokenize(char *str)
 			else
 			{
 				make_token(str, token_info.cur_idx - 1, &token_info);
+				if (!is_whitespace(str[token_info.cur_idx]))
+				{
+					token_info.start_idx = token_info.cur_idx;
+					token_info.token_type = T_WORD;
+				}
 			}
 		}
-		else if (!token_info.quoted_flag && is_quote(str[token_info.cur_idx])) 
+		else if (!token_info.quoted_flag && is_quote(str[token_info.cur_idx]))
 		{  // 4 인용중이지 않고, 인용시작
 			token_info.quoted_flag = 1;
 			if (token_info.token_type == NONE)
@@ -180,7 +184,8 @@ t_token	*tokenize(char *str)
 		}
 		else if (!token_info.quoted_flag && is_operator(str[token_info.cur_idx]))
 		{ // 6 인용중이지 않고, 현재 인덱스가 연산자
-			make_token(str, token_info.cur_idx - 1, &token_info);
+			if (token_info.token_type != NONE)
+				make_token(str, token_info.cur_idx - 1, &token_info);
 			token_info.start_idx = token_info.cur_idx;
 			if (str[token_info.cur_idx] == '|')
 				token_info.token_type = T_PIPE;
@@ -189,7 +194,8 @@ t_token	*tokenize(char *str)
 		}
 		else if (!token_info.quoted_flag && is_whitespace(str[token_info.cur_idx]))
 		{ // 8 인용중이지 않고, 현재 인덱스가 blank
-			make_token(str, token_info.cur_idx - 1, &token_info);
+			if (token_info.token_type != NONE)
+				make_token(str, token_info.cur_idx - 1, &token_info);
 		}
 		else if (token_info.token_type == T_WORD)
 		{ // 9 이전 문자가 단어의 한 부분일 때
