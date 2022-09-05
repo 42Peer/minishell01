@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"*.html": "html",
+		"__node_handle": "cpp",
+		"libft.h": "c",
+		"minishell.h": "c"
+	}
+}
