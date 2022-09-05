@@ -55,7 +55,7 @@ t_token	*ft_lstnew(int type, char *content)
 
 void	print_content(char *str)
 {
-	printf("%s\n", str);
+	printf("token > %s\n", str);
 }
 
 void	ft_lstiter(t_token *lst, void (*f)(char *))
@@ -156,8 +156,6 @@ t_token	*tokenize(char *str)
 	token_info.quoted_flag = 0;
 	token_info.token_type = NONE;
 	token_info.token_list = NULL;
-	if (token_info.token_list == NULL)
-		get_error(ERROR, NULL, &token_info);
 	while (str[token_info.cur_idx])
 	{
 		if (!token_info.quoted_flag && ((token_info.token_type == T_REDIR) || (token_info.token_type == T_PIPE)))
@@ -227,12 +225,12 @@ int main(int argc, char **argv, char **envp)
 //			;
 		else
 		{
+			printf("input : %s\n", str);
 			head_token = tokenize(str); // 2. 토큰화
-//			int i = -1;
 			ft_lstiter(head_token, print_content);
+//			int i = -1;
 //			while (++i < ft_lstsize(head_token))
 //				ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
-//				printf("input : %s\n", str);
 		}
 		// root = make_tree(head_token); // 토큰을 자료구조에 넣는다
 		add_history(str);
