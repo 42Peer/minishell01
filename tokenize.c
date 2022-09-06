@@ -137,7 +137,7 @@ int	make_token(char *str, int copy_idx, t_token_info *info)
 	if (tmp == 0)
 		get_error(ERROR, NULL, info);
 	ft_memcpy(tmp, str + info->start_idx, len);
-	token = ft_lstnew(token->type, tmp);
+	token = ft_lstnew(info->token_type, tmp);
 	if (!token)
 		get_error(ERROR, NULL, info);
 	ft_lstadd_back(&(info->token_list), token);
