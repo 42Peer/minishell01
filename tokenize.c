@@ -213,7 +213,7 @@ t_token	*tokenize(char *str)
 		make_token(str, token_info.cur_idx - 1, &token_info);
 	return (token_info.token_list);
 }
-
+/*
 int main(int argc, char **argv, char **envp)
 {
 	char	*str;
@@ -245,7 +245,17 @@ int main(int argc, char **argv, char **envp)
 	}
 	return(0);
 }
+*/
+int main(void)//getcwd
+{
+	// char *path;
+// char *getcwd(char *buf, size_t size);
 
+	char buff[1024];
+
+	getcwd(buff, 1024);
+	printf("working directory : %s\n", buff);
+}//pwd 다음에 오는 word는 다 문자 처리. ex) '
 
 // make_token에서 token_type == NONE일 때 아무것도 저장하지 않게 처리.
 // make_token 내부에서 token_type을 NONE으로 초기화.

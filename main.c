@@ -17,8 +17,8 @@ redirection    cmd
 
 create_process_node()
 {
-	t_process	*head;
-	t_process	*process_node;
+	t_token	*head;
+	t_token	*process_node;
 
 	process_node = malloc;
 	head = process_node;
@@ -29,7 +29,7 @@ create_process_node()
 
 create_phrase_node()
 {
-	t_phrase	*phrase;
+	t_token	*phrase;
 	
 	phrase = malloc;
 	phrase->left = malloc;
@@ -38,9 +38,9 @@ create_phrase_node()
 	return (phrase);
 }
 
-put_token_cmd(t_process	*process, t_token *p_token)
+put_token_cmd(t_token	*process, t_token *p_token)
 {
-	t_cmd	*cur_cmd;
+	t_token	*cur_cmd;
 
 	cur_cmd = process->left->right;			// 커서를 트리의 cmd 노드까지
 	if (cur_cmd->cmd_token.content == NULL) 	// cmd 토큰이 없으면
@@ -52,9 +52,9 @@ put_token_cmd(t_process	*process, t_token *p_token)
 	}
 }
 
-put_token_redir(t_process	*process, t_token *p_token)
+put_token_redir(t_token	*process, t_token *p_token)
 {
-	t_redir	*cur_redir;
+	t_token	*cur_redir;
 
 	cur_redir = process->p_phrase->p_redir;
 	while (cur_redir->next == NULL)		// 가장 끝 리디렉션 노드까지 커서 이동
@@ -69,10 +69,10 @@ put_token_redir(t_process	*process, t_token *p_token)
 	}
 }
 
-t_process	*put_struct(t_process *head, t_token *p_token)
+t_token	*put_struct(t_token *head, t_token *p_token)
 {
-	t_process	*head;
-	t_process	*cur;
+	t_token	*head;
+	t_token	*cur;
 
 	head = create_process_node();
 	cur = head;
@@ -96,10 +96,10 @@ t_process	*put_struct(t_process *head, t_token *p_token)
 	return (head);
 }
 
-int main(int argc, char **argv, char **envp)
+/*int main(int argc, char **argv, char **envp)
 {
 	char	*str;
-	t_process *root;
+	t_token *root;
 	t_token	head_token;
 
 	while (1)
@@ -120,7 +120,7 @@ int main(int argc, char **argv, char **envp)
 	}
 	return(0);
 }
-
+*/
 void	echo(char **str) // 가변으로 받기
 {
 	int	i;
@@ -158,8 +158,11 @@ void	echo(char **str) // 가변으로 받기
 
 void	pwd(void)//getcwd
 {
+	// char *getcwd(char *buf, size_t size);
 	char *path;
+	char path[1024];//크기 어떻게?
 
-	path = PATH찾기.
-	printf("%s\n", path);
+	getcwd(path, 1024);
+	printf("working directory : %s\n", path);
 }
+// 	path = PATH찾기.

@@ -31,8 +31,8 @@ typedef enum e_type
 	T_WORD,
 	T_PIPE,
 	T_REDIR,
-	N_PHRASE,
 	N_REDIR,
+	N_PHRASE, // pipe 있을 경우 필요함.
 	N_PROCESS
 }	t_type;
 
@@ -49,13 +49,13 @@ typedef struct s_token_info
 	int		cur_idx;
 	int		quoted_flag;
 	t_type	token_type;
-	t_token *token_list;
+	t_token *p_token_list;
 }	t_token_info;
 
 typedef struct s_node
-{ // T_WORD, T_PIPE, T_REDIR, N_PHRASE, N_REDIR, N_PROCESS
+{ // T_WORD, T_PIPE, T_REDIR, N_REDIR, N_PHRASE, N_PROCESS
 	int				type;
-	char			*content;
+	t_token			*p_token;
 	struct s_node	*left;
 	struct s_node	*right;
 }	t_node;
