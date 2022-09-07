@@ -122,7 +122,7 @@ void	get_error(int error, char *tmp, t_token_info *info)		// free도 추가
 		ft_lstclear(&(info->token_list));
 	if (error == ERROR)
 		exit (ERROR);
-}
+}//+root 노드, head token
 
 int	make_token(char *str, int copy_idx, t_token_info *info)
 {
@@ -213,12 +213,27 @@ t_token	*tokenize(char *str)
 		make_token(str, token_info.cur_idx - 1, &token_info);
 	return (token_info.token_list);
 }
-/*
+
+char *token_str[7]
+	= {"NONE", "T_WORD", "T_PIPE", "T_REDIR", "N_REDIR",
+	"N_PHRASE", "N_PROCESS"};
+
+void	ft_traverse(t_node *node)
+{
+	if (!(node))
+		return ;
+	printf("now node type : %s node content : %s\n", token_str[node->type], node->content);
+	ft_traverse(node->left);
+	ft_traverse(node->right);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	char	*str;
-	// t_process *root;
+	//???????????????????????????
+	//option+shift+k = 
 	t_token	*head_token;
+	t_node	*root;
 
 	while (1)
 	{
@@ -238,24 +253,14 @@ int main(int argc, char **argv, char **envp)
 //			while (++i < ft_lstsize(head_token))
 //				ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
 		}
-		// root = make_tree(head_token); // 토큰을 자료구조에 넣는다
+		root = make_tree(head_token); // 토큰을 자료구조에 넣는다
+		ft_traverse(root);
 		add_history(str);
 		free(str);
 		str = NULL;
 	}
 	return(0);
 }
-*/
-int main(void)//getcwd
-{
-	// char *path;
-// char *getcwd(char *buf, size_t size);
-
-	char buff[1024];
-
-	getcwd(buff, 1024);
-	printf("working directory : %s\n", buff);
-}//pwd 다음에 오는 word는 다 문자 처리. ex) '
 
 // make_token에서 token_type == NONE일 때 아무것도 저장하지 않게 처리.
 // make_token 내부에서 token_type을 NONE으로 초기화.

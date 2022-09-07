@@ -49,16 +49,37 @@ typedef struct s_token_info
 	int		cur_idx;
 	int		quoted_flag;
 	t_type	token_type;
-	t_token *p_token_list;
+	t_token *token_list;
 }	t_token_info;
 
 typedef struct s_node
 { // T_WORD, T_PIPE, T_REDIR, N_REDIR, N_PHRASE, N_PROCESS
 	int				type;
-	t_token			*p_token;
+	char			*content;
 	struct s_node	*left;
 	struct s_node	*right;
 }	t_node;
+
+/*
+ *						libft function
+*/
+void	*ft_calloc(size_t count, size_t size);
+void	ft_bzero(void *s, size_t n);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+
+/*
+ *						part I tokenize
+*/
+
+/*
+ *						part II make_tree
+*/
+
+t_node	*make_tree(t_token *head_token);
+t_node *make_dummy_node(void);
+t_token *make_pipe_node(t_node **cur_process, t_token *cur_token);
+t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token);
+t_token	*make_redir_node(t_node *cur_process, t_token *cur_token);
 
 /*
 순회(node)

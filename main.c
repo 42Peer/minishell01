@@ -166,3 +166,4 @@ void	pwd(void)//getcwd
 	printf("working directory : %s\n", path);
 }
 // 	path = PATH찾기.
+//pwd 다음에 오는 word는 다 문자 처리. ex) '
