@@ -1,103 +1,5 @@
 #include "minishell.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	unsigned char	*dst_ptr;
-	unsigned char	*src_ptr;
-
-	if (!dst && !src)
-		return (NULL);
-	dst_ptr = dst;
-	src_ptr = (unsigned char *)src;
-	while (n > 0)
-	{
-		*dst_ptr++ = *src_ptr++;
-		--n;
-	}
-	return (dst);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned char	*ptr;
-
-	ptr = s;
-	while (n > 0)
-	{
-		*ptr++ = 0;
-		--n;
-	}
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*ary;
-
-	ary = malloc(count * size);
-	if (ary == 0)
-		return (0);
-	ft_bzero(ary, count * size);
-	return (ary);
-}
-
-t_token	*ft_lstnew(int type, char *content)
-{
-	t_token	*new;
-
-	new = malloc(sizeof(t_token));
-	if (new == NULL)
-		return (NULL);
-	new->type = type;
-	new->content = content;
-	new->next = NULL;
-	return (new);
-}
-
-void	print_content(char *str)
-{
-	printf("token > %s\n", str);
-}
-
-void	ft_lstiter(t_token *lst, void (*f)(char *))
-{
-	while (lst)
-	{
-		f(lst->content);
-		lst = lst->next;
-	}
-}
-
-void	ft_lstadd_back(t_token **lst, t_token *new)
-{
-	t_token	*cur;
-
-	if (*lst == 0)
-	{
-		*lst = new;
-		return ;
-	}
-	cur = *lst;
-	while (cur->next)
-		cur = cur->next;
-	cur->next = new;
-}
-
-void	ft_lstclear(t_token **lst)
-{
-	t_token	*cur;
-
-	while (*lst)
-	{
-		cur = *lst;
-		cur->type = 0;//NONE
-		if (cur->content)
-			free(cur->content);
-		*lst = (*lst)->next;
-		cur->next = NULL;
-		free(cur);
-	}
-}
-
 int	is_operator(char c)
 {
 	return (c == '>' || c == '<' || c == '|');
@@ -113,33 +15,22 @@ int	is_quote(char c)
 	return (c == '"' || c == '\'');
 }
 
-void	get_error(int error, char *tmp, t_token_info *info)		// free도 추가
-{
-	printf("now get_error\n");
-	if (tmp)
-		free(tmp);
-	if (info->token_list)
-		ft_lstclear(&(info->token_list));
-	if (error == ERROR)
-		exit (ERROR);
-}//+root 노드, head token
-
 int	make_token(char *str, int copy_idx, t_token_info *info)
 {
-	char	*tmp;
+	char	*copy;
 	size_t	len;
 	t_token	*token;
-	
+
 	if ((str == NULL) || (info == NULL))
 		return (ERROR);
 	len = copy_idx - info->start_idx + 1;
-	tmp = ft_calloc(len + 1, sizeof(char));
-	if (tmp == 0)
-		get_error(ERROR, NULL, info);
-	ft_memcpy(tmp, str + info->start_idx, len);
-	token = ft_lstnew(info->token_type, tmp);
+	copy = ft_calloc(len + 1, sizeof(char));
+	if (!copy)
+		clean_exit(ERROR, copy, info->token_list, NULL);
+	ft_memcpy(copy, str + info->start_idx, len);
+	token = ft_lstnew(info->token_type, copy);
 	if (!token)
-		get_error(ERROR, NULL, info);
+		clean_exit(ERROR, copy, info->token_list, NULL);
 	ft_lstadd_back(&(info->token_list), token);
 	info->token_type = NONE;
 	return (0);
@@ -212,54 +103,6 @@ t_token	*tokenize(char *str)
 	if (token_info.token_type != NONE) // 1 eof or NULL을 만나면 
 		make_token(str, token_info.cur_idx - 1, &token_info);
 	return (token_info.token_list);
-}
-
-char *token_str[7]
-	= {"NONE", "T_WORD", "T_PIPE", "T_REDIR", "N_REDIR",
-	"N_PHRASE", "N_PROCESS"};
-
-void	ft_traverse(t_node *node)
-{
-	if (!(node))
-		return ;
-	printf("now node type : %s node content : %s\n", token_str[node->type], node->content);
-	ft_traverse(node->left);
-	ft_traverse(node->right);
-}
-
-int main(int argc, char **argv, char **envp)
-{
-	char	*str;
-	//???????????????????????????
-	//option+shift+k = 
-	t_token	*head_token;
-	t_node	*root;
-
-	while (1)
-	{
-		str = readline("minishell > "); // 1. 입력 받기
-		if (strcmp(str, "exit") == 0) // || (ctrl-d signal)) // 종료 조건
-			break;
-//		else if (SIGINT :ctrl-C signal)
-//			printf("\n");
-//		else if (ctrl-\ sig)
-//			;
-		else
-		{
-			printf("input : %s\n", str);
-			head_token = tokenize(str); // 2. 토큰화
-			ft_lstiter(head_token, print_content);
-//			int i = -1;
-//			while (++i < ft_lstsize(head_token))
-//				ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
-		}
-		root = make_tree(head_token); // 토큰을 자료구조에 넣는다
-		ft_traverse(root);
-		add_history(str);
-		free(str);
-		str = NULL;
-	}
-	return(0);
 }
 
 // make_token에서 token_type == NONE일 때 아무것도 저장하지 않게 처리.

@@ -12,78 +12,7 @@
 t_token head_token;
 int main에서 root = make_tree(head_token); 트리만들기함수로 받아옴
 
-t_token io_redir(토큰)
-{
-	redir 노드 만들기
-	redir 노드 왼쪽에 리다이렉션 토큰 붙이기
-		토큰 = 토큰->next;
-	리다이렉션 토큰 아래에 WORD 토큰(Limiter) 붙이기
-	return (토큰)
-}
-
-t_token yichoi_cmd(토큰, t_token*)
-{
-    t_token = lst_add_back(token->content를 cmd->cmd_token 에 넣는다);
-	토큰 = 토큰->next;
-    return (token);
-}
-
-t_token	*프로세스 만들기(t_token *head)
-{
-	t_token	*cur;
-
-	head = calloc;
-	head->type = N_PROCESS;
-	cur = head;
-	cur->left = calloc;			// phrase node
-	cur->left->type = N_PHRASE;
-	cur = cur->left;			// phrase node로 커서 이동
-	cur->left = calloc;			// redir node;
-	cur->left->type = N_REDIR;
-
-	return (head);
-}
-
-phrase 만들기
-{
-	phrase 노드 만들기
-	//redir 노드 만들기
-	phrase 노드가 redir노드 연결
-}
-
-t_token *프로세스(파이프라인)만들기함수()
-{
-	process(pipeline) 노드 만들기;
-	phrase만들기함수();
-	redir 노드 만들기
-	return
-}
-
 # [token1]-[token2]- ... -[token_n] 
-#     ^ 여기부터 하나씩 while을 돌며 토큰 삽입
-
-t_token *make_tree(t_token *head_token)
-{
-	t_token *root;
-	t_token *cur_tree;
-	t_token *cur_token;
-
-	root = 프로세스(파이프라인)만들기함수
-	cur_tree = root;
-	cur_token = head_token;
-	while (토큰 끝날때까지)
-	{
-		if (토큰의 종류 == redir)
-			토큰 = io_redir 함수에 들어가서 그 함수 안에서 노드만들기
-		else if (토큰의 종류 == pipe)
-			make_tree 함수(root->next);
-			cur = cur->next;	// 다음 파이프라인으로 커서 옮기기
-			++토큰;
-		else //(토큰의 종류 == cmd)
-            토큰 = yichoi_cmd();
-	}
-	return (root);
-}
 
 # < 트리순서 >
 # 루트 만들기
@@ -216,5 +145,5 @@ void	m_calloc(t_node *process, t_node *root)
 {
 	t_node new = ft_calloc();
 	if (!new)
-		return (get_error());
+		return (clean_exit());
 }

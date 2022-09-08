@@ -1,17 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   make_tree.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jujeon <jujeon@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/08 13:53:16 by sumsong           #+#    #+#             */
+/*   Updated: 2022/09/08 17:07:07 by jujeon           ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
+
 // main 문에서 make_tree 어떻게 되어있는지
 // root = make_tree(head_token); // 토큰을 자료구조에 넣는다
 
 #include "minishell.h"
 
-t_token	*make_redir_node(t_node *cur_process, t_token *cur_token)
+t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, t_struct *ds)
 {
-	t_node 	*io_redir;
+	t_node	*io_redir;
 	t_node	*cur_node;
 	t_node	*new_node;
 	int		i;
 
 	io_redir = ft_calloc(1, sizeof(t_node));
-	io_redir->type = N_REDIR;	
+	if (!io_redir)
+		clean_exit(ERROR, NULL, NULL, ds);
+	io_redir->type = N_REDIR;
 	cur_node = cur_process->left;
 	while (cur_node->left)
 		cur_node = cur_node->left;
@@ -21,6 +35,8 @@ t_token	*make_redir_node(t_node *cur_process, t_token *cur_token)
 	while (++i < 2)
 	{
 		new_node = ft_calloc(1, sizeof(t_node));
+		if (!new_node)
+			clean_exit(ERROR, NULL, NULL, ds);
 		cur_node->right = new_node;
 		new_node->type = cur_token->type;
 		new_node->content = cur_token->content;
@@ -30,60 +46,64 @@ t_token	*make_redir_node(t_node *cur_process, t_token *cur_token)
 	return (cur_token);
 }
 
-t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token)
+t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token, t_struct *ds)
 {
-	t_node *cur_node;
-	t_node *cmd_node;
+	t_node	*cur_node;
+	t_node	*cmd_node;
 
 	cur_node = cur_process->left;
 	while (cur_node->right)
 		cur_node = cur_node->right;
 	cmd_node = ft_calloc(1, sizeof(t_node));
+	if (!cmd_node)
+		clean_exit(ERROR, NULL, NULL, ds);
 	cur_node->right = cmd_node;
 	cmd_node->type = cur_token->type;
 	cmd_node->content = cur_token->content;
 	return (cur_token->next);
 }
 
-t_token *make_pipe_node(t_node **cur_process, t_token *cur_token)
+t_token	*make_pipe_node(t_node **cur_process, t_token *cur_token, t_struct *ds)
 {
-	(*cur_process)->right = make_dummy_node();
+	(*cur_process)->right = make_dummy_node(ds);
 	*cur_process = (*cur_process)->right;
 	return (cur_token->next);
 }
 
-t_node *make_dummy_node(void)
+t_node	*make_dummy_node(t_struct *ds)
 {
 	t_node	*process;
 	t_node	*phrase;
 
 	process = ft_calloc(1, sizeof(t_node));
+	if (!process)
+		clean_exit(ERROR, NULL, NULL, ds);
 	process->type = N_PROCESS;
 	phrase = ft_calloc(1, sizeof(t_node));
+	if (!phrase)
+		clean_exit(ERROR, NULL, NULL, ds);
 	phrase->type = N_PHRASE;
 	process->left = phrase;
 	return (process);
 }
 
-t_node	*make_tree(t_token *head_token)
+void	make_tree(t_struct *ds)
 {
-	t_node	*root;
-	t_node	*cur_process;
-	t_token *cur_token;
+	t_node		*cur_process;
+	t_token		*cur_token;
 
-	root = make_dummy_node();
-	cur_token = head_token;
-	cur_process = root;
+	ds->root_node = make_dummy_node(ds);
+	cur_token = ds->head_token;
+	cur_process = ds->root_node;
 	while (cur_token)
 	{
 		if (cur_token->type == T_REDIR)
-			cur_token = make_redir_node(cur_process, cur_token);
+			cur_token = make_redir_node(cur_process, cur_token, ds);
 		else if (cur_token->type == T_PIPE)
-			cur_token = make_pipe_node(&cur_process, cur_token);
+			cur_token = make_pipe_node(&cur_process, cur_token, ds);
 		else if (cur_token->type == T_WORD)
-			cur_token = make_cmd_node(cur_process, cur_token);
+			cur_token = make_cmd_node(cur_process, cur_token, ds);
 		else
-			printf("make_tree ERROR!!!!\n");
+			printf("make_tree() ERROR!!!!\n");
 	}
-	return (root);
 }

@@ -1,11 +1,7 @@
 #ifndef	MINISHELL_H
 # define MINISHELL_H
-// # include <readline/readline.h>
-// # include <stdio.h>
-// # include <stdlib.h>
-//# include <string.h> //strcmp용 임시 헤더
-// # include "libft/libft.h"
 
+// # include "libft/libft.h"
 # include <readline/readline.h>	// readline, 
 # include <readline/history.h>	// rl_on_new_line, rl_replace_line, rl_redisplay, add_history, 
 # include <stdio.h>		// printf, 
@@ -23,7 +19,8 @@
 # include <termios.h>		// tcsetattr, tcgetattr, 
 # include <term.h>		// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 
-# define ERROR -1
+# define ERROR		1
+# define SUCCESS	0
 
 typedef enum e_type
 {
@@ -60,35 +57,54 @@ typedef struct s_node
 	struct s_node	*right;
 }	t_node;
 
+typedef struct s_struct
+{
+	t_token	*head_token;
+	t_node	*root_node;
+}	t_struct;
+
 /*
- *						libft function
+ *						util function
 */
-void	*ft_calloc(size_t count, size_t size);
+
+void	free_tree(t_node *node);
+void	clean_exit(int error, char *str, t_token *token_list, t_struct *ds);
 void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t count, size_t size);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
+
+void	print_content(char *str);			// tmp func
+t_token	*ft_lstnew(int type, char *content);
+void	ft_lstiter(t_token *lst, void (*f)(char *));
+void	ft_lstadd_back(t_token **lst, t_token *new);
+void	ft_lstclear(t_token **lst);
 
 /*
  *						part I tokenize
 */
 
+int		is_operator(char c);
+int		is_whitespace(char c);
+int		is_quote(char c);
+int		make_token(char *str, int copy_idx, t_token_info *info);
+t_token	*tokenize(char *str);
+
 /*
  *						part II make_tree
 */
 
-t_node	*make_tree(t_token *head_token);
-t_node *make_dummy_node(void);
-t_token *make_pipe_node(t_node **cur_process, t_token *cur_token);
-t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token);
-t_token	*make_redir_node(t_node *cur_process, t_token *cur_token);
+t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, t_struct *ds);
+t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token, t_struct *ds);
+t_token	*make_pipe_node(t_node **cur_process, t_token *cur_token, t_struct *ds);
+t_node	*make_dummy_node(t_struct *ds);
+void	make_tree(t_struct *ds);
 
 /*
-순회(node)
-{
-	순회(node->left)
-	순회(node->right)
-	return (0);
-}
+ *						test function
 */
+
+void	ft_traverse(t_node *node);
+
 // if REDIR
 // 	redir;
 // else if WORD
