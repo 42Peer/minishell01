@@ -100,6 +100,12 @@ t_node	*make_dummy_node(t_struct *ds);
 void	make_tree(t_struct *ds);
 
 /*
+ *						part III quote & expand & here_doc
+*/
+
+
+
+/*
  *						test function
 */
 
