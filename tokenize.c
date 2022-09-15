@@ -101,7 +101,10 @@ t_token	*tokenize(char *str)
 		++token_info.cur_idx;
 	}
 	if (token_info.quoted_flag)
+	{
 		printf("WARNING: syntax error! non-quoted!\n");
+		clean_exit(ERROR, NULL, token_info.token_list, NULL);
+	}
 	if (token_info.token_type != NONE) // 1 eof or NULL을 만나면 
 		make_token(str, token_info.cur_idx - 1, &token_info);
 	return (token_info.token_list);
