@@ -16,8 +16,8 @@ redirection    cmd
 
 char	*delquote(char *str);
 char	*save(char *src, char c, int len);	// 문자열 src에 문자 c 붙이는 함수, len은 src의 길이
-
-
+void	tree_parser(t_node *node);
+void	ft_traverse(t_node *node);
 
 size_t	ft_strlen(char *s)
 {
@@ -137,43 +137,36 @@ int main(int argc, char **argv, char **envp)
 {
 	char		*str;
 	t_struct	ds;
-	int	stat = 1;
+	int	i = 0;
 
 	ds.head_token = NULL;
 	ds.root_node = NULL;
-//	char ccc = 'd';
-//	printf("%s\n", save(str, ccc, ft_strlen(&ccc)));
-	while (stat)
+	while (1)
 	{
 		str = readline("minishell > "); // 1. 입력 받기
 		if (strcmp(str, "exit") == 0) // || (ctrl-d signal)) // 종료 조건
-			stat = 0;
-		char *ptr = delquote(str);
-		printf("%s\n", ptr);
-		add_history(str);
-		free(ptr);
-		if (str)
-			free(str);
+			break ;
 //		else if (SIGINT :ctrl-C signal)
 //			printf("\n");
 //		else if (ctrl-\ sig)
 //			;
-		/*
 		else
 		{
-			printf("input : %s\n", str);
+			add_history(str);
+			// printf("input : %s\n", str);
 			ds.head_token = tokenize(str); // 2. 토큰화
-			ft_lstiter(ds.head_token, print_content);
-//			int i = -1;
-//			while (++i < ft_lstsize(head_token))
-//				ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
+			// ft_lstiter(ds.head_token, print_content);
+			make_tree(&ds); 	// 2-2. 토큰을 자료구조에 넣는다
+			ft_traverse(ds.root_node);	// delquote 적용 전
+			tree_parser(ds.root_node);
+			printf("\n<after deleting>\n");
+			ft_traverse(ds.root_node);	// delquote 적용 후
+			// int i = -1;
+			// while (++i < ft_lstsize(ds.head_token))
+			// 	ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
 		}
-		make_tree(&ds); // 토큰을 자료구조에 넣는다
-		ft_traverse(ds.root_node);
-		add_history(str);
 		free(str);
-		*/
 	}
-	//clean_exit(SUCCESS, NULL, NULL, &ds);
+	clean_exit(SUCCESS, NULL, NULL, &ds);
 	return (0);
 }

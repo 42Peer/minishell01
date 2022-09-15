@@ -61,6 +61,22 @@ char	*dollar_sign(char *str, int *env_i)		// i는 $ 인덱스
 		return (ft_strdup(value));
 }
 
+//    sumsong ~ing    
+char	*reset_cursor(char *str, int quote_i, int env_i, int *origin_i)
+{
+	char	*piece;
+	int		i;
+
+	if ((quote_i && env_i && quote_i < env_i) || (quote_i && !env_i))						// "만 있을 때
+		i = quote_i;
+	else if ((quote_i && env_i && quote_i > env_i) || (!quote_i && env_i))						// $만 있을 때
+		i = env_i;
+	while (*origin_i < i)
+		piece = save(piece, str[(*origin_i)++], ft_strlen(piece));
+	--(*origin_i);
+	return (piece);
+}
+
 char	*single_quote(char *str, int *quote_i)	// '를 만났을 때, ' 인덱스(i)부터 들어옴
 {
 	char	*piece;
@@ -85,6 +101,8 @@ char	*single_quote(char *str, int *quote_i)	// '를 만났을 때, ' 인덱스(i
 			return (piece);		// 인용 제거한 부분 리턴
 		}
 	}					// '가 안 닫혔을 때 빠져나옴
+	piece = reset_cursor(str, douq_i, env_i, quote_i);
+	/*
 	if ((douq_i && env_i && douq_i < env_i) || (douq_i && !env_i))						// "만 있을 때
 		i = douq_i;
 	else if ((douq_i && env_i && douq_i > env_i) || (!douq_i && env_i))						// $만 있을 때
@@ -92,6 +110,7 @@ char	*single_quote(char *str, int *quote_i)	// '를 만났을 때, ' 인덱스(i
 	while (*quote_i < i)
 		piece = save(piece, str[(*quote_i)++], ft_strlen(piece));
 	--(*quote_i);
+	*/
 	return (piece);
 }
 
@@ -124,6 +143,8 @@ char	*double_quote(char *str, int *quote_i)		// quote_i는 " 위치.
 			return (piece);
 		}
 	}
+	piece = reset_cursor(str, sigq_i, env_i, quote_i);
+	/*
 	if ((sigq_i && env_i && sigq_i < env_i) || (sigq_i && !env_i))
 		i = sigq_i;
 	else if ((sigq_i && env_i && sigq_i > env_i) || (!sigq_i && env_i))
@@ -131,6 +152,7 @@ char	*double_quote(char *str, int *quote_i)		// quote_i는 " 위치.
 	while (*quote_i < i)
 		piece = save(piece, str[(*quote_i)++], ft_strlen(piece));
 	--(*quote_i);
+	*/
 	return (piece);
 }
 
@@ -153,5 +175,6 @@ char	*delquote(char *str)
 			ptr = save(ptr, str[i], ft_strlen(ptr));
 		++i;
 	}
+//	free(str);
 	return (ptr);
 }
