@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 char	*delquote(char *str);
-char	*save(char *src, char c, int len);	// 문자열 src에 문자 c 붙이는 함수, len은 src의 길이
+char	*save(char *src, char c, size_t len);	// 문자열 src에 문자 c 붙이는 함수, len은 src의 길이
 void	tree_parser(t_node *node);
 void	ft_traverse(t_node *node);
 

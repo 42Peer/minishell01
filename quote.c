@@ -1,12 +1,5 @@
 #include "minishell.h"
 
-size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s1);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-
 char	*save(char *src, char c, size_t len)	// 문자열 src에 문자 c 붙이는 함수, len은 src의 길이
 {
 	char	*dst;
@@ -67,6 +60,7 @@ char	*reset_cursor(char *str, int quote_i, int env_i, int *origin_i)
 	char	*piece;
 	int		i;
 
+	piece = ft_strdup("");
 	if ((quote_i && env_i && quote_i < env_i) || (quote_i && !env_i))						// "만 있을 때
 		i = quote_i;
 	else if ((quote_i && env_i && quote_i > env_i) || (!quote_i && env_i))						// $만 있을 때

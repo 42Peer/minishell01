@@ -4,10 +4,10 @@ void	free_tree(t_node *node)
 {
 	if (!node)
 		return ;
-	if (node->left)
-		free_tree(node->left);
-	if (node->right)
-		free_tree(node->right);
+	free_tree(node->left);
+	free_tree(node->right);
+	if (node->content)
+		free(node->content);
 	free(node);
 }	//후위 순회
 

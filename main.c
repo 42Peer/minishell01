@@ -14,10 +14,7 @@ redirection    cmd
 // 현재토큰에서
 // RIDERIECTION 노드 만들기();
 
-char	*delquote(char *str);
-char	*save(char *src, char c, int len);	// 문자열 src에 문자 c 붙이는 함수, len은 src의 길이
 void	tree_parser(t_node *node);
-void	ft_traverse(t_node *node);
 
 size_t	ft_strlen(char *s)
 {
@@ -158,6 +155,7 @@ int main(int argc, char **argv, char **envp)
 			// ft_lstiter(ds.head_token, print_content);
 			make_tree(&ds); 	// 2-2. 토큰을 자료구조에 넣는다
 			ft_traverse(ds.root_node);	// delquote 적용 전
+			printf("\n<tree parsing...>\n");
 			tree_parser(ds.root_node);
 			printf("\n<after deleting>\n");
 			ft_traverse(ds.root_node);	// delquote 적용 후
