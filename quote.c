@@ -54,7 +54,7 @@ char	*dollar_sign(char *str, int *env_i)		// i는 $ 인덱스
 	len = i - *env_i - 1;
 	env_key = ft_substr(str, (unsigned int)((*env_i) + 1), len);
 	*env_i = i - 1; 		// i = 환경변수명 가장 마지막 글자 인덱스로 업데이트
-	value = getenv(env_key);
+	value = ft_strdup(getenv(env_key));
 	if (!value)
 		value = ft_strdup("");
 	if (env_key)
@@ -158,15 +158,17 @@ char	*delquote(char *str)
 		else if (str[i] == '"')
 		{
 			tmp = double_quote(str, &i);
-			ptr = ft_strjoin(ptr, double_quote(str, &i));
+			ptr = ft_strjoin(ptr, tmp);
 		}
 		else if (str[i] == '$') //  && type != here_doc
 		{	// ptr = save(ptr, '0', ft_strlen(ptr));
 			tmp = dollar_sign(str, &i);
-			ptr = ft_strjoin(ptr, dollar_sign(str, &i));
+			ptr = ft_strjoin(ptr, tmp);
 		}
 		else
 			ptr = save(ptr, str[i], ft_strlen(ptr));
+		if (tmp)
+			free(tmp);
 		++i;
 	}
 	if (str)

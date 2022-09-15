@@ -137,20 +137,23 @@ int main(int argc, char **argv, char **envp)
 {
 	char		*str;
 	t_struct	ds;
+	int	stat = 1;
 
 	ds.head_token = NULL;
 	ds.root_node = NULL;
 //	char ccc = 'd';
 //	printf("%s\n", save(str, ccc, ft_strlen(&ccc)));
-	while (1)
+	while (stat)
 	{
 		str = readline("minishell > "); // 1. 입력 받기
 		if (strcmp(str, "exit") == 0) // || (ctrl-d signal)) // 종료 조건
-			break;
+			stat = 0;
 		char *ptr = delquote(str);
 		printf("%s\n", ptr);
 		add_history(str);
 		free(ptr);
+		if (str)
+			free(str);
 //		else if (SIGINT :ctrl-C signal)
 //			printf("\n");
 //		else if (ctrl-\ sig)
