@@ -10,20 +10,18 @@ void	tree_parser(t_node *node)
 	char	*new_content;
 
 	new_content = NULL;
-  	printf("content : %s\n", node->content);
+  	// printf("content : %s\n", node->content);
 
     if (!(node))
 		return ;
 	// printf("now node type : %s node content : %s\n", token_str[node->type], node->content);
 	tree_parser(node->left);
 	tree_parser(node->right);
-	if (node->type == T_WORD) 
+	if (node->type == T_WORD)
     {
-		printf("content : %s\n", node->content);
 		// node->content = delquote(node->content);
 		new_content = delquote(node->content);
 		free(node->content);
 		node->content = new_content;
-		printf("content : %s\n", node->content);
 	}
 }
