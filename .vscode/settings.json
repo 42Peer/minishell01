@@ -4,6 +4,7 @@
 		"__node_handle": "cpp",
 		"libft.h": "c",
 		"minishell.h": "c",
-		"sstream": "c"
+		"sstream": "c",
+		"ios": "c"
 	}
 }

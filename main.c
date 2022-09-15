@@ -21,7 +21,7 @@ size_t	ft_strlen(char *s)
 	size_t	len;
 
 	len = 0;
-	while (s[len])
+	while (s && s[len])
 		len++;
 	return (len);
 }
@@ -142,7 +142,10 @@ int main(int argc, char **argv, char **envp)
 	{
 		str = readline("minishell > "); // 1. 입력 받기
 		if (strcmp(str, "exit") == 0) // || (ctrl-d signal)) // 종료 조건
+		{
+			free (str);
 			break ;
+		}
 //		else if (SIGINT :ctrl-C signal)
 //			printf("\n");
 //		else if (ctrl-\ sig)
@@ -163,8 +166,8 @@ int main(int argc, char **argv, char **envp)
 			// while (++i < ft_lstsize(ds.head_token))
 			// 	ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
 		}
-		free(str);
+		cleaner(str, &ds);
 	}
-	clean_exit(SUCCESS, NULL, NULL, &ds);
+	//clean_exit(SUCCESS, NULL, NULL, &ds);
 	return (0);
 }

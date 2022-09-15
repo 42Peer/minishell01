@@ -54,7 +54,7 @@ char	*dollar_sign(char *str, int *env_i)		// i는 $ 인덱스
 		return (ft_strdup(value));
 }
 
-//    sumsong ~ing    
+//    sumsong ~ing    수정 필요!
 char	*reset_cursor(char *str, int quote_i, int env_i, int *origin_i)
 {
 	char	*piece;
@@ -71,7 +71,7 @@ char	*reset_cursor(char *str, int quote_i, int env_i, int *origin_i)
 	return (piece);
 }
 
-char	*single_quote(char *str, int *quote_i)	// '를 만났을 때, ' 인덱스(i)부터 들어옴
+char	*single_quote(char *str, int *quote_i, int *quoted)	// '를 만났을 때, ' 인덱스(i)부터 들어옴
 {
 	char	*piece;
 	int		env_i;
@@ -90,13 +90,14 @@ char	*single_quote(char *str, int *quote_i)	// '를 만났을 때, ' 인덱스(i
 			douq_i = i;
 		if (str[i] == '\'')	// '가 닫히는 부분
 		{
+			if (!quoted)
+				*quoted = 1;
 			while (++(*quote_i) < i)	// ' 시작 점부터 현재 위치까지
 				piece = save(piece, str[*quote_i], ft_strlen(piece));	// 인용 제거 한 부분 저장
 			return (piece);		// 인용 제거한 부분 리턴
 		}
 	}					// '가 안 닫혔을 때 빠져나옴
-	piece = reset_cursor(str, douq_i, env_i, quote_i);
-	/*
+	// piece = reset_cursor(str, douq_i, env_i, quote_i);
 	if ((douq_i && env_i && douq_i < env_i) || (douq_i && !env_i))						// "만 있을 때
 		i = douq_i;
 	else if ((douq_i && env_i && douq_i > env_i) || (!douq_i && env_i))						// $만 있을 때
@@ -104,11 +105,10 @@ char	*single_quote(char *str, int *quote_i)	// '를 만났을 때, ' 인덱스(i
 	while (*quote_i < i)
 		piece = save(piece, str[(*quote_i)++], ft_strlen(piece));
 	--(*quote_i);
-	*/
 	return (piece);
 }
 
-char	*double_quote(char *str, int *quote_i)		// quote_i는 " 위치.
+char	*double_quote(char *str, int *quote_i, int *quoted)		// quote_i는 " 위치.
 {
 	char	*piece;
 	int		env_i;
@@ -127,9 +127,11 @@ char	*double_quote(char *str, int *quote_i)		// quote_i는 " 위치.
 			env_i = i;
 		else if (str[i] == '"')		// "로 닫혔을 때
 		{
+			if (!quoted)
+				*quoted = 1;
 			while (++(*quote_i) < i)
 			{
-				if (str[(*quote_i)] == '$')		// 환경변수 확장
+				if (str[(*quote_i)] == '$' && quoted)		// 환경변수 확장
 					piece = ft_strjoin(piece, dollar_sign(str, quote_i));
 				else
 					piece = save(piece, str[*quote_i], ft_strlen(piece));
@@ -137,8 +139,7 @@ char	*double_quote(char *str, int *quote_i)		// quote_i는 " 위치.
 			return (piece);
 		}
 	}
-	piece = reset_cursor(str, sigq_i, env_i, quote_i);
-	/*
+	// piece = reset_cursor(str, sigq_i, env_i, quote_i);
 	if ((sigq_i && env_i && sigq_i < env_i) || (sigq_i && !env_i))
 		i = sigq_i;
 	else if ((sigq_i && env_i && sigq_i > env_i) || (!sigq_i && env_i))
@@ -146,24 +147,23 @@ char	*double_quote(char *str, int *quote_i)		// quote_i는 " 위치.
 	while (*quote_i < i)
 		piece = save(piece, str[(*quote_i)++], ft_strlen(piece));
 	--(*quote_i);
-	*/
 	return (piece);
 }
 
-char	*delquote(char *str)
+char	*delquote(char *str, int *quoted)
 {
 	char	*ptr;
 	int		i;
 
 	i = 0;
 	ptr = ft_strdup("");
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '\'')
-			ptr = ft_strjoin(ptr, single_quote(str, &i));
+			ptr = ft_strjoin(ptr, single_quote(str, &i, quoted));
 		else if (str[i] == '"')
-			ptr = ft_strjoin(ptr, double_quote(str, &i));
-		else if (str[i] == '$') //  && type != here_doc
+			ptr = ft_strjoin(ptr, double_quote(str, &i, quoted));
+		else if (str[i] == '$' && (*quoted)) //  && type != here_doc
 			ptr = ft_strjoin(ptr, dollar_sign(str, &i));
 		else
 			ptr = save(ptr, str[i], ft_strlen(ptr));
