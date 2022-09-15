@@ -166,7 +166,7 @@ int main(int argc, char **argv, char **envp)
 			// while (++i < ft_lstsize(ds.head_token))
 			// 	ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
 		}
-		cleaner(str, &ds);		
+		cleaner(str, &ds);
 	}
 	//clean_exit(SUCCESS, NULL, NULL, &ds);
 	return (0);
