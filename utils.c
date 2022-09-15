@@ -4,14 +4,16 @@ void	free_tree(t_node *node)
 {
 	if (!node)
 		return ;
-	free_tree(node->left);
-	free_tree(node->right);
+	if (node->left)
+		free_tree(node->left);
+	if (node->right)
+		free_tree(node->right);
 	free(node);
 }	//후위 순회
 
 void	clean_exit(int flag, char *str, t_token *token_list, t_struct *ds)	// free도 추가
 {
-	printf("now clean_exit\n");
+	printf("\nnow clean_exit\n\n");
 	/* 토크나이즈단계일때 */
 	if (str)
 		free(str);
