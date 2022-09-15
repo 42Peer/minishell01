@@ -20,6 +20,8 @@ void	cleaner(char *str, t_struct *ds)
 		free_tree(ds->root_node);
 	if (ds && ds->head_token)
 		ft_lstclear(&(ds->head_token));
+	ds->head_token = NULL;
+	ds->root_node = NULL;
 }
 
 void	clean_exit(int flag, char *str, t_token *token_list, t_struct *ds)	// free도 추가

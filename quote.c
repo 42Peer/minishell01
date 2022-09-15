@@ -71,7 +71,7 @@ char	*reset_cursor(char *str, int quote_i, int env_i, int *origin_i)
 	return (piece);
 }
 
-char	*single_quote(char *str, int *quote_i)	// '를 만났을 때, ' 인덱스(i)부터 들어옴
+char	*single_quote(char *str, int *quote_i, int *quoted)	// '를 만났을 때, ' 인덱스(i)부터 들어옴
 {
 	char	*piece;
 	int		env_i;
@@ -90,6 +90,8 @@ char	*single_quote(char *str, int *quote_i)	// '를 만났을 때, ' 인덱스(i
 			douq_i = i;
 		if (str[i] == '\'')	// '가 닫히는 부분
 		{
+			if (!quoted)
+				*quoted = 1;
 			while (++(*quote_i) < i)	// ' 시작 점부터 현재 위치까지
 				piece = save(piece, str[*quote_i], ft_strlen(piece));	// 인용 제거 한 부분 저장
 			return (piece);		// 인용 제거한 부분 리턴
@@ -106,7 +108,7 @@ char	*single_quote(char *str, int *quote_i)	// '를 만났을 때, ' 인덱스(i
 	return (piece);
 }
 
-char	*double_quote(char *str, int *quote_i)		// quote_i는 " 위치.
+char	*double_quote(char *str, int *quote_i, int *quoted)		// quote_i는 " 위치.
 {
 	char	*piece;
 	int		env_i;
@@ -125,6 +127,8 @@ char	*double_quote(char *str, int *quote_i)		// quote_i는 " 위치.
 			env_i = i;
 		else if (str[i] == '"')		// "로 닫혔을 때
 		{
+			if (!quoted)
+				*quoted = 1;
 			while (++(*quote_i) < i)
 			{
 				if (str[(*quote_i)] == '$')		// 환경변수 확장
@@ -146,7 +150,7 @@ char	*double_quote(char *str, int *quote_i)		// quote_i는 " 위치.
 	return (piece);
 }
 
-char	*delquote(char *str)
+char	*delquote(char *str, int *quoted)
 {
 	char	*ptr;
 	int		i;
@@ -156,10 +160,10 @@ char	*delquote(char *str)
 	while (str && str[i])
 	{
 		if (str[i] == '\'')
-			ptr = ft_strjoin(ptr, single_quote(str, &i));
+			ptr = ft_strjoin(ptr, single_quote(str, &i, quoted));
 		else if (str[i] == '"')
-			ptr = ft_strjoin(ptr, double_quote(str, &i));
-		else if (str[i] == '$') //  && type != here_doc
+			ptr = ft_strjoin(ptr, double_quote(str, &i, quoted));
+		else if (str[i] == '$' && *quoted != 1) //  && type != here_doc
 			ptr = ft_strjoin(ptr, dollar_sign(str, &i));
 		else
 			ptr = save(ptr, str[i], ft_strlen(ptr));
