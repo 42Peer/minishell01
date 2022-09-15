@@ -131,7 +131,7 @@ char	*double_quote(char *str, int *quote_i, int *quoted)		// quote_i는 " 위치
 				*quoted = 1;
 			while (++(*quote_i) < i)
 			{
-				if (str[(*quote_i)] == '$')		// 환경변수 확장
+				if (str[(*quote_i)] == '$' && quoted)		// 환경변수 확장
 					piece = ft_strjoin(piece, dollar_sign(str, quote_i));
 				else
 					piece = save(piece, str[*quote_i], ft_strlen(piece));
@@ -163,7 +163,7 @@ char	*delquote(char *str, int *quoted)
 			ptr = ft_strjoin(ptr, single_quote(str, &i, quoted));
 		else if (str[i] == '"')
 			ptr = ft_strjoin(ptr, double_quote(str, &i, quoted));
-		else if (str[i] == '$' && *quoted != 1) //  && type != here_doc
+		else if (str[i] == '$' && (*quoted)) //  && type != here_doc
 			ptr = ft_strjoin(ptr, dollar_sign(str, &i));
 		else
 			ptr = save(ptr, str[i], ft_strlen(ptr));
