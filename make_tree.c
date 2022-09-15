@@ -6,7 +6,7 @@
 /*   By: jujeon <jujeon@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 13:53:16 by sumsong           #+#    #+#             */
-/*   Updated: 2022/09/08 17:07:07 by jujeon           ###   ########seoul.kr  */
+/*   Updated: 2022/09/15 20:46:20 by jujeon           ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, t_struct *ds)
 			clean_exit(ERROR, NULL, NULL, ds);
 		cur_node->right = new_node;
 		new_node->type = cur_token->type;
-		new_node->content = cur_token->content;
+		new_node->content = ft_strdup(cur_token->content);
 		cur_token = cur_token->next;
 		cur_node = cur_node->right;
 	}
@@ -59,7 +59,7 @@ t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token, t_struct *ds)
 		clean_exit(ERROR, NULL, NULL, ds);
 	cur_node->right = cmd_node;
 	cmd_node->type = cur_token->type;
-	cmd_node->content = cur_token->content;
+	cmd_node->content = ft_strdup(cur_token->content);
 	return (cur_token->next);
 }
 

@@ -103,7 +103,18 @@ void	make_tree(t_struct *ds);
  *						part III quote & expand & here_doc
 */
 
-
+size_t	ft_strlen(char *s);
+char	*ft_strdup(char *s1);
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
+size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+char	*save(char *src, char c, size_t len);	// 문자열 src에 문자 c 붙이는 함수, len은 src의 길이
+int		is_expandable(char *str, int i);
+char	*reset_cursor(char *str, int quote_i, int env_i, int *origin_i);
+char	*single_quote(char *str, int *quote_i);	// '를 만났을 때, ' 인덱스(i)부터 들어옴
+char	*double_quote(char *str, int *quote_i);		// quote_i는 " 위치.
+char	*delquote(char *str);
 
 /*
  *						test function

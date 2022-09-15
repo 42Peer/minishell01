@@ -6,6 +6,8 @@ void	free_tree(t_node *node)
 		return ;
 	free_tree(node->left);
 	free_tree(node->right);
+	if (node->content)
+		free(node->content);
 	free(node);
 }	//후위 순회
 
