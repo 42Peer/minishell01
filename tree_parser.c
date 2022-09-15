@@ -14,7 +14,7 @@ void	cmd_parser(t_node *node)
 	cmd_parser(node->left);
 	cmd_parser(node->right);
 	if (node->type == T_WORD)
-	{	
+	{
 		// node->content = delquote(node->content);
 		new_content = delquote(node->content, NULL);
 		free(node->content);

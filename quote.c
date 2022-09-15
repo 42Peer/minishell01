@@ -90,7 +90,7 @@ char	*single_quote(char *str, int *quote_i, int *quoted)	// '를 만났을 때, 
 			douq_i = i;
 		if (str[i] == '\'')	// '가 닫히는 부분
 		{
-			if (!quoted)
+			if (quoted)
 				*quoted = 1;
 			while (++(*quote_i) < i)	// ' 시작 점부터 현재 위치까지
 				piece = save(piece, str[*quote_i], ft_strlen(piece));	// 인용 제거 한 부분 저장
@@ -127,7 +127,7 @@ char	*double_quote(char *str, int *quote_i, int *quoted)		// quote_i는 " 위치
 			env_i = i;
 		else if (str[i] == '"')		// "로 닫혔을 때
 		{
-			if (!quoted)
+			if (quoted)
 				*quoted = 1;
 			while (++(*quote_i) < i)
 			{
@@ -163,7 +163,7 @@ char	*delquote(char *str, int *quoted)
 			ptr = ft_strjoin(ptr, single_quote(str, &i, quoted));
 		else if (str[i] == '"')
 			ptr = ft_strjoin(ptr, double_quote(str, &i, quoted));
-		else if (str[i] == '$' && *quoted != 1) //  && type != here_doc
+		else if (str[i] == '$' && !quoted) //  && type != here_doc
 			ptr = ft_strjoin(ptr, dollar_sign(str, &i));
 		else
 			ptr = save(ptr, str[i], ft_strlen(ptr));
