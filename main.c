@@ -19,7 +19,7 @@ char	*save(char *src, char c, int len);	// 문자열 src에 문자 c 붙이는 �
 
 
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen(char *s)
 {
 	size_t	len;
 
@@ -30,7 +30,7 @@ size_t	ft_strlen(const char *s)
 }
 
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(char *s1)
 {
 	char	*copy;
 	size_t	i;
@@ -45,10 +45,11 @@ char	*ft_strdup(const char *s1)
 		i++;
 	}
 	copy[i] = '\0';
+//	free(s1);
 	return (copy);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize)
 {
 	size_t	i;
 
@@ -64,7 +65,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	return (ft_strlen(src));
 }
 
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcat(char *dst, char *src, size_t dstsize)
 {
 	size_t	dst_len;
 	size_t	src_len;
@@ -84,7 +85,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	return (dst_len + src_len);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ptr;
 	size_t	len_s1;
@@ -102,8 +103,34 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!ptr)
 		return (NULL);
 	ft_strlcpy(ptr, s1, len_s1 + 1);
-	ft_strlcat(ptr, s2, len_s1 + len_s2 + 1);
+	ft_strlcat(ptr, s2, len_s1 + len_s2 + 1); 
+	free(s1);
+	free(s2);
 	return (ptr);
+}
+
+char	*ft_substr(char *s, unsigned int start, size_t len)
+{
+	char	*substr;
+	size_t	i;
+
+	if (s == NULL)
+		return (NULL);
+	if (start >= ft_strlen(s))
+		return (ft_strdup(""));
+	if (start + len >= ft_strlen(s))
+		len = ft_strlen(s) - start;
+	substr = (char *)malloc(sizeof(char) * (len + 1));
+	if (substr == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		substr[i] = s[start + i];
+		++i;
+	}
+	substr[i] = '\0';
+	return (substr);
 }
 
 int main(int argc, char **argv, char **envp)
@@ -120,7 +147,10 @@ int main(int argc, char **argv, char **envp)
 		str = readline("minishell > "); // 1. 입력 받기
 		if (strcmp(str, "exit") == 0) // || (ctrl-d signal)) // 종료 조건
 			break;
-		printf("%s\n", delquote(str));
+		char *ptr = delquote(str);
+		printf("%s\n", ptr);
+		add_history(str);
+		free(ptr);
 //		else if (SIGINT :ctrl-C signal)
 //			printf("\n");
 //		else if (ctrl-\ sig)

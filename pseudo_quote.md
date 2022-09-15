@@ -238,8 +238,12 @@ char	*인용, 확장(t_node *node)
 	return (return);
 }
 
-
-<!-- 인용 제거 함수 by kyolee -->
+#
+#
+#				교리님 인용제거 함수  
+#
+#
+#
 
 typedef enum e_quote
 {
@@ -260,7 +264,6 @@ typedef struct s_quoted
 	t_expand_state	*arry_expand_state;
 	char			*quoted_str;
 } t_quote;
-
 
 static int	is_remove_double_quote(char *str, t_quote *pq)
 {
