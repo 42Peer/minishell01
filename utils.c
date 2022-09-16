@@ -11,7 +11,7 @@ void	free_tree(t_node *node)
 	free(node);
 }	//후위 순회
 
-void	cleaner(char *str, t_struct *ds)
+void	cleaner(char *str, t_struct *ds, t_token *token)
 {
 	printf("\n한 줄 실행 완료. 청소완료!!\n\n");
 	if (str)
@@ -20,6 +20,8 @@ void	cleaner(char *str, t_struct *ds)
 		free_tree(ds->root_node);
 	if (ds && ds->head_token)
 		ft_lstclear(&(ds->head_token));
+	if (token)
+		ft_lstclear(&token);
 	ds->head_token = NULL;
 	ds->root_node = NULL;
 }

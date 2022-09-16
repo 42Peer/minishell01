@@ -69,7 +69,7 @@ typedef struct s_struct
 */
 
 void	free_tree(t_node *node);
-void	cleaner(char *str, t_struct *ds);
+void	cleaner(char *str, t_struct *ds, t_token *token);
 void	clean_exit(int error, char *str, t_token *token_list, t_struct *ds);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);

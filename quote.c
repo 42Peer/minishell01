@@ -38,7 +38,6 @@ char	*dollar_sign(char *str, int *env_i)		// i는 $ 인덱스
 	//  ^ 여기부터 가리켜야함.
 
 	/* (1)영문자, 숫자, _가 아닌 부분까지 읽고 */
-	printf("dollar_sign\n");
 	i = *env_i + 1;
 	while (is_expandable(str, i))	// while을 빠져나오면 i는 환경변수명 조건이 아닌 위치
 		++i;
@@ -132,7 +131,7 @@ char	*double_quote(char *str, int *quote_i, int *quoted)		// quote_i는 " 위치
 				*quoted = 1;
 			while (++(*quote_i) < i)
 			{
-				if (str[(*quote_i)] == '$' && quoted)		// 환경변수 확장
+				if (str[(*quote_i)] == '$' && !quoted)		// 환경변수 확장
 					piece = ft_strjoin(piece, dollar_sign(str, quote_i));
 				else
 					piece = save(piece, str[*quote_i], ft_strlen(piece));

@@ -155,6 +155,10 @@ int main(int argc, char **argv, char **envp)
 			add_history(str);
 			// printf("input : %s\n", str);
 			ds.head_token = tokenize(str); // 2. 토큰화
+			if (ds.head_token == NULL)
+			{
+				continue ;
+			}
 			// ft_lstiter(ds.head_token, print_content);
 			make_tree(&ds); 	// 2-2. 토큰을 자료구조에 넣는다
 			ft_traverse(ds.root_node);	// delquote 적용 전
@@ -166,7 +170,7 @@ int main(int argc, char **argv, char **envp)
 			// while (++i < ft_lstsize(ds.head_token))
 			// 	ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
 		}
-		cleaner(str, &ds);
+		cleaner(str, &ds, NULL);
 	}
 	//clean_exit(SUCCESS, NULL, NULL, &ds);
 	return (0);
