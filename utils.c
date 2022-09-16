@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+void	get_error(void)
+{
+	printf("%s\n", strerror(errno));
+	exit(errno);
+}
+
 void	free_tree(t_node *node)
 {
 	if (!node)
@@ -150,4 +156,22 @@ void	ft_lstclear(t_token **lst)
 		cur->next = NULL;
 		free(cur);
 	}
+}
+
+int	ft_lstsize(t_node *lst)
+{
+	int		count;
+	t_node	*ptr;
+
+	if (!lst)
+		return (0);
+	count = 1;
+	ptr = lst;
+	while (lst->right)
+	{
+		lst = lst->right;
+		count++;
+	}
+	lst = ptr;
+	return (count);
 }

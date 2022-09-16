@@ -7,6 +7,8 @@ char	*save(char *src, char c, size_t len)	// 문자열 src에 문자 c 붙이는
 	if (!src)
 		src = ft_strdup("");
 	dst = malloc(sizeof(char) * (len + 2));
+	if (!dst)
+		get_error(); 
 	ft_strlcpy(dst, src, len + 1);
 	dst[len] = c;
 	dst[len + 1] = '\0';

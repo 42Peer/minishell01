@@ -26,6 +26,21 @@ size_t	ft_strlen(char *s)
 	return (len);
 }
 
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	if (n == 0)
+		return (0);
+	i = 0;
+	while (s1[i] && s2[i] && i + 1 < n)
+	{
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
 
 char	*ft_strdup(char *s1)
 {
@@ -100,7 +115,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!ptr)
 		return (NULL);
 	ft_strlcpy(ptr, s1, len_s1 + 1);
-	ft_strlcat(ptr, s2, len_s1 + len_s2 + 1); 
+	ft_strlcat(ptr, s2, len_s1 + len_s2 + 1);
 	free(s1);
 	free(s2);
 	return (ptr);
@@ -134,14 +149,15 @@ int main(int argc, char **argv, char **envp)
 {
 	char		*str;
 	t_struct	ds;
-	int	i = 0;
+	int			status;
+	int			i = 0;
 
 	ds.head_token = NULL;
 	ds.root_node = NULL;
 	while (1)
 	{
 		str = readline("minishell > "); // 1. 입력 받기
-		if (strcmp(str, "exit") == 0) // || (ctrl-d signal)) // 종료 조건
+		if (ft_strncmp(str, "exit", 5) == 0) // || (ctrl-d signal)) // 종료 조건
 		{
 			free (str);
 			break ;
@@ -162,11 +178,12 @@ int main(int argc, char **argv, char **envp)
 			}
 			// ft_lstiter(ds.head_token, print_content);
 			make_tree(&ds); 	// 2-2. 토큰을 자료구조에 넣는다
-			ft_traverse(ds.root_node);	// delquote 적용 전
-			printf("\n<tree parsing...>\n");
+			// ft_traverse(ds.root_node);	// delquote 적용 전
+			// printf("\n<tree parsing...>\n");
 			tree_parser(ds.root_node);
-			printf("\n<after deleting>\n");
-			ft_traverse(ds.root_node);	// delquote 적용 후
+			excute(envp, &status);
+			// printf("\n<after deleting>\n");
+			// ft_traverse(ds.root_node);	// delquote 적용 후
 			// int i = -1;
 			// while (++i < ft_lstsize(ds.head_token))
 			// 	ft_lstiter(head_token, (*printf)("%s\n", head_token->content));

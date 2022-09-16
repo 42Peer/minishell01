@@ -22,6 +22,15 @@
 # define ERROR		1
 # define SUCCESS	0
 
+enum e_mode
+{
+    READ,
+    WRITE,
+    END,
+    CONTINUE
+}   t_mode;
+
+
 typedef enum e_type
 {
 	NONE,
@@ -81,6 +90,7 @@ void	ft_lstiter(t_token *lst, void (*f)(char *));
 void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstclear(t_token **lst);
 
+void	get_error(void);
 /*
  *						part I tokenize
 */
@@ -106,6 +116,7 @@ void	make_tree(t_struct *ds);
 */
 
 size_t	ft_strlen(char *s);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(char *s1);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
@@ -117,8 +128,9 @@ char	*reset_cursor(char *str, int quote_i, int env_i, int *origin_i);
 char	*single_quote(char *str, int *quote_i, int *quoted);	// '를 만났을 때, ' 인덱스(i)부터 들어옴
 char	*double_quote(char *str, int *quote_i, int *quoted);		// quote_i는 " 위치.
 char	*delquote(char *str, int *quoted);
+char	*dollar_sign(char *str, int *env_i);
 
-char	**func_heredoc(char *delimiter, int quoted);
+char	**func_heredoc(t_node *node, char *delimiter, int quoted);
 void	cmd_parser(t_node *node);
 void	redir_parser(t_node *node);
 void	tree_parser(t_node *node);
