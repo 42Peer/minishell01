@@ -131,7 +131,7 @@ char	*double_quote(char *str, int *quote_i, int *quoted)		// quote_i는 " 위치
 				*quoted = 1;
 			while (++(*quote_i) < i)
 			{
-				if (str[(*quote_i)] == '$')		// 환경변수 확장
+				if (str[(*quote_i)] == '$' && quoted)		// 환경변수 확장
 					piece = ft_strjoin(piece, dollar_sign(str, quote_i));
 				else
 					piece = save(piece, str[*quote_i], ft_strlen(piece));
