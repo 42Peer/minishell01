@@ -118,6 +118,7 @@ char	*single_quote(char *str, int *quote_i, int *quoted);	// '를 만났을 때,
 char	*double_quote(char *str, int *quote_i, int *quoted);		// quote_i는 " 위치.
 char	*delquote(char *str, int *quoted);
 
+char	**func_heredoc(char *delimiter, int quoted);
 void	cmd_parser(t_node *node);
 void	redir_parser(t_node *node);
 void	tree_parser(t_node *node);

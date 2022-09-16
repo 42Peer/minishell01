@@ -4,6 +4,14 @@ char	*save(char *src, char c, size_t len);	// 문자열 src에 문자 c 붙이�
 void	tree_parser(t_node *node);
 void	ft_traverse(t_node *node);
 
+char	**func_heredoc(char *delimiter, int quoted)
+{
+	if (quoted == 0)
+		printf("인용 없음. 확장 해도 됨.");
+	else
+		printf("인용 있음. 확장 하면 안됨.");
+	return (NULL);
+}
 
 void	cmd_parser(t_node *node)
 {
@@ -24,7 +32,8 @@ void	cmd_parser(t_node *node)
 
 void	redir_parser(t_node *node)
 {
-	int	quoted;
+	int		quoted;
+	char	*new_content;
 
 	quoted = 0;		// 기본 0 = 인용 없음 으로 초기화
 	if (!node)
@@ -35,12 +44,10 @@ void	redir_parser(t_node *node)
 		{
 			printf("heredoc 도착!\n");
 			printf("delimiter : %s\n", node->right->content);
-			node->right->content = delquote(node->right->content, &quoted);
-			if (quoted == 0)
-				// func_heredoc(quoted);
-				printf("인용 없음. 확장 해도 됨.");
-			else
-				printf("인용 있음. 확장 하면 안됨.");
+			new_content = delquote(node->right->content, &quoted);
+			free(node->right->content);
+			node->right->content = new_content;
+			func_heredoc(node->right->content, quoted);
 		}
 	}
 	else
