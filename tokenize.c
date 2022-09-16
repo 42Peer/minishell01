@@ -38,76 +38,82 @@ int	make_token(char *str, int copy_idx, t_token_info *info)
 
 t_token	*tokenize(char *str)
 {
-	t_token_info	token_info;
+	t_token_info	info;
 
-	token_info.start_idx = 0;
-	token_info.cur_idx = 0;
-	token_info.quoted_flag = 0;
-	token_info.token_type = NONE;
-	token_info.token_list = NULL;
+	info.start_idx = 0;
+	info.cur_idx = 0;
+	info.sin_quoted = 0;
+	info.dou_quoted = 0;
+	info.token_type = NONE;
+	info.token_list = NULL;
 
-	while (str[token_info.cur_idx])
+	while (str[info.cur_idx])
 	{
-		if (!token_info.quoted_flag && ((token_info.token_type == T_REDIR || token_info.token_type == T_PIPE)))
+		if ((!info.sin_quoted && !info.dou_quoted) && ((info.token_type == T_REDIR || info.token_type == T_PIPE)))
 		{ // 2~3 인용중이지 않고, 이전 문자가 연산자의 일부
-			if (is_operator(str[token_info.cur_idx]))
+			if (is_operator(str[info.cur_idx]))
 			{
-				make_token(str, token_info.cur_idx, &token_info); // <- add_list_token();
+				make_token(str, info.cur_idx, &info); // <- add_list_token();
 			}
 			else
 			{
-				make_token(str, token_info.cur_idx - 1, &token_info);
-				if (!is_whitespace(str[token_info.cur_idx]))
+				make_token(str, info.cur_idx - 1, &info);
+				if (!is_whitespace(str[info.cur_idx]))
 				{
-					token_info.start_idx = token_info.cur_idx;
-					token_info.token_type = T_WORD;
+					info.start_idx = info.cur_idx;
+					info.token_type = T_WORD;
 				}
 			}
 		}
-		else if (!token_info.quoted_flag && is_quote(str[token_info.cur_idx]))
+		else if ((!info.sin_quoted && !info.dou_quoted) && is_quote(str[info.cur_idx]))
 		{  // 4 인용중이지 않고, 인용시작
-			token_info.quoted_flag = 1;
-			if (token_info.token_type == NONE)
+			if (str[info.cur_idx] == '\'')
+				info.sin_quoted = 1;
+			else if (str[info.cur_idx] == '"')
+				info.dou_quoted = 1;
+			if (info.token_type == NONE)
 			{
-				token_info.start_idx = token_info.cur_idx;
-				token_info.token_type = T_WORD;
+				info.start_idx = info.cur_idx;
+				info.token_type = T_WORD;
 			}
 		}
-		else if (!token_info.quoted_flag && is_operator(str[token_info.cur_idx]))
+		else if ((!info.sin_quoted && !info.dou_quoted) && is_operator(str[info.cur_idx]))
 		{ // 6 인용중이지 않고, 현재 인덱스가 연산자
-			if (token_info.token_type != NONE)
-				make_token(str, token_info.cur_idx - 1, &token_info);
-			token_info.start_idx = token_info.cur_idx;
-			if (str[token_info.cur_idx] == '|')
-				token_info.token_type = T_PIPE;
+			if (info.token_type != NONE)
+				make_token(str, info.cur_idx - 1, &info);
+			info.start_idx = info.cur_idx;
+			if (str[info.cur_idx] == '|')
+				info.token_type = T_PIPE;
 			else
-				token_info.token_type = T_REDIR;
+				info.token_type = T_REDIR;
 		}
-		else if (!token_info.quoted_flag && is_whitespace(str[token_info.cur_idx]))
+		else if ((!info.sin_quoted && !info.dou_quoted) && is_whitespace(str[info.cur_idx]))
 		{ // 8 인용중이지 않고, 현재 인덱스가 blank
-			if (token_info.token_type != NONE)
-				make_token(str, token_info.cur_idx - 1, &token_info);
+			if (info.token_type != NONE)
+				make_token(str, info.cur_idx - 1, &info);
 		}
-		else if (token_info.token_type == T_WORD)
+		else if (info.token_type == T_WORD)
 		{ // 9 이전 문자가 단어의 한 부분일 때
-			if (token_info.quoted_flag && is_quote(str[token_info.cur_idx]))
-				token_info.quoted_flag = 0;
+			if (info.sin_quoted && str[info.cur_idx] == '\'')
+				info.sin_quoted = 0;
+			else if (info.dou_quoted && str[info.cur_idx] == '"')
+				info.dou_quoted = 0;
 		}
 		else
 		{ // 11 현재 문자가 새로운 단어의 시작
-			token_info.start_idx = token_info.cur_idx;
-			token_info.token_type = T_WORD;
+			info.start_idx = info.cur_idx;
+			info.token_type = T_WORD;
 		}
-		++token_info.cur_idx;
+		++info.cur_idx;
 	}
-	if (token_info.quoted_flag)
+	if (info.sin_quoted || info.dou_quoted)
 	{
 		printf("WARNING: syntax error! non-quoted!\n");
-		clean_exit(ERROR, NULL, token_info.token_list, NULL);
+		clean_exit(ERROR, NULL, info.token_list, NULL);
 	}
-	if (token_info.token_type != NONE) // 1 eof or NULL을 만나면 
-		make_token(str, token_info.cur_idx - 1, &token_info);
-	return (token_info.token_list);
+	if (info.token_type != NONE) // 1 eof or NULL을 만나면 
+		make_token(str, info.cur_idx - 1, &info);
+	return (info.token_list);
 }
 
 // make_token에서 token_type == NONE일 때 아무것도 저장하지 않게 처리.

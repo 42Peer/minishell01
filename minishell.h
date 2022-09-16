@@ -44,7 +44,8 @@ typedef struct s_token_info
 {
 	int		start_idx;
 	int		cur_idx;
-	int		quoted_flag;
+	int		sin_quoted;
+	int		dou_quoted;
 	t_type	token_type;
 	t_token *token_list;
 }	t_token_info;
