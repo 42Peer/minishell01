@@ -157,6 +157,7 @@ int main(int argc, char **argv, char **envp)
 			ds.head_token = tokenize(str); // 2. 토큰화
 			if (ds.head_token == NULL)
 			{
+				free(str);
 				continue ;
 			}
 			// ft_lstiter(ds.head_token, print_content);

@@ -17,13 +17,17 @@ void	cleaner(char *str, t_struct *ds, t_token *token)
 	if (str)
 		free(str);
 	if (ds && ds->root_node)
+	{
 		free_tree(ds->root_node);
+		ds->root_node = NULL;
+	}
 	if (ds && ds->head_token)
+	{
 		ft_lstclear(&(ds->head_token));
+		ds->head_token = NULL;
+	}
 	if (token)
 		ft_lstclear(&token);
-	ds->head_token = NULL;
-	ds->root_node = NULL;
 }
 
 void	clean_exit(int flag, char *str, t_token *token_list, t_struct *ds)	// free도 추가
