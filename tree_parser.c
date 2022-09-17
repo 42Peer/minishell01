@@ -34,7 +34,7 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 	// 6. 2번으로 간다
 	while (1)
 	{
-		expanded_str = 0;
+		expanded_str = NULL;
 		str = readline(">");
 		if (!ft_strncmp(str, delimiter, ft_strlen(delimiter) + 1))
 			break ;
