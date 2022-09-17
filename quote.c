@@ -53,7 +53,7 @@ char	*dollar_sign(char *str, int *env_i)		// i는 $ 인덱스
 	if (!value)
 		return (ft_strdup(""));
 	else
-		return (ft_strdup(value));
+		return ft_strdup(value);
 }
 
 //    sumsong ~ing    수정 필요!

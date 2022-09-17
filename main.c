@@ -57,7 +57,6 @@ char	*ft_strdup(char *s1)
 		i++;
 	}
 	copy[i] = '\0';
-//	free(s1);
 	return (copy);
 }
 
@@ -102,13 +101,22 @@ char	*ft_strjoin(char *s1, char *s2)
 	char	*ptr;
 	size_t	len_s1;
 	size_t	len_s2;
+	char	*tmp;
 
 	if (!s1 && !s2)
 		return (NULL);
 	else if (!s1)
-		return (ft_strdup(s2));
+	{
+		tmp = ft_strdup(s2);
+		free(s2);
+		return (tmp);
+	}
 	else if (!s2)
-		return (ft_strdup(s1));
+	{
+		tmp = ft_strdup(s1);
+		free(s1);
+		return (tmp);
+	}
 	len_s1 = ft_strlen((char *)s1);
 	len_s2 = ft_strlen((char *)s2);
 	ptr = (char *)malloc(sizeof(char) * len_s1 + len_s2 + 1);
@@ -181,9 +189,9 @@ int main(int argc, char **argv, char **envp)
 			// ft_traverse(ds.root_node);	// delquote 적용 전
 			// printf("\n<tree parsing...>\n");
 			tree_parser(ds.root_node);
-			excute(envp, &status);
+			//excute(envp, &status);
 			// printf("\n<after deleting>\n");
-			// ft_traverse(ds.root_node);	// delquote 적용 후
+			ft_traverse(ds.root_node);	// delquote 적용 후
 			// int i = -1;
 			// while (++i < ft_lstsize(ds.head_token))
 			// 	ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
