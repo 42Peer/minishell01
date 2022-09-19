@@ -37,6 +37,7 @@ typedef enum e_type
 	T_WORD,
 	T_PIPE,
 	T_REDIR,
+	T_HEREDOC,
 	N_REDIR,
 	N_PHRASE, // pipe 있을 경우 필요함.
 	N_PROCESS
@@ -89,6 +90,7 @@ t_token	*ft_lstnew(int type, char *content);
 void	ft_lstiter(t_token *lst, void (*f)(char *));
 void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstclear(t_token **lst);
+void	heredoc_cleaner(t_struct *ds);
 
 void	get_error(void);
 /*

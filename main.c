@@ -176,18 +176,19 @@ int main(int argc, char **argv, char **envp)
 				free(str);
 				continue ;
 			}
-			// ft_lstiter(ds.head_token, print_content);
+			ft_lstiter(ds.head_token, print_content);
 			make_tree(&ds); 	// 2-2. 토큰을 자료구조에 넣는다
-			// ft_traverse(ds.root_node);	// delquote 적용 전
-			// printf("\n<tree parsing...>\n");
+			ft_traverse(ds.root_node);	// delquote 적용 전
+			printf("\n<tree parsing...>\n");
 			tree_parser(ds.root_node);
-			excute(envp, &status);
-			// printf("\n<after deleting>\n");
-			// ft_traverse(ds.root_node);	// delquote 적용 후
+			// execute(envp, &status);
+			printf("\n<after deleting>\n");
+			ft_traverse(ds.root_node);	// delquote 적용 후
 			// int i = -1;
 			// while (++i < ft_lstsize(ds.head_token))
 			// 	ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
 		}
+		heredoc_cleaner(&ds);
 		cleaner(str, &ds, NULL);
 	}
 	//clean_exit(SUCCESS, NULL, NULL, &ds);

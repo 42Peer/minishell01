@@ -1,5 +1,27 @@
 #include "minishell.h"
 
+void	heredoc_traverse(t_node *node)
+{
+	if (!node)
+		return ;
+	if (node->type == T_HEREDOC)
+	{
+		unlink(node->right->content);
+		printf("fuck ya%s\n", node->right->content);
+	}
+	else
+	{
+		heredoc_traverse(node->left);
+		heredoc_traverse(node->right);
+	}
+}
+
+void	heredoc_cleaner(t_struct *ds)
+{
+	printf("start cleanning\n");
+	heredoc_traverse(ds->root_node);
+}
+
 void	get_error(void)
 {
 	printf("%s\n", strerror(errno));
