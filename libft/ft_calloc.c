@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumsong <sumsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jujeon <jujeon@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:58:37 by sumsong           #+#    #+#             */
-/*   Updated: 2022/01/12 13:50:06 by sumsong          ###   ########.fr       */
+/*   Updated: 2022/09/20 20:32:03 by jujeon           ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	*ft_calloc(size_t count, size_t size)
 	void	*ary;
 
 	ary = malloc(count * size);
-	if (ary == 0)
-		return (0);
+	if (ary == NULL)
+		system_call_error();
 	ft_bzero(ary, count * size);
 	return (ary);
 }

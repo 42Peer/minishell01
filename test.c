@@ -12,7 +12,8 @@ void	ft_traverse(t_node *node)
 {
 	if (!(node))
 		return ;
-	printf("now node type : %s node content : %s\n", token_str[node->type], node->content);
+	if (node->content)
+		printf("now node type : <%s> | content : <%s>\n", token_str[node->type], node->content);
 	ft_traverse(node->left);
 	ft_traverse(node->right);
 }

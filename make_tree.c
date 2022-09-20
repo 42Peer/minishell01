@@ -6,7 +6,7 @@
 /*   By: jujeon <jujeon@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 13:53:16 by sumsong           #+#    #+#             */
-/*   Updated: 2022/09/15 22:02:46 by jujeon           ###   ########seoul.kr  */
+/*   Updated: 2022/09/20 20:34:08 by jujeon           ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, t_struct *ds)
 
 	io_redir = ft_calloc(1, sizeof(t_node));
 	if (!io_redir)
-		clean_exit(ERROR, NULL, NULL, ds);
+		system_call_error();
 	io_redir->type = N_REDIR;
 	cur_node = cur_process->left;
 	while (cur_node->left)
@@ -36,7 +36,7 @@ t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, t_struct *ds)
 	{
 		new_node = ft_calloc(1, sizeof(t_node));
 		if (!new_node)
-			clean_exit(ERROR, NULL, NULL, ds);
+			system_call_error();
 		cur_node->right = new_node;
 		new_node->type = cur_token->type;
 		new_node->content = ft_strdup(cur_token->content);
@@ -56,7 +56,7 @@ t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token, t_struct *ds)
 		cur_node = cur_node->right;
 	cmd_node = ft_calloc(1, sizeof(t_node));
 	if (!cmd_node)
-		clean_exit(ERROR, NULL, NULL, ds);
+		system_call_error();
 	cur_node->right = cmd_node;
 	cmd_node->type = cur_token->type;
 	cmd_node->content = ft_strdup(cur_token->content);
@@ -77,11 +77,11 @@ t_node	*make_dummy_node(t_struct *ds)
 
 	process = ft_calloc(1, sizeof(t_node));
 	if (!process)
-		clean_exit(ERROR, NULL, NULL, ds);
+		system_call_error();
 	process->type = N_PROCESS;
 	phrase = ft_calloc(1, sizeof(t_node));
 	if (!phrase)
-		clean_exit(ERROR, NULL, NULL, ds);
+		system_call_error();
 	phrase->type = N_PHRASE;
 	process->left = phrase;
 	return (process);

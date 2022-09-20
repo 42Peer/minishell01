@@ -7,10 +7,13 @@ t_env	*env_lstnew(char *env)
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-		return (NULL);
+		system_call_error();
 	split = ft_split(env, '=');
-	new->key = split[0];
-	new->value = split[1];
+	new->key = ft_strdup(split[0]);
+	new->value = ft_strdup(split[1]);
+	free(split[0]);
+	free(split[1]);
+	free(split);
 	new->next = NULL;
 	return (new);
 }
@@ -32,20 +35,21 @@ void	env_lstadd_back(t_env **lst, t_env *new)
 
 void	make_env_list(char **envp, t_struct *ds)
 {
-	t_env	*head;
+	// t_env	*head;
 	t_env	*env;
 	int		i;
-	
+
 	i = 0;
-	ds->head_env = head;
+	ds->head_env = NULL;
 	while (envp && envp[i])
 	{
 		env = env_lstnew(envp[i]);
 		if (!env)
 			clean_exit(ERROR, NULL, NULL, ds);
-		env_lstadd_back(&head, env);
+		env_lstadd_back(&(ds->head_env), env);
 		++i;
 	}
+	// ds->head_env = head;
 }
 
 void	env_lstclear(t_env **lst)

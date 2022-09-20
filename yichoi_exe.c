@@ -6,10 +6,10 @@ void	fork_frame(t_node *ps_root, char **envp, int outfile, int mode)
 	pid_t	pid;
 
 	if (pipe(fd) == -1)
-		get_error();
+		system_call_error();
 	pid = fork();
 	if (pid == -1)
-		get_error();
+		system_call_error();
 	else if (pid == 0)
 	{
 		close(fd[0]);
@@ -29,7 +29,7 @@ void	fork_frame(t_node *ps_root, char **envp, int outfile, int mode)
 void	dup_frame(int fd, int std)
 {
 	if (dup2(fd, std) == -1)
-		get_error();
+		system_call_error();
 	close(fd);
 }
 
@@ -41,19 +41,19 @@ int	open_frame(char *file, int mode)
 	{
 		fd = open(file, O_RDONLY, 0777);
 		if (fd == -1)
-			get_error();
+			system_call_error();
 	}
 	else if (mode == WRITE)
 	{
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		if (fd == -1)
-			get_error();
+			system_call_error();
 	}
 	else
 	{
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 		if (fd == -1)
-			get_error();
+			system_call_error();
 	}
 	return (fd);
 }
@@ -65,10 +65,10 @@ void	execvision(char *argv, char **envp)
 
 	cmd = ft_split(argv, ' ');
 	if (!cmd)
-		get_error();
+		system_call_error();
 	program_path = search_path(cmd[0], envp);
 	if (execve(program_path, cmd, envp) == -1)
-		get_error();
+		system_call_error();
 }
 
 void	str_isfree(char **str)
@@ -95,12 +95,12 @@ char	*search_path(char *cmd, char **envp)
 	i = -1;
 	path = ft_strjoin("/", cmd);
 	if (!path)
-		get_error();
+		system_call_error();
 	while (!ft_strnstr(envp[++i], "PATH", 4))
 		;
 	other_paths = ft_split(envp[i] + 5, ':');
 	if (!other_paths)
-		get_error();
+		system_call_error();
 	i = -1;
 	while (other_paths[++i])
 	{

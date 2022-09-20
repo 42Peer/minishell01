@@ -21,18 +21,21 @@
 {
 	환경변수 들고오기
 	커맨드 아규먼트 2차원 배열로 만들기
+	경로 만들기
 	execve();
 }
 
-트리 노드 순회 처리(head_process)
+자식 프로세스 처리(head_process)
 {
 	if (노드가 없다면)
 		return
-	트리 노드 순회 처리 (노드->왼쪽);
+	자식 프로세스 처리 (노드->왼쪽);
 	if (노드가 io_redir)
-		리다이렉션 처리(노드->오른쪽);
+		리다이렉트 처리(노드->오른쪽);
 	else if (노드가 phrase)
 		커맨드 처리(노드->오른쪽);
+	else
+		printf("Not comming here!!");
 }
 
 자식프로세스 명령어 실행(head_process, envp, int *fd)
@@ -55,9 +58,66 @@
 	-------------------------------------------------
 }
 
-메인프로세스(t_struct *ds, envp, int *status)
+int		cmd가 빌트인인지 확인하는 함수(tree head)
 {
-	int storagefd;
+	node = node->left;	// phrase
+	node = node->right;	// cmd
+	if (node->type == T_WORD)
+	{
+		if (ft_strncmp(node->content, "cd", 3) == 0
+			|| ft_strncmp(node->content, "pwd", 4) == 0
+			|| ft_strncmp(node->content, "export", 7) == 0
+			|| ft_strncmp(node->content, "env", 4) == 0
+			|| ft_strncmp(node->content, "exit", 5) == 0)
+			return (1);
+		return (0);
+	}
+}
+
+char	**ft_2Dstrdup(t_node *args)
+{
+	char	**ptr;
+	int		i;
+
+	i = -1;
+	ptr = malloc(sizeof(char *) * ft_lstsize(args));
+	while (args)
+	{
+		ptr[++i] = ft_strdup(args->content);
+		args = args->right;
+	}
+	return (ptr);
+}
+
+void	main에서 실행함수_ls (t_struct *ds, void (*f)(char **))
+{
+	char	*cmd;
+	char	**args;
+	int status;
+
+	cmd = ft_strdup(ds->left->right);
+	args = ft_2dstrdup(ds->left->right->right);
+	status = status_error(error);
+	if (!ft_strncmp(cmd[0], "ls", 3))
+		ft_ls(, status);
+	else if (!ft_strncmp(cmd[0], "echo", 5))
+		ft_echo(, status);
+	free(cmd);
+}
+
+void	execute(t_struct *ds)
+{
+	if (!(head->right) && cmd가 빌트인인지 확인하는 함수(ds->root_node))
+		if main에서 실행함수(ds);
+	else
+		fork 후 실행함수();
+}
+
+fork 후 실행함수(t_struct *ds)
+{
+	int storage_fd;
+
+	storage_fd = dup(STDIN);
 	while (프로세스의 갯수 - 1 만큼)
 	{
 		int fd[2];
@@ -73,7 +133,6 @@
 		else if (부모프로세스면)
 		{
 			close(fd[1])
-			storagefd = dup(STDIN);
 			dup2(fd[0], STDIN)
 			close(fd[0]);
 		}
@@ -86,11 +145,12 @@
 	}
 	else (부모프로세스)
 	{
-		dup2(0, storagefd);
+		dup2(0, storage_fd);
 		waitpid(pid, status) // 마지막 프로세스
 		while (프로세스 갯수 -2)
 			wait
 		sigterm?
+		dup2(storagefd, STDIN);
 	}
 }
 

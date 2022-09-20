@@ -4,6 +4,7 @@ static int	ft_word_count(char const *str, char c);
 static char	**ft_put_array(char **array, char const *str, char c);
 static char	**ft_free_array(char **array, int end);
 
+
 char	**ft_split(char const *s, char c)
 {
 	char	**array;
@@ -14,7 +15,7 @@ char	**ft_split(char const *s, char c)
 	word_cnt = ft_word_count(s, c);
 	array = (char **)malloc(sizeof(char *) * (word_cnt + 1));
 	if (array == NULL)
-		return (NULL);
+		system_call_error();
 	array[word_cnt] = 0;
 	array = ft_put_array(array, s, c);
 	return (array);
@@ -104,9 +105,18 @@ static char	**ft_free_array(char **array, int end)
 // 	heredoc_traverse(ds->root_node);
 // }
 
-void	get_error(void)
+int	status_error(int error)
 {
-	printf("%s\n", strerror(errno));
+	static int status;
+
+	if (error)
+		status = error;
+	return (status);
+}
+
+void	system_call_error(void)
+{
+	printf("ERROR: system call error!\n");
 	exit(errno);
 }
 
@@ -116,7 +126,7 @@ void	free_tree(t_node *node)
 		return ;
 	if (node->type == T_HEREDOC)
 	{
-		printf("unlink target : %s\n", node->right->content);
+		printf("!ALERT! unlink target : %s\n", node->right->content);
 		unlink(node->right->content);
 	}
 	free_tree(node->left);
@@ -128,7 +138,7 @@ void	free_tree(t_node *node)
 
 void	cleaner(char *str, t_struct *ds, t_token *token)
 {
-	printf("\n한 줄 실행 완료. 청소완료!!\n\n");
+	printf("\n!ALERT! 한 줄 실행 완료. 청소완료!!\n\n");
 	if (str)
 		free(str);
 	if (ds && ds->root_node)
@@ -141,13 +151,18 @@ void	cleaner(char *str, t_struct *ds, t_token *token)
 		ft_lstclear(&(ds->head_token));
 		ds->head_token = NULL;
 	}
+	// if (ds && ds->head_env)
+	// {
+	// 	env_lstclear(&(ds->head_env));
+	// 	ds->head_env = NULL;
+	// }
 	if (token)
 		ft_lstclear(&token);
 }
 
 void	clean_exit(int flag, char *str, t_token *token_list, t_struct *ds)	// free도 추가
 {
-	printf("\nnow clean_exit\n\n");
+	printf("\n!ALERT! now clean_exit\n\n");
 	/* 토크나이즈단계일때 */
 	if (str)
 		free(str);
@@ -161,7 +176,7 @@ void	clean_exit(int flag, char *str, t_token *token_list, t_struct *ds)	// free�
 	if (ds && ds->head_env)
 		env_lstclear(&(ds->head_env));
 	if (flag == SUCCESS)
-		printf("정상 종료!\n");
+		printf("!ALERT! 정상 종료!\n");
 	/* 실행 단계 
 	if (flag == no)
 		printf syntax error;
@@ -188,8 +203,8 @@ void	*ft_calloc(size_t count, size_t size)
 	void	*ary;
 
 	ary = malloc(count * size);
-	if (ary == 0)
-		return (NULL);
+	if (ary == NULL)
+		system_call_error();
 	ft_bzero(ary, count * size);
 	return (ary);
 }
@@ -217,7 +232,7 @@ t_token	*ft_lstnew(int type, char *content)
 
 	new = ft_calloc(1, sizeof(t_token));
 	if (new == NULL)
-		return (NULL);
+		system_call_error();
 	new->type = type;
 	new->content = content;
 	new->next = NULL;

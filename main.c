@@ -51,7 +51,7 @@ char	*ft_strdup(char *s1)
 	i = 0;
 	copy = (char *)malloc(sizeof(char) * ft_strlen(s1) + 1);
 	if (!copy)
-		return (NULL);
+		system_call_error();
 	while (s1[i])
 	{
 		copy[i] = s1[i];
@@ -114,7 +114,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	len_s2 = ft_strlen((char *)s2);
 	ptr = (char *)malloc(sizeof(char) * len_s1 + len_s2 + 1);
 	if (!ptr)
-		return (NULL);
+		system_call_error();
 	ft_strlcpy(ptr, s1, len_s1 + 1);
 	ft_strlcat(ptr, s2, len_s1 + len_s2 + 1);
 	free(s1);
@@ -135,7 +135,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 		len = ft_strlen(s) - start;
 	substr = (char *)malloc(sizeof(char) * (len + 1));
 	if (substr == NULL)
-		return (NULL);
+		system_call_error();
 	i = 0;
 	while (i < len)
 	{
@@ -146,26 +146,29 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (substr);
 }
 
+int status;
+
 int main(int argc, char **argv, char **envp)
 {
 	char		*str;
 	t_struct	ds;
-	int			status;
 	int			i = 0;
 
 	ds.head_token = NULL;
 	ds.root_node = NULL;
 	make_env_list(envp, &ds);
-	// env_lstiter(ds.head_env, print_content);
+	// env_lstiter(ds.head_env, print_content);	// 출력용 함수
+	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, sigint_handler); // ctrl C //
+	signal(SIGQUIT, sigquit_handler); // ctrl \ //
+	// signal_handler();
 	while (1)
 	{
-		int j = -1;
-		while (envp[++j]);
-		printf("%s\n", envp[j - 1]);
 		str = readline("minishell > "); // 1. 입력 받기
 		if (ft_strncmp(str, "exit", 5) == 0) // || (ctrl-d signal)) // 종료 조건
 		{
-			free (str);
+			// cleaner(str, &ds, NULL);
+			// free (str);
 			break ;
 		}
 //		else if (SIGINT :ctrl-C signal)
@@ -185,10 +188,10 @@ int main(int argc, char **argv, char **envp)
 			ft_lstiter(ds.head_token, print_content);
 			make_tree(&ds); 	// 2-2. 토큰을 자료구조에 넣는다
 			ft_traverse(ds.root_node);	// delquote 적용 전
-			printf("\n<tree parsing...>\n");
+			// printf("\n<tree parsing...>\n");
 			tree_parser(ds.root_node);
-//			execute(envp, &status);
-			printf("\n<after deleting>\n");
+			// execute(&ds);
+			printf("\n!ALERT! <after delete quote & expand>\n");
 			ft_traverse(ds.root_node);	// delquote 적용 후
 			// int i = -1;
 			// while (++i < ft_lstsize(ds.head_token))
@@ -197,6 +200,10 @@ int main(int argc, char **argv, char **envp)
 		// heredoc_cleaner(&ds);
 		cleaner(str, &ds, NULL);
 	}
-	//clean_exit(SUCCESS, NULL, NULL, &ds);
+	// 여기에 환경변수 프리()
+	clean_exit(SUCCESS, str, NULL, &ds);
 	return (0);
 }
+
+//  (1) env export 만들기
+//  (2) tree_parser 에 환경변수 들고 들어가게 수정
