@@ -126,6 +126,7 @@ int	set_or_get_status(int error)
 
 void	system_call_error(void)
 {
+	perror("sys_error");
 	printf("ERROR: system call error!\n");
 	exit(errno);
 }

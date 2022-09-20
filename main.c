@@ -165,6 +165,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (substr);
 }
 
+
 int main(int argc, char **argv, char **envp)
 {
 	char		*str;
@@ -172,6 +173,7 @@ int main(int argc, char **argv, char **envp)
 	int			flag;
 
 	flag = 0;
+	check = envp;
 	ds.head_token = NULL;
 	ds.root_node = NULL;
 	if (argc)
@@ -180,7 +182,7 @@ int main(int argc, char **argv, char **envp)
 	make_env_array(envp, &ds);
 	// int i = 0;
 	// while ((ds.env_array)[i])
-	// 	printf("%s\n", ds.env_array[i++]);
+		// printf("%s\n", ds.env_array[i++]);
 	// env_lstiter(ds.head_env, print_content);	// 출력용 함수
 	signal_handler();
 	while (1)

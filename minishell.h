@@ -23,7 +23,7 @@
 # define SUCCESS	0
 
 typedef void	(*FUNC_TYPE)(char **);
-
+char **check;
 enum e_mode
 {
     READ,

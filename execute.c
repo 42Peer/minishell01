@@ -105,7 +105,10 @@ char	**lst_to_2d_array(t_node *arg)
 	if (!ptr)
 		return (NULL);
 	while (++i < size)
+	{
 		ptr[i] = ft_strdup(arg->content);
+		arg = arg->right;
+	}
 	ptr[i] = NULL;
 	return (ptr);
 }
@@ -140,7 +143,7 @@ void	open_redir_file(char *file, int mode)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 		if (fd == -1)
 			system_call_error();
-		dup_frame(fd, STDIN_FILENO);
+		dup_frame(fd, STDOUT_FILENO);
 	}
 }
 
@@ -153,11 +156,12 @@ void	redir_action(t_node *cur_redir)
 	if (cur_redir->type == N_REDIR)
 	{
 		file_name = cur_redir->right->right->content;
-		if (ft_strncmp(cur_redir->right->content, "<", 2))
+		printf("%s %s\n", cur_redir->right->content, file_name);
+		if (!ft_strncmp(cur_redir->right->content, "<", 2))
 			open_redir_file(file_name, READ);
-		else if (ft_strncmp(cur_redir->right->content, ">", 2))
+		else if (!ft_strncmp(cur_redir->right->content, ">", 2))
 			open_redir_file(file_name, WRITE);
-		else if (ft_strncmp(cur_redir->right->content, ">>", 2))
+		else if (!ft_strncmp(cur_redir->right->content, ">>", 3))
 			open_redir_file(file_name, APPEND);
 	}
 	redir_action(cur_redir->left);
@@ -204,7 +208,8 @@ int	is_absolute_path(char *path)
 
 int	is_relative_path(char *path)
 {
-	return ((path[0] == '.') && (path [1] == '/'));
+	return (((path[0] == '.') && (path[1] == '/')) ||
+			((path[0] == '.') && (path[1] == '.') && (path[2] == '/')));
 }
 
 void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
@@ -215,18 +220,16 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 	char	cwd_buff[256];
 	size_t	len;
 
-	printf("cmd_action\n");
-	args = lst_to_2d_array(cur_cmd->right->right);
+	args = lst_to_2d_array(cur_cmd);
 	if (is_builtin_func(cur_cmd) > -1)
 	{
-		printf("single built-in\n");
 		// run_builtin(cur_cmd, NULL, 0);
 	}
 	else if (is_absolute_path(cur_cmd->content) || is_relative_path(cur_cmd->content))
 	{
-		
-		printf("cmd\n");
-			execve(cur_cmd->content, args, env_arr);
+		(void)env_arr;
+		if (execve(cur_cmd->content, args, check) == -1)
+			system_call_error();
 	}
 	else
 	{
@@ -249,8 +252,9 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 				system_call_error();
 			}
 		}
-		printf("cmd\n");
-		execve(path, args, env_arr);
+		printf("cmd, path = %s\n", path);
+		if (execve(path, args, check) == -1)
+			system_call_error();
 	}
 }
 
@@ -266,12 +270,12 @@ void	child_process(t_node *cur_phrase, char **env_arr, t_env *env_lst)
 		printf("return\n");
 		return ;
 	}
-	if (cur_phrase->left->type == N_REDIR)
+	if (cur_phrase->left && cur_phrase->left->type == N_REDIR)
 	{
 		printf("REDIR 처리 \n");
-		redir_action(cur_phrase->right);
+		redir_action(cur_phrase->left);
 	}
-	if (cur_phrase->right->type == T_WORD)
+	if (cur_phrase->right && cur_phrase->right->type == T_WORD)
 	{
 		printf("커맨드처리 \n");
 		cmd_action(cur_phrase->right, env_lst, env_arr);
@@ -292,6 +296,7 @@ void	fork_process(t_struct *ds, int cnt)
 	loop = 0;
 	while (cnt > ++loop)
 	{
+		printf("while \n");
 		int fd[2];
 		pipe(fd);
 		pid = fork();
