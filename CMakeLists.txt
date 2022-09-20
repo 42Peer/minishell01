@@ -13,12 +13,14 @@ add_executable(token
 add_executable(minishell
         main.c
         minishell.h
+        signal_handle.c
         tokenize.c
         env_handle.c
         tokenize.c
         make_tree.c
         tree_parser.c
         quote.c
+        execute.c
         utils.c
         test.c
         )

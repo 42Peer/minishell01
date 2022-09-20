@@ -166,6 +166,30 @@ env_handle.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/env_handle.c.s
 .PHONY : env_handle.c.s
 
+execute.o: execute.c.o
+.PHONY : execute.o
+
+# target to build an object file
+execute.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/execute.c.o
+.PHONY : execute.c.o
+
+execute.i: execute.c.i
+.PHONY : execute.i
+
+# target to preprocess a source file
+execute.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/execute.c.i
+.PHONY : execute.c.i
+
+execute.s: execute.c.s
+.PHONY : execute.s
+
+# target to generate assembly for a file
+execute.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/execute.c.s
+.PHONY : execute.c.s
+
 main.o: main.c.o
 .PHONY : main.o
 
@@ -237,6 +261,30 @@ quote.s: quote.c.s
 quote.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/quote.c.s
 .PHONY : quote.c.s
+
+signal_handle.o: signal_handle.c.o
+.PHONY : signal_handle.o
+
+# target to build an object file
+signal_handle.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/signal_handle.c.o
+.PHONY : signal_handle.c.o
+
+signal_handle.i: signal_handle.c.i
+.PHONY : signal_handle.i
+
+# target to preprocess a source file
+signal_handle.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/signal_handle.c.i
+.PHONY : signal_handle.c.i
+
+signal_handle.s: signal_handle.c.s
+.PHONY : signal_handle.s
+
+# target to generate assembly for a file
+signal_handle.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/signal_handle.c.s
+.PHONY : signal_handle.c.s
 
 test.o: test.c.o
 .PHONY : test.o
@@ -350,6 +398,9 @@ help:
 	@echo "... env_handle.o"
 	@echo "... env_handle.i"
 	@echo "... env_handle.s"
+	@echo "... execute.o"
+	@echo "... execute.i"
+	@echo "... execute.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
@@ -359,6 +410,9 @@ help:
 	@echo "... quote.o"
 	@echo "... quote.i"
 	@echo "... quote.s"
+	@echo "... signal_handle.o"
+	@echo "... signal_handle.i"
+	@echo "... signal_handle.s"
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"

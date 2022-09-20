@@ -129,6 +129,9 @@
 		<Unit filename="/Users/sumsong/CLionProjects/minishell/env_handle.c">
 			<Option target="minishell"/>
 		</Unit>
+		<Unit filename="/Users/sumsong/CLionProjects/minishell/execute.c">
+			<Option target="minishell"/>
+		</Unit>
 		<Unit filename="/Users/sumsong/CLionProjects/minishell/main.c">
 			<Option target="minishell"/>
 		</Unit>
@@ -139,6 +142,9 @@
 			<Option target="minishell"/>
 		</Unit>
 		<Unit filename="/Users/sumsong/CLionProjects/minishell/quote.c">
+			<Option target="minishell"/>
+		</Unit>
+		<Unit filename="/Users/sumsong/CLionProjects/minishell/signal_handle.c">
 			<Option target="minishell"/>
 		</Unit>
 		<Unit filename="/Users/sumsong/CLionProjects/minishell/test.c">
