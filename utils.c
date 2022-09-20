@@ -4,7 +4,6 @@ static int	ft_word_count(char const *str, char c);
 static char	**ft_put_array(char **array, char const *str, char c);
 static char	**ft_free_array(char **array, int end);
 
-
 char	**ft_split(char const *s, char c)
 {
 	char	**array;
@@ -105,7 +104,7 @@ static char	**ft_free_array(char **array, int end)
 // 	heredoc_traverse(ds->root_node);
 // }
 
-int	status_error(int error)
+int	set_or_get_status(int error)
 {
 	static int status;
 

@@ -120,7 +120,7 @@ void	ft_lstclear(t_token **lst);
 void	heredoc_cleaner(t_struct *ds);
 char	**ft_split(char const *s, char c);
 
-int		status_error(int error);
+int		set_or_get_status(int error);
 void	system_call_error(void);
 
 /*
@@ -175,6 +175,12 @@ int		count_process(t_node *node);
 int		is_builtin_func(t_node *node);
 void	multi_process(t_struct *ds, int cnt);
 void	execute(t_struct *ds);
+
+/*
+ *						part V built-in
+*/
+
+void	ft_pwd(void);
 
 /*
  *						test function
