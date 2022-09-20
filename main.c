@@ -1,4 +1,5 @@
 #include "minishell.h"
+
 /*
 root
  |
@@ -154,8 +155,13 @@ int main(int argc, char **argv, char **envp)
 
 	ds.head_token = NULL;
 	ds.root_node = NULL;
+	make_env_list(envp, &ds);
+	// env_lstiter(ds.head_env, print_content);
 	while (1)
 	{
+		int j = -1;
+		while (envp[++j]);
+		printf("%s\n", envp[j - 1]);
 		str = readline("minishell > "); // 1. 입력 받기
 		if (ft_strncmp(str, "exit", 5) == 0) // || (ctrl-d signal)) // 종료 조건
 		{
@@ -181,14 +187,14 @@ int main(int argc, char **argv, char **envp)
 			ft_traverse(ds.root_node);	// delquote 적용 전
 			printf("\n<tree parsing...>\n");
 			tree_parser(ds.root_node);
-			// execute(envp, &status);
+//			execute(envp, &status);
 			printf("\n<after deleting>\n");
 			ft_traverse(ds.root_node);	// delquote 적용 후
 			// int i = -1;
 			// while (++i < ft_lstsize(ds.head_token))
 			// 	ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
 		}
-		heredoc_cleaner(&ds);
+		// heredoc_cleaner(&ds);
 		cleaner(str, &ds, NULL);
 	}
 	//clean_exit(SUCCESS, NULL, NULL, &ds);

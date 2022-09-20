@@ -8,7 +8,7 @@ char	*save(char *src, char c, size_t len)	// 문자열 src에 문자 c 붙이는
 		src = ft_strdup("");
 	dst = malloc(sizeof(char) * (len + 2));
 	if (!dst)
-		get_error(); 
+		get_error();
 	ft_strlcpy(dst, src, len + 1);
 	dst[len] = c;
 	dst[len + 1] = '\0';
@@ -41,6 +41,8 @@ char	*dollar_sign(char *str, int *env_i)		// i는 $ 인덱스
 
 	/* (1)영문자, 숫자, _가 아닌 부분까지 읽고 */
 	i = *env_i + 1;
+	if (str[i] == '\0' || is_whitespace(str[i]))
+		return (ft_strdup("$"));
 	while (is_expandable(str, i))	// while을 빠져나오면 i는 환경변수명 조건이 아닌 위치
 		++i;
 	/* (2)env_key = 해당 부분까지 넣기; */

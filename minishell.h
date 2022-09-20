@@ -68,11 +68,25 @@ typedef struct s_node
 	struct s_node	*right;
 }	t_node;
 
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_struct
 {
 	t_token	*head_token;
 	t_node	*root_node;
+	t_env	*head_env;
 }	t_struct;
+
+t_env	*env_lstnew(char *env);
+void	env_lstadd_back(t_env **lst, t_env *new);
+void	make_env_list(char **envp, t_struct *ds);
+void	env_lstclear(t_env **lst);
+void	env_lstiter(t_env *lst, void (*f)(char *));		// tmp_func
 
 /*
  *						util function
@@ -91,8 +105,10 @@ void	ft_lstiter(t_token *lst, void (*f)(char *));
 void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstclear(t_token **lst);
 void	heredoc_cleaner(t_struct *ds);
+char	**ft_split(char const *s, char c);
 
 void	get_error(void);
+
 /*
  *						part I tokenize
 */

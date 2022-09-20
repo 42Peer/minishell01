@@ -54,7 +54,7 @@ char	*확장(토큰 노드)
 		if (tmp[0] == 검색어)
 		{
 			tmp[1]만 복사하고
-			free(tmp);	
+			free(tmp);
 			return (복사값);
 		}
 		free(tmp);
