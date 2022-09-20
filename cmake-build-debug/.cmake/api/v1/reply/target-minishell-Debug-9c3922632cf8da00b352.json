@@ -48,7 +48,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-lreadline -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk"
+					"fragment" : "-lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk"
 				}
 			],
 			"includes" : 
@@ -84,7 +84,7 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-lreadline -g",
+				"fragment" : "-lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include -g",
 				"role" : "flags"
 			},
 			{

@@ -6,5 +6,5 @@ C_DEFINES =
 
 C_INCLUDES = -I/Users/sumsong/CLionProjects/minishell/. -I/Users/sumsong/CLionProjects/minishell/libft
 
-C_FLAGS = -lreadline -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk
+C_FLAGS = -lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk
 

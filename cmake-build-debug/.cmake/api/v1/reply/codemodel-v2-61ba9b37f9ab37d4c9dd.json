@@ -41,14 +41,14 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "minishell::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-minishell-Debug-f1be46d5689b39b1028d.json",
+					"jsonFile" : "target-minishell-Debug-9c3922632cf8da00b352.json",
 					"name" : "minishell",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "token::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-token-Debug-5be220005822a5af4d1e.json",
+					"jsonFile" : "target-token-Debug-bc50ae841673d9437358.json",
 					"name" : "token",
 					"projectIndex" : 0
 				}

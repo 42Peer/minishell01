@@ -152,10 +152,12 @@ int main(int argc, char **argv, char **envp)
 {
 	char		*str;
 	t_struct	ds;
-	int			i = 0;
+//	int			i = 0;
 
 	ds.head_token = NULL;
 	ds.root_node = NULL;
+	if (argc)
+		(void)argv;
 	make_env_list(envp, &ds);
 	// env_lstiter(ds.head_env, print_content);	// 출력용 함수
 	signal_handler();
