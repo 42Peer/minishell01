@@ -1,5 +1,9 @@
 #include "minishell.h"
 
+/*
+ *			리스트로 만들기
+ */
+
 t_env	*env_lstnew(char *env)
 {
 	t_env	*new;
@@ -35,7 +39,6 @@ void	env_lstadd_back(t_env **lst, t_env *new)
 
 void	make_env_list(char **envp, t_struct *ds)
 {
-	// t_env	*head;
 	t_env	*env;
 	int		i;
 
@@ -77,4 +80,25 @@ void	env_lstiter(t_env *lst, void (*f)(char *))
 		f(lst->value);
 		lst = lst->next;
 	}
+}
+
+/*
+ *		배열로 만들기
+ */
+
+void	make_env_array(char **envp, t_struct *ds)
+{
+	int		i;
+	char	**env;
+
+	i = 0;
+	while (envp[i])
+		++i;
+	env = malloc(sizeof(char *) * i);
+	if (!env)
+		system_call_error();
+	i = -1;
+	while (envp[++i])
+		env[i] = ft_strdup(envp[i]);
+	ds->env_array = env;
 }

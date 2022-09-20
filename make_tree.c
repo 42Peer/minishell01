@@ -6,7 +6,7 @@
 /*   By: jujeon <jujeon@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 13:53:16 by sumsong           #+#    #+#             */
-/*   Updated: 2022/09/20 20:34:08 by jujeon           ###   ########seoul.kr  */
+/*   Updated: 2022/09/21 06:13:24 by jujeon           ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "minishell.h"
 
-t_token	*make_redir_node(t_node *cur_process, t_token *cur_token)
+t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, int *flag)
 {
 	t_node	*io_redir;
 	t_node	*cur_node;
@@ -38,7 +38,15 @@ t_token	*make_redir_node(t_node *cur_process, t_token *cur_token)
 		if (!new_node)
 			system_call_error();
 		cur_node->right = new_node;
-		new_node->type = cur_token->type;
+		if (!cur_token)
+		{
+			printf("Error: syntax error!\n");
+			set_or_get_status(258);
+			*flag = 1;
+			break ;
+		}
+		else
+			new_node->type = cur_token->type;
 		new_node->content = ft_strdup(cur_token->content);
 		cur_token = cur_token->next;
 		cur_node = cur_node->right;
@@ -87,10 +95,11 @@ t_node	*make_dummy_node(void)
 	return (process);
 }
 
-void	make_tree(t_struct *ds)
+int	make_tree(t_struct *ds)
 {
 	t_node		*cur_process;
 	t_token		*cur_token;
+	int			flag;
 
 	ds->root_node = make_dummy_node();
 	cur_token = ds->head_token;
@@ -98,12 +107,18 @@ void	make_tree(t_struct *ds)
 	while (cur_token)
 	{
 		if (cur_token->type == T_REDIR)
-			cur_token = make_redir_node(cur_process, cur_token);
+			cur_token = make_redir_node(cur_process, cur_token, &flag);
 		else if (cur_token->type == T_PIPE)
 			cur_token = make_pipe_node(&cur_process, cur_token);
 		else if (cur_token->type == T_WORD)
 			cur_token = make_cmd_node(cur_process, cur_token);
 		else
 			printf("make_tree() ERROR!!!!\n");
+		if (flag == 1)
+		{
+			printf("flag : %d\n", flag);
+			return (0);
+		}
 	}
+	return (1);
 }

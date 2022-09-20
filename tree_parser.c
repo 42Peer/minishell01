@@ -87,16 +87,24 @@ void	cmd_parser(t_node *node)
 	}
 }
 
-int	redir_parser(t_node *node)
+void	redir_parser(t_node *node, int *flag)
 {
 	int		quoted;
 	char	*new_content;
 
 	quoted = 0;		// 기본 0 = 인용 없음 으로 초기화
 	if (!node)
-		return (0);
+		return ;
 	if (node->type == T_REDIR)
 	{
+		if (ft_strncmp(node->content, ">>", 3) != 0
+			&& ft_strncmp(node->content, ">", 2) != 0
+			&& ft_strncmp(node->content, "<", 2) != 0)			
+		{
+			printf("Error: syntax error in redir_parser!\n");
+			set_or_get_status(258);
+			*flag = 1;
+		}
 		if (ft_strncmp(node->content, "<<", 3) == 0)	// heredoc이면
 		{
 			printf("heredoc 도착!\n");
@@ -107,38 +115,28 @@ int	redir_parser(t_node *node)
 			node->right->content = new_content;
 			func_heredoc(node, node->right->content, quoted);
 		}
-		if (ft_strncmp(node->content, ">>", 3) != 0
-			&& ft_strncmp(node->content, ">", 2) != 0
-			&& ft_strncmp(node->content, "<", 2) != 0)			
-		{
-			printf("Error: syntax error!\n");
-			set_or_get_status(258);
-			return (0);
-		}
 	}
 	else
 	{
-		redir_parser(node->right);	// T_REDIR
-		redir_parser(node->left);	// 다른 redir
+		redir_parser(node->right, flag);	// T_REDIR
+		redir_parser(node->left, flag);	// 다른 redir
 	}
-	return (1);
 }
 
-int	tree_parser(t_node *node)
+int	tree_parser(t_node *node, int *flag)
 {
 	if (!(node))
-		return (1);
+		return (0);
 	// printf("now node type : %s node str : %s\n", token_str[node->type], node->str);
 	if (node->type == N_PHRASE)
 	{
-		if (!redir_parser(node->left))
-			return (0);
+		redir_parser(node->left, flag);
 		cmd_parser(node->right);
 	}
 	else
 	{
-		tree_parser(node->left);	// phrase
-		tree_parser(node->right);	// 새 프로세스
+		tree_parser(node->left, flag);	// phrase
+		tree_parser(node->right, flag);	// 새 프로세스
 	}
-	return (1);
+	return (0);
 }

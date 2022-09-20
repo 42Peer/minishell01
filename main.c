@@ -95,6 +95,27 @@ size_t	ft_strlcat(char *dst, char *src, size_t dstsize)
 	dst[dst_len + i] = '\0';
 	return (dst_len + src_len);
 }
+char	*ft_strjoin_no_free(char *s1, char *s2)
+{
+	char	*ptr;
+	size_t	len_s1;
+	size_t	len_s2;
+
+	if (!s1 && !s2)
+		return (NULL);
+	else if (!s1)
+		return (ft_strdup(s2));
+	else if (!s2)
+		return (ft_strdup(s1));
+	len_s1 = ft_strlen((char *)s1);
+	len_s2 = ft_strlen((char *)s2);
+	ptr = (char *)malloc(sizeof(char) * len_s1 + len_s2 + 1);
+	if (!ptr)
+		system_call_error();
+	ft_strlcpy(ptr, s1, len_s1 + 1);
+	ft_strlcat(ptr, s2, len_s1 + len_s2 + 1);
+	return (ptr);
+}
 
 char	*ft_strjoin(char *s1, char *s2)
 {
@@ -148,13 +169,18 @@ int main(int argc, char **argv, char **envp)
 {
 	char		*str;
 	t_struct	ds;
-//	int			i = 0;
+	int			flag;
 
+	flag = 0;
 	ds.head_token = NULL;
 	ds.root_node = NULL;
 	if (argc)
 		(void)argv;
 	make_env_list(envp, &ds);
+	make_env_array(envp, &ds);
+	// int i = 0;
+	// while ((ds.env_array)[i])
+	// 	printf("%s\n", ds.env_array[i++]);
 	// env_lstiter(ds.head_env, print_content);	// 출력용 함수
 	signal_handler();
 	while (1)
@@ -181,21 +207,15 @@ int main(int argc, char **argv, char **envp)
 				continue ;
 			}
 			ft_lstiter(ds.head_token, print_content);
-			make_tree(&ds); 	// 2-2. 토큰을 자료구조에 넣는다
-			printf("make tree done.\n");
-			ft_traverse(ds.root_node);	// delquote 적용 전
-			printf("\n<tree parsing...>\n");
-			if (!tree_parser(ds.root_node))
+			if (make_tree(&ds) == 0 || (!tree_parser(ds.root_node, &flag) && flag == 1)) // 2-2. 토큰을 자료구조에 넣는다
 			{
 				cleaner(str, &ds, NULL);
 				continue ;
 			}
-			// execute(&ds);
 			printf("\n!ALERT! <after delete quote & expand>\n");
 			ft_traverse(ds.root_node);	// delquote 적용 후
-			// int i = -1;
-			// while (++i < ft_lstsize(ds.head_token))
-			// 	ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
+			printf("\n");
+			execute(&ds);
 		// }
 		// heredoc_cleaner(&ds);
 		cleaner(str, &ds, NULL);

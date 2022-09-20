@@ -57,28 +57,26 @@ void	format_specifier(void (*f[])(char **))
 	f[6] = ft_exit;
 }
 
-int	is_builtin_func(t_node *node)
+int	is_builtin_func(t_node *cmd)
 {
 	int	func;
 
 	func = -1;
-	node = node->left;	// phrase
-	node = node->right;	// cmd
-	if (node->type == T_WORD)
+	if (cmd->type == T_WORD)
 	{
-		if (ft_strncmp(node->content, "echo", 5) == 0)
+		if (ft_strncmp(cmd->content, "echo", 5) == 0)
 			func = 0;
-		else if (ft_strncmp(node->content, "cd", 4) == 0)
+		else if (ft_strncmp(cmd->content, "cd", 4) == 0)
 			func = 1;
-		else if (ft_strncmp(node->content, "pwd", 7) == 0)
+		else if (ft_strncmp(cmd->content, "pwd", 7) == 0)
 			func = 2;
-		else if (ft_strncmp(node->content, "export", 4) == 0)
+		else if (ft_strncmp(cmd->content, "export", 4) == 0)
 			func = 3;
-		else if (ft_strncmp(node->content, "unset", 5) == 0)
+		else if (ft_strncmp(cmd->content, "unset", 5) == 0)
 			func = 4;
-		else if (ft_strncmp(node->content, "env", 5) == 0)
+		else if (ft_strncmp(cmd->content, "env", 5) == 0)
 			func = 5;
-		else if (ft_strncmp(node->content, "exit", 5) == 0)
+		else if (ft_strncmp(cmd->content, "exit", 5) == 0)
 			func = 6;
 	}
 	return (func);
@@ -156,32 +154,129 @@ void	redir_action(t_node *cur_redir)
 	{
 		file_name = cur_redir->right->right->content;
 		if (ft_strncmp(cur_redir->right->content, "<", 2))
-			redir_file(file_name, READ);
+			open_redir_file(file_name, READ);
 		else if (ft_strncmp(cur_redir->right->content, ">", 2))
-			redir_file(file_name, WRITE);
+			open_redir_file(file_name, WRITE);
 		else if (ft_strncmp(cur_redir->right->content, ">>", 2))
-			redir_file(file_name, APPEND);
+			open_redir_file(file_name, APPEND);
 	}
 	redir_action(cur_redir->left);
 }
 
-void	cmd_action(t_node *cur_cmd)
+char	*search_path(char *cmd, t_env *env_lst)
 {
+	char	**other_paths;
+	char	*path;
+	char	*cmd_path;
+	int		i;
+	struct stat statbuf;
 
+	i = -1;
+	path = ft_strjoin_no_free("/", cmd);
+	other_paths = NULL;
+	while (env_lst)
+	{
+		if (!ft_strncmp(env_lst->key, "PATH", 5))
+		{
+			other_paths = ft_split(env_lst->value, ':');
+			break ;
+		}
+		env_lst = env_lst->next;
+	}
+	i = -1;
+	while (other_paths[++i])
+	{
+		cmd_path = ft_strjoin_no_free(other_paths[i], path);
+		if (stat(cmd_path, &statbuf) == 0)
+			break ;
+		free(cmd_path);
+		cmd_path = NULL;
+	}
+	free_2d(other_paths);
+	free(path);
+	return (cmd_path);
 }
 
-void	child_process(t_node *cur_phrase, char **envp)
+int	is_absolute_path(char *path)
 {
-	char	*redir;
-	char	*filename;
+	return (path[0] == '/');
+}
+
+int	is_relative_path(char *path)
+{
+	return ((path[0] == '.') && (path [1] == '/'));
+}
+
+void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
+{
+	char	*path;
+	char	*cmd;
 	char	**args;
+	char	cwd_buff[256];
+	size_t	len;
+
+	printf("cmd_action\n");
+	args = lst_to_2d_array(cur_cmd->right->right);
+	if (is_builtin_func(cur_cmd) > -1)
+	{
+		printf("single built-in\n");
+		// run_builtin(cur_cmd, NULL, 0);
+	}
+	else if (is_absolute_path(cur_cmd->content) || is_relative_path(cur_cmd->content))
+	{
+		
+		printf("cmd\n");
+			execve(cur_cmd->content, args, env_arr);
+	}
+	else
+	{
+		cmd = cur_cmd->content;
+		path = search_path(cmd, env_lst);
+		if (!path)
+		{
+			if (getcwd(cwd_buff, 256) == 0)
+			{
+				free_2d(args);
+				system_call_error();
+			}
+			len = ft_strlen(cwd_buff);
+			cwd_buff[len + 1] = '/';
+			cwd_buff[len + 2] = 0;
+			path = ft_strjoin_no_free(cwd_buff, cmd);
+			if (!path)
+			{
+				free_2d(args);
+				system_call_error();
+			}
+		}
+		printf("cmd\n");
+		execve(path, args, env_arr);
+	}
+}
+
+void	child_process(t_node *cur_phrase, char **env_arr, t_env *env_lst)
+{
+	// char	*redir;
+	// char	*filename;
+	// char	**args;
 	
+	printf("child_process->right->content > %s\n", cur_phrase->right->content);
 	if (!cur_phrase)
+	{
+		printf("return\n");
 		return ;
+	}
 	if (cur_phrase->left->type == N_REDIR)
+	{
+		printf("REDIR 처리 \n");
 		redir_action(cur_phrase->right);
-	else if (cur_phrase->right->type == T_WORD)
-		cmd_action(cur_phrase->right);
+	}
+	if (cur_phrase->right->type == T_WORD)
+	{
+		printf("커맨드처리 \n");
+		cmd_action(cur_phrase->right, env_lst, env_arr);
+	}
+	printf("child process end \n");
 }
 
 void	fork_process(t_struct *ds, int cnt)
@@ -210,8 +305,10 @@ void	fork_process(t_struct *ds, int cnt)
 				close(fd[0]);
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[1]);
-				exit(0);
-				child_process(cur_process->left, envp);
+				// exit(0);
+				
+				printf("child\n");
+				child_process(cur_process->left, ds->env_array, ds->head_env);
 			// }
 		}
 		else
@@ -231,8 +328,8 @@ void	fork_process(t_struct *ds, int cnt)
 	if (pid == 0)
 	{
 		printf("!ALERT! %d 마지막 자식 프로세스 명령어 실행\n", cnt);
-		exit(0);
-		child_process(cur_process->left, envp);
+		// exit(0);
+		child_process(cur_process->left, ds->env_array, ds->head_env);
 	}
 	else
 	{
@@ -256,13 +353,13 @@ void	fork_process(t_struct *ds, int cnt)
 //     f[6] = ft_exit;
 // }
 
-void	single_builtin(t_struct *ds, FUNC_TYPE builtin[], int func)
+void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[], int func)
 {
 	char	*cmd;
 	char	**args;
 
-	cmd = ft_strdup(ds->root_node->left->right->content);
-	args = lst_to_2d_array(ds->root_node->left->right->right);
+	cmd = ft_strdup(cur_cmd->content);
+	args = lst_to_2d_array(cur_cmd->right);
 	builtin[func](args);
 	free(cmd);
 	free(args);
@@ -277,13 +374,13 @@ void	execute(t_struct *ds)
 
 	format_specifier(builtin);
 	root = ds->root_node;
-	func_idx = is_builtin_func(root);
+	func_idx = is_builtin_func(root->left->right);
 	process_cnt = count_process(root);
 	printf("!ALERT! process는 %d개입니다.\n", process_cnt);
 	if (process_cnt == 1 && func_idx > -1)
 	{
 		printf("!ALERT! main에서 실행하기.\n");
-		single_builtin(ds, builtin, func_idx);
+		run_builtin(ds->root_node->left->right, builtin, func_idx);
 	}
 	else
 		fork_process(ds, process_cnt);

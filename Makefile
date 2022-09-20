@@ -7,7 +7,7 @@ LREADLINE	=	-L /usr/local/opt/readline/lib/
 RM	=	rm -f
 
 SRCS	=	quote.c main.c tokenize.c make_tree.c tree_parser.c test.c utils.c \
-			env_handle.c signal_handle.c ft_pwd.c
+			env_handle.c signal_handle.c ft_pwd.c execute.c
 OBJS	=	$(SRCS:.c=.o)
 
 ifdef	WITH_BONUS
@@ -32,6 +32,9 @@ clean	:
 
 fclean	: clean
 	$(RM) $(NAME)
+
+lldb: all
+	$(CC) $(OBJS) $(CCFLAGS) $(LREADLINE) -lreadline -o $(NAME) -g3
 
 re	:	fclean all
 

@@ -4,6 +4,17 @@ static int	ft_word_count(char const *str, char c);
 static char	**ft_put_array(char **array, char const *str, char c);
 static char	**ft_free_array(char **array, int end);
 
+void	free_2d(char **str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		free(str[i]);
+	free(str);
+	str = NULL;
+}
+
 char	**ft_split(char const *s, char c)
 {
 	char	**array;

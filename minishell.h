@@ -83,6 +83,7 @@ typedef struct s_struct
 	t_token	*head_token;
 	t_node	*root_node;
 	t_env	*head_env;
+	char	**env_array;
 }	t_struct;
 
 /*
@@ -103,6 +104,8 @@ void	env_lstadd_back(t_env **lst, t_env *new);
 void	make_env_list(char **envp, t_struct *ds);
 void	env_lstclear(t_env **lst);
 void	env_lstiter(t_env *lst, void (*f)(char *));		// tmp_func
+
+void	make_env_array(char **envp, t_struct *ds);
 
 /*
  *						util function
@@ -141,11 +144,11 @@ t_token	*tokenize(char *str);
  *						part II make_tree
 */
 
-t_token	*make_redir_node(t_node *cur_process, t_token *cur_token);
+t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, int *flag);
 t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token);
 t_token	*make_pipe_node(t_node **cur_process, t_token *cur_token);
 t_node	*make_dummy_node(void);
-void	make_tree(t_struct *ds);
+int		make_tree(t_struct *ds);
 
 /*
  *						part III quote & expand & here_doc
@@ -157,6 +160,9 @@ char	*ft_strdup(char *s1);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin_no_free(char *s1, char *s2);
+void	free_2d(char **str);
+
 char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*save(char *src, char c, size_t len);	// 문자열 src에 문자 c 붙이는 함수, len은 src의 길이
 int		is_expandable(char *str, int i);
@@ -168,8 +174,8 @@ char	*dollar_sign(char *str, int *env_i);
 
 char	**func_heredoc(t_node *node, char *delimiter, int quoted);
 void	cmd_parser(t_node *node);
-int		redir_parser(t_node *node);
-int		tree_parser(t_node *node);
+void	redir_parser(t_node *node, int *flag);
+int		tree_parser(t_node *node, int *flag);
 
 /*
  *						part IV execute
@@ -179,6 +185,8 @@ int		count_process(t_node *node);
 int		is_builtin_func(t_node *node);
 void	fork_process(t_struct *ds, int cnt);
 void	execute(t_struct *ds);
+
+void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr);
 
 /*
  *						part V built-in
