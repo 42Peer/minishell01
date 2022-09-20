@@ -102,16 +102,12 @@ void	main에서 실행함수_ls (t_struct *ds, void (*f)(char **))
 		ft_ls(, status);
 	else if (!ft_strncmp(cmd[0], "echo", 5))
 		ft_echo(, status);
+	else if (pwd)
+		ft_pwd();
+	... cd export unset env exit
 	free(cmd);
 }
 
-void	execute(t_struct *ds)
-{
-	if (!(head->right) && cmd가 빌트인인지 확인하는 함수(ds->root_node))
-		if main에서 실행함수(ds);
-	else
-		fork 후 실행함수();
-}
 
 fork 후 실행함수(t_struct *ds)
 {
@@ -152,6 +148,14 @@ fork 후 실행함수(t_struct *ds)
 		sigterm?
 		dup2(storagefd, STDIN);
 	}
+}
+
+void	execute(t_struct *ds)
+{
+	if (!(head->right) && cmd가 빌트인인지 확인하는 함수(ds->root_node))
+		if main에서 실행함수(ds);
+	else
+		fork 후 실행함수();
 }
 
 # 확장시 추가 처리 해줘야함.

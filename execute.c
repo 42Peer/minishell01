@@ -31,7 +31,7 @@ int	is_builtin_func(t_node *node)
 		return (0);
 }
 
-void	multi_process(t_struct *ds, int cnt)
+void	multi_process(t_struct *ds, int cnt, int type)
 {
 	int		backup_fd;
 	pid_t	pid;
@@ -49,18 +49,28 @@ void	multi_process(t_struct *ds, int cnt)
 		pid = fork();
 		if (pid == 0)
 		{
-			printf("!ALERT! %d 자식 프로세스 명령어 실행\n", loop);
-			close(fd[0]);
-			dup2(fd[1], STDOUT_FILENO);
-			close(fd[1]);
-			exit(0);
-			// 자식프로세스 명령어 실행(cur_process, evnp);
+			if (cmd 마지막일때)
+				자식프로세스명령실행
+			else
+			{
+				printf("!ALERT! %d 자식 프로세스 명령어 실행\n", loop);
+				close(fd[0]);
+				dup2(fd[1], STDOUT_FILENO);
+				close(fd[1]);
+				exit(0);
+				// 자식프로세스 명령어 실행(cur_process, evnp);
+			}
 		}
 		else
 		{
-			close(fd[1]);
-			dup2(fd[0], STDIN_FILENO);
-			close(fd[0]);
+			if (last cmd)
+				status 함수 실행
+			else
+			{
+				close(fd[1]);
+				dup2(fd[0], STDIN_FILENO);
+				close(fd[0]);
+			}
 		}
 		cur_process = cur_process->right;
 	}
@@ -73,9 +83,9 @@ void	multi_process(t_struct *ds, int cnt)
 	}
 	else
 	{
-		status = status_error(0);
+		status = set_or_get_status(0);
 		waitpid(pid, &status, 0); // 마지막 프로세스
-		status_error(status);
+		set_or_get_status(status);
 		while (cnt-- - 1)
 		{
 			printf("%d 회수\n", cnt);
@@ -83,6 +93,49 @@ void	multi_process(t_struct *ds, int cnt)
 		}
 		dup2(backup_fd, STDIN_FILENO);
 	}
+}
+
+void	format_specifier(void (*f[])(char **))
+{
+    f[0] = ft_echo;
+    f[1] = ft_cd;
+    f[2] = ft_pwd;
+    f[3] = ft_export;
+    f[4] = ft_unset;
+    f[5] = ft_env;
+    f[6] = ft_exit;
+}
+
+char	**lst_to_2d_array(t_node *arg)
+{
+	char	**ptr;
+	int		size;
+	int		i;
+
+	size = ft_lstsize(node);
+	i = -1;
+	ptr = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!ptr)
+		return (NULL);
+	while (++i < size)
+		ptr[i] = ft_strdup(arg->content);
+	ptr[i] = NULL;
+	return (ptr);
+}
+
+void	single_builtin(t_struct *ds)
+{
+	char	*cmd;
+	char	**args;
+	int		status;
+
+	cmd = ft_strdup(ds->left->right);
+	args = lst_to_2d_array(ds->left->right->right);
+	status = set_or_get_status(error);
+	if (!ft_strncmp(cmd[0], "pwd", 4))
+		ft_pwd();
+	free(cmd);
+	free(args);
 }
 
 void	execute(t_struct *ds)
@@ -95,7 +148,7 @@ void	execute(t_struct *ds)
 	printf("!ALERT! process는 %d개입니다.\n", process_cnt);
 	if (process_cnt == 1 && is_builtin_func(root))
 		printf("!ALERT! main에서 실행하기.\n");
-		// main에서 실행함수(ds);
+		single_builtin(ds);
 	else
 		// printf("fork 후 실행하기.\n");
 		multi_process(ds, process_cnt);
@@ -137,7 +190,7 @@ void	redir_file(char *file, int mode)
 	}
 }
 
-void	fork_frame(t_node *cur_root, char **envp)
+void	fork_frame(t_node *cur_root, char **envp, int type)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -149,15 +202,24 @@ void	fork_frame(t_node *cur_root, char **envp)
 		system_call_error();
 	else if (pid == 0)
 	{
-		close(fd[0]);
-		dup_frame(fd[1], STDOUT_FILENO);
-		ps_action(cur_root->left, envp);
-//		execvision(ps_root->left, envp);
+		if (type == END)
+			execvision();
+		else
+		{
+			close(fd[0]);
+			dup_frame(fd[1], STDOUT_FILENO);
+			ps_action(cur_root->left, envp);
+		}
 	}
 	else
 	{
-		close(fd[1]);
-		dup_frame(fd[0], STDIN_FILENO);
+		if (type == END)
+			get_status();
+		else
+		{	
+			close(fd[1]);
+			dup_frame(fd[0], STDIN_FILENO);
+		}
 	}
 }
 
@@ -228,7 +290,10 @@ void	get_ps(t_node *root_node, char **envp)
     size = ft_lstsize(root_node);
     while (count++ < size)
 	{
-		fork_frame(root_node, envp);
+		if (count + 1 == size)
+			fork_frame(root_node, envp, END);
+		else
+			fork_frame(root_node, envp, CONTINUE);
 		root_node = root_node->right;
 	}
 	while (--count >= 0)
