@@ -5,6 +5,7 @@
 		"libft.h": "c",
 		"minishell.h": "c",
 		"sstream": "c",
-		"ios": "c"
+		"ios": "c",
+		"history.h": "c"
 	}
 }

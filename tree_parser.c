@@ -36,7 +36,7 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 	while (1)
 	{
 		expanded_str = ft_strdup("");
-		str = readline(">");
+		str = readline("> ");
 		if (!ft_strncmp(str, delimiter, ft_strlen(delimiter) + 1))
 			break ;
 		if (!quoted)
@@ -49,11 +49,14 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 				else
 					expanded_str = save(expanded_str, str[i], ft_strlen(expanded_str));
 			}
-			write(fd, expanded_str, ft_strlen(expanded_str));
+			if (write(fd, expanded_str, ft_strlen(expanded_str)) == -1)
+				system_call_error();
 		}
 		else
-			write(fd, str, ft_strlen(str));
-		write(fd, "\n", 1);
+			if (write(fd, str, ft_strlen(str)) == -1)
+				system_call_error();
+		if (write(fd, "\n", 1) == -1)
+			system_call_error();
 		free(str);
 		free(expanded_str);
 	}

@@ -26,6 +26,7 @@ enum e_mode
 {
     READ,
     WRITE,
+	APPEND,
     END,
     CONTINUE
 }   t_mode;
@@ -82,6 +83,18 @@ typedef struct s_struct
 	t_env	*head_env;
 }	t_struct;
 
+/*
+ *						signal handler
+ */
+
+void	sigint_handler(int signum);
+void	sigquit_handler(int signum);
+void	signal_handler(void);
+
+/*
+ *						env function
+ */
+
 t_env	*env_lstnew(char *env);
 void	env_lstadd_back(t_env **lst, t_env *new);
 void	make_env_list(char **envp, t_struct *ds);
@@ -107,7 +120,8 @@ void	ft_lstclear(t_token **lst);
 void	heredoc_cleaner(t_struct *ds);
 char	**ft_split(char const *s, char c);
 
-void	get_error(void);
+int		status_error(int error);
+void	system_call_error(void);
 
 /*
  *						part I tokenize
@@ -152,6 +166,15 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted);
 void	cmd_parser(t_node *node);
 void	redir_parser(t_node *node);
 void	tree_parser(t_node *node);
+
+/*
+ *						part IV execute
+*/
+
+int		count_process(t_node *node);
+int		is_builtin_func(t_node *node);
+void	multi_process(t_struct *ds, int cnt);
+void	execute(t_struct *ds);
 
 /*
  *						test function
