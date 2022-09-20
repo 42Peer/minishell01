@@ -49,7 +49,6 @@ void	make_env_list(char **envp, t_struct *ds)
 		env_lstadd_back(&(ds->head_env), env);
 		++i;
 	}
-	// ds->head_env = head;
 }
 
 void	env_lstclear(t_env **lst)
