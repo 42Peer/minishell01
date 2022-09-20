@@ -37,7 +37,7 @@ void	make_env_list(char **envp, t_struct *ds)
 	int		i;
 	
 	i = 0;
-	ds->head_env = head;
+	head = NULL;
 	while (envp && envp[i])
 	{
 		env = env_lstnew(envp[i]);
@@ -46,6 +46,7 @@ void	make_env_list(char **envp, t_struct *ds)
 		env_lstadd_back(&head, env);
 		++i;
 	}
+	ds->head_env = head;
 }
 
 void	env_lstclear(t_env **lst)

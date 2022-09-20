@@ -156,7 +156,7 @@ int main(int argc, char **argv, char **envp)
 	ds.head_token = NULL;
 	ds.root_node = NULL;
 	make_env_list(envp, &ds);
-	// env_lstiter(ds.head_env, print_content);
+	env_lstiter(ds.head_env, print_content);
 	while (1)
 	{
 		int j = -1;
