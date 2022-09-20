@@ -2,22 +2,22 @@
 # define MINISHELL_H
 
 // # include "libft/libft.h"
-# include <readline/readline.h>	// readline, 
-# include <readline/history.h>	// rl_on_new_line, rl_replace_line, rl_redisplay, add_history, 
-# include <stdio.h>		// printf, 
-# include <stdlib.h>		// malloc, free, exit, getenv, 
-# include <unistd.h>		// write, close, fork, getcwd, unlink, execve, dup, dup2, pipe, chdir, isatty, ttyname, ttyslot, 
-# include <fcntl.h>		// open, 
-# include <sys/wait.h>		// wait, waitpid, wait3, wait4, 
-# include <signal.h>		// signal, kill, 
-# include <dirent.h>		// opendir, readdir, closedir, 
-# include <sys/types.h>		// 
-# include <sys/stat.h>		// stat, lstat, fstat, 
-# include <string.h>		// strerror, 
-# include <errno.h>		// errno, 
-# include <sys/ioctl.h>		// ioctl, 
-# include <termios.h>		// tcsetattr, tcgetattr, 
+# include <stdio.h>		// printf,
+# include <stdlib.h>		// malloc, free, exit, getenv,
+# include <unistd.h>		// write, close, fork, getcwd, unlink, execve, dup, dup2, pipe, chdir, isatty, ttyname, ttyslot,
+# include <fcntl.h>		// open,
+# include <sys/wait.h>		// wait, waitpid, wait3, wait4,
+# include <signal.h>		// signal, kill,
+# include <dirent.h>		// opendir, readdir, closedir,
+# include <sys/types.h>		//
+# include <sys/stat.h>		// stat, lstat, fstat,
+# include <string.h>		// strerror,
+# include <errno.h>		// errno,
+# include <sys/ioctl.h>		// ioctl,
+# include <termios.h>		// tcsetattr, tcgetattr,
 # include <term.h>		// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+# include <readline/readline.h>	// readline,
+# include <readline/history.h>	// rl_on_new_line, rl_replace_line, rl_redisplay, add_history,
 
 # define ERROR		1
 # define SUCCESS	0
@@ -137,10 +137,10 @@ t_token	*tokenize(char *str);
  *						part II make_tree
 */
 
-t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, t_struct *ds);
-t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token, t_struct *ds);
-t_token	*make_pipe_node(t_node **cur_process, t_token *cur_token, t_struct *ds);
-t_node	*make_dummy_node(t_struct *ds);
+t_token	*make_redir_node(t_node *cur_process, t_token *cur_token);
+t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token);
+t_token	*make_pipe_node(t_node **cur_process, t_token *cur_token);
+t_node	*make_dummy_node(void);
 void	make_tree(t_struct *ds);
 
 /*

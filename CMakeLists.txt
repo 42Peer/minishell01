@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 project(minishell01 C)
 
 #set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_FLAGS "-lreadline")
+set(CMAKE_C_FLAGS "-lreadline -L .brew/opt/readline/lib -I .brew/opt/readline/include")
 
 include_directories(.)
 include_directories(libft)

@@ -65,6 +65,7 @@ char	*reset_cursor(char *str, int quote_i, int env_i, int *origin_i)
 	int		i;
 
 	piece = ft_strdup("");
+	i = 0;
 	if ((quote_i && env_i && quote_i < env_i) || (quote_i && !env_i))						// "만 있을 때
 		i = quote_i;
 	else if ((quote_i && env_i && quote_i > env_i) || (!quote_i && env_i))						// $만 있을 때

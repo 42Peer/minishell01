@@ -1,7 +1,9 @@
 NAME = minishell
 CC = cc
 #CCFLAGS	=	-I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib -g -lreadline
-CCFLAGS	=	-g -lreadline
+CCFLAGS		=	-Wall -Wextra -Werror
+IREADLINE	=	-I /usr/local/opt/readline/include/
+LREADLINE	=	-L /usr/local/opt/readline/lib/
 RM	=	rm -f
 
 SRCS	=	quote.c main.c tokenize.c make_tree.c tree_parser.c test.c utils.c \
@@ -20,16 +22,16 @@ bonus	:
 	make WITH_BONUS=1 all
 
 .c.o	:
-	$(CC) $(CCFLAGS) -c $< -o $@
+	$(CC) $(CCFLAGS) $(IREADLINE) -c -o $@ $<
 
-$(NAME)	: $(OBJECTS)
-	$(CC) $(CCFLAGS) $^ -o $@
+$(NAME)	: $(OBJS)
+	$(CC) $(OBJS) $(CCFLAGS) $(LREADLINE) -lreadline -o $(NAME)
 
 clean	:
-	$(RM) $(OBJS_B) $(OBJS)
+	$(RM) $(OBJS)
 
 fclean	: clean
-	$(RM) $(NAME) 
+	$(RM) $(NAME)
 
 re	:	fclean all
 

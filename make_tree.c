@@ -15,7 +15,7 @@
 
 #include "minishell.h"
 
-t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, t_struct *ds)
+t_token	*make_redir_node(t_node *cur_process, t_token *cur_token)
 {
 	t_node	*io_redir;
 	t_node	*cur_node;
@@ -46,7 +46,7 @@ t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, t_struct *ds)
 	return (cur_token);
 }
 
-t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token, t_struct *ds)
+t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token)
 {
 	t_node	*cur_node;
 	t_node	*cmd_node;
@@ -63,14 +63,14 @@ t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token, t_struct *ds)
 	return (cur_token->next);
 }
 
-t_token	*make_pipe_node(t_node **cur_process, t_token *cur_token, t_struct *ds)
+t_token	*make_pipe_node(t_node **cur_process, t_token *cur_token)
 {
-	(*cur_process)->right = make_dummy_node(ds);
+	(*cur_process)->right = make_dummy_node();
 	*cur_process = (*cur_process)->right;
 	return (cur_token->next);
 }
 
-t_node	*make_dummy_node(t_struct *ds)
+t_node	*make_dummy_node(void)
 {
 	t_node	*process;
 	t_node	*phrase;
@@ -92,17 +92,17 @@ void	make_tree(t_struct *ds)
 	t_node		*cur_process;
 	t_token		*cur_token;
 
-	ds->root_node = make_dummy_node(ds);
+	ds->root_node = make_dummy_node();
 	cur_token = ds->head_token;
 	cur_process = ds->root_node;
 	while (cur_token)
 	{
 		if (cur_token->type == T_REDIR)
-			cur_token = make_redir_node(cur_process, cur_token, ds);
+			cur_token = make_redir_node(cur_process, cur_token);
 		else if (cur_token->type == T_PIPE)
-			cur_token = make_pipe_node(&cur_process, cur_token, ds);
+			cur_token = make_pipe_node(&cur_process, cur_token);
 		else if (cur_token->type == T_WORD)
-			cur_token = make_cmd_node(cur_process, cur_token, ds);
+			cur_token = make_cmd_node(cur_process, cur_token);
 		else
 			printf("make_tree() ERROR!!!!\n");
 	}
