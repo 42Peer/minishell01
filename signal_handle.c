@@ -2,8 +2,7 @@
 
 void	sigint_handler(int signum)
 {
-	if (signum == SIGINT)
-		printf("SIGINT!\n");
+	printf("SIGINT!\n");
 }
 
 void	sigquit_handler(int signum)
@@ -28,6 +27,7 @@ void	signal_handler(void)
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGINT, sigint_handler); // ctrl C //
-	// signal(SIGINT, sigint_handle); // ctrl D //
+//	 signal(SIGINT, sigint_handle); // ctrl D //
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGQUIT, sigquit_handler); // ctrl \ //
 }

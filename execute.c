@@ -37,17 +37,19 @@ void	multi_process(t_struct *ds, int cnt)
 	pid_t	pid;
 	t_node	*cur_process;
 	int		status;
+	int 	loop;
 
 	backup_fd = dup(STDIN_FILENO);
 	cur_process = ds->root_node;
-	while (--cnt >= 1)
+	loop = 0;
+	while (cnt > ++loop)
 	{
 		int fd[2];
 		pipe(fd);
 		pid = fork();
 		if (pid == 0)
 		{
-			printf("!ALERT! %d 자식 프로세스 명령어 실행\n", cnt);
+			printf("!ALERT! %d 자식 프로세스 명령어 실행\n", loop);
 			close(fd[0]);
 			dup2(fd[1], STDOUT_FILENO);
 			close(fd[1]);
@@ -65,18 +67,20 @@ void	multi_process(t_struct *ds, int cnt)
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("!ALERT! %d 자식 프로세스 명령어 실행\n", cnt);
+		printf("!ALERT! %d 마지막 자식 프로세스 명령어 실행\n", cnt);
 		exit(0);
 		// 자식프로세스 명령어 실행(cur_process, evnp);
 	}
 	else
 	{
-		dup2(0, backup_fd);
 		status = status_error(0);
 		waitpid(pid, &status, 0); // 마지막 프로세스
 		status_error(status);
-		while (cnt - 1)
+		while (cnt-- - 1)
+		{
+			printf("%d 회수\n", cnt);
 			wait(NULL);
+		}
 		dup2(backup_fd, STDIN_FILENO);
 	}
 }

@@ -31,7 +31,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
 
-	if (n == 0)
+	if (n == 0 || !s1 || !s2)
 		return (0);
 	i = 0;
 	while (s1[i] && s2[i] && i + 1 < n)
@@ -158,10 +158,7 @@ int main(int argc, char **argv, char **envp)
 	ds.root_node = NULL;
 	make_env_list(envp, &ds);
 	// env_lstiter(ds.head_env, print_content);	// 출력용 함수
-	signal(SIGINT, SIG_IGN);
-	signal(SIGINT, sigint_handler); // ctrl C //
-	signal(SIGQUIT, sigquit_handler); // ctrl \ //
-	// signal_handler();
+	signal_handler();
 	while (1)
 	{
 		str = readline("minishell > "); // 1. 입력 받기
@@ -190,7 +187,7 @@ int main(int argc, char **argv, char **envp)
 			ft_traverse(ds.root_node);	// delquote 적용 전
 			// printf("\n<tree parsing...>\n");
 			tree_parser(ds.root_node);
-			// execute(&ds);
+			execute(&ds);
 			printf("\n!ALERT! <after delete quote & expand>\n");
 			ft_traverse(ds.root_node);	// delquote 적용 후
 			// int i = -1;
