@@ -22,6 +22,8 @@
 # define ERROR		1
 # define SUCCESS	0
 
+typedef void	(*FUNC_TYPE)(char **);
+
 enum e_mode
 {
     READ,
@@ -88,8 +90,9 @@ typedef struct s_struct
  */
 
 void	sigint_handler(int signum);
-void	sigquit_handler(int signum);
+void	process_handler(int signum);
 void	signal_handler(void);
+void	in_process_signal_handle(void);
 
 /*
  *						env function
@@ -117,6 +120,7 @@ t_token	*ft_lstnew(int type, char *content);
 void	ft_lstiter(t_token *lst, void (*f)(char *));
 void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstclear(t_token **lst);
+int	ft_lstsize(t_node *lst);
 void	heredoc_cleaner(t_struct *ds);
 char	**ft_split(char const *s, char c);
 
@@ -164,8 +168,8 @@ char	*dollar_sign(char *str, int *env_i);
 
 char	**func_heredoc(t_node *node, char *delimiter, int quoted);
 void	cmd_parser(t_node *node);
-void	redir_parser(t_node *node);
-void	tree_parser(t_node *node);
+int		redir_parser(t_node *node);
+int		tree_parser(t_node *node);
 
 /*
  *						part IV execute
@@ -173,14 +177,14 @@ void	tree_parser(t_node *node);
 
 int		count_process(t_node *node);
 int		is_builtin_func(t_node *node);
-void	multi_process(t_struct *ds, int cnt);
+void	fork_process(t_struct *ds, int cnt);
 void	execute(t_struct *ds);
 
 /*
  *						part V built-in
 */
 
-void	ft_pwd(void);
+void	ft_pwd(char **cmd);
 
 /*
  *						test function

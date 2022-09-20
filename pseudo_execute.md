@@ -108,7 +108,6 @@ void	main에서 실행함수_ls (t_struct *ds, void (*f)(char **))
 	free(cmd);
 }
 
-
 fork 후 실행함수(t_struct *ds)
 {
 	int storage_fd;

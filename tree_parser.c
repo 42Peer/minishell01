@@ -1,9 +1,5 @@
 #include "minishell.h"
 
-char	*save(char *src, char c, size_t len);	// 문자열 src에 문자 c 붙이는 함수, len은 src의 길이
-void	tree_parser(t_node *node);
-void	ft_traverse(t_node *node);
-
 char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 {
 	int		fd;
@@ -91,14 +87,14 @@ void	cmd_parser(t_node *node)
 	}
 }
 
-void	redir_parser(t_node *node)
+int	redir_parser(t_node *node)
 {
 	int		quoted;
 	char	*new_content;
 
 	quoted = 0;		// 기본 0 = 인용 없음 으로 초기화
 	if (!node)
-		return ;
+		return (0);
 	if (node->type == T_REDIR)
 	{
 		if (ft_strncmp(node->content, "<<", 3) == 0)	// heredoc이면
@@ -111,22 +107,32 @@ void	redir_parser(t_node *node)
 			node->right->content = new_content;
 			func_heredoc(node, node->right->content, quoted);
 		}
+		if (ft_strncmp(node->content, ">>", 3) != 0
+			&& ft_strncmp(node->content, ">", 2) != 0
+			&& ft_strncmp(node->content, "<", 2) != 0)			
+		{
+			printf("Error: syntax error!\n");
+			set_or_get_status(258);
+			return (0);
+		}
 	}
 	else
 	{
 		redir_parser(node->right);	// T_REDIR
 		redir_parser(node->left);	// 다른 redir
 	}
+	return (1);
 }
 
-void	tree_parser(t_node *node)
+int	tree_parser(t_node *node)
 {
 	if (!(node))
-		return ;
+		return (1);
 	// printf("now node type : %s node str : %s\n", token_str[node->type], node->str);
 	if (node->type == N_PHRASE)
 	{
-		redir_parser(node->left);
+		if (!redir_parser(node->left))
+			return (0);
 		cmd_parser(node->right);
 	}
 	else
@@ -134,4 +140,5 @@ void	tree_parser(t_node *node)
 		tree_parser(node->left);	// phrase
 		tree_parser(node->right);	// 새 프로세스
 	}
+	return (1);
 }

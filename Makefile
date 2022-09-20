@@ -7,7 +7,7 @@ LREADLINE	=	-L /usr/local/opt/readline/lib/
 RM	=	rm -f
 
 SRCS	=	quote.c main.c tokenize.c make_tree.c tree_parser.c test.c utils.c \
-			env_handle.c signal_handle.c execute.c
+			env_handle.c signal_handle.c ft_pwd.c
 OBJS	=	$(SRCS:.c=.o)
 
 ifdef	WITH_BONUS

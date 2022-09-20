@@ -13,25 +13,178 @@ int	count_process(t_node *node)
 	return (cnt);
 }
 
+void ft_echo(char **args)
+{
+	(void)args;
+	printf("echo\n");
+}
+void ft_cd(char **args)
+{
+	(void)args;
+	printf("cd\n");
+}
+void ft_export(char **args)
+{
+	(void)args;
+	printf("export\n");
+}
+void ft_unset(char **args)
+{
+	(void)args;
+	printf("unset\n");
+}
+void ft_env(char **args)
+{
+	(void)args;
+	printf("env\n");
+}
+
+void ft_exit(char **args)
+{
+	(void)args;
+	printf("exit\n");
+	exit(0);
+}
+
+void	format_specifier(void (*f[])(char **))
+{
+	f[0] = ft_echo;
+	f[1] = ft_cd;
+	f[2] = ft_pwd;
+	f[3] = ft_export;
+	f[4] = ft_unset;
+	f[5] = ft_env;
+	f[6] = ft_exit;
+}
+
 int	is_builtin_func(t_node *node)
 {
+	int	func;
+
+	func = -1;
 	node = node->left;	// phrase
 	node = node->right;	// cmd
 	if (node->type == T_WORD)
 	{
-		if (ft_strncmp(node->content, "cd", 3) == 0
-			|| ft_strncmp(node->content, "pwd", 4) == 0
-			|| ft_strncmp(node->content, "export", 7) == 0
-			|| ft_strncmp(node->content, "env", 4) == 0
-			|| ft_strncmp(node->content, "exit", 5) == 0)
-			return (1);
-		return (0);
+		if (ft_strncmp(node->content, "echo", 5) == 0)
+			func = 0;
+		else if (ft_strncmp(node->content, "cd", 4) == 0)
+			func = 1;
+		else if (ft_strncmp(node->content, "pwd", 7) == 0)
+			func = 2;
+		else if (ft_strncmp(node->content, "export", 4) == 0)
+			func = 3;
+		else if (ft_strncmp(node->content, "unset", 5) == 0)
+			func = 4;
+		else if (ft_strncmp(node->content, "env", 5) == 0)
+			func = 5;
+		else if (ft_strncmp(node->content, "exit", 5) == 0)
+			func = 6;
 	}
-	else
-		return (0);
+	return (func);
 }
 
-void	multi_process(t_struct *ds, int cnt, int type)
+// void	execvision(t_node *ps_cmd, char **envp)
+// {
+// 	char	**cmd;
+// 	char	*program_path;
+
+// 	cmd = ;
+// 	program_path = search_path(ps_cmd, envp);
+// 	if (execve(program_path, cmd, envp) == -1)
+// 		system_call_error();
+// }
+
+char	**lst_to_2d_array(t_node *arg)
+{
+	char	**ptr;
+	int		size;
+	int		i;
+
+	size = ft_lstsize(arg);
+	i = -1;
+	ptr = (char **)malloc(sizeof(char *) * (size + 1));
+	if (!ptr)
+		return (NULL);
+	while (++i < size)
+		ptr[i] = ft_strdup(arg->content);
+	ptr[i] = NULL;
+	return (ptr);
+}
+
+void	dup_frame(int fd, int std)
+{
+	if (dup2(fd, std) == -1)
+		system_call_error();
+	close(fd);
+}
+
+void	open_redir_file(char *file, int mode)
+{
+	int	fd;
+
+	if (mode == READ)
+	{
+		fd = open(file, O_RDONLY, 0777);
+		if (fd == -1)
+			system_call_error();
+		dup_frame(fd, STDIN_FILENO);
+	}
+	else if (mode == WRITE)
+	{
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		if (fd == -1)
+			system_call_error();
+		dup_frame(fd, STDOUT_FILENO);
+	}
+	else if (mode == APPEND)
+	{
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		if (fd == -1)
+			system_call_error();
+		dup_frame(fd, STDIN_FILENO);
+	}
+}
+
+void	redir_action(t_node *cur_redir)
+{
+	char	*file_name;
+
+	if (!cur_redir)
+		return ;
+	if (cur_redir->type == N_REDIR)
+	{
+		file_name = cur_redir->right->right->content;
+		if (ft_strncmp(cur_redir->right->content, "<", 2))
+			redir_file(file_name, READ);
+		else if (ft_strncmp(cur_redir->right->content, ">", 2))
+			redir_file(file_name, WRITE);
+		else if (ft_strncmp(cur_redir->right->content, ">>", 2))
+			redir_file(file_name, APPEND);
+	}
+	redir_action(cur_redir->left);
+}
+
+void	cmd_action(t_node *cur_cmd)
+{
+
+}
+
+void	child_process(t_node *cur_phrase, char **envp)
+{
+	char	*redir;
+	char	*filename;
+	char	**args;
+	
+	if (!cur_phrase)
+		return ;
+	if (cur_phrase->left->type == N_REDIR)
+		redir_action(cur_phrase->right);
+	else if (cur_phrase->right->type == T_WORD)
+		cmd_action(cur_phrase->right);
+}
+
+void	fork_process(t_struct *ds, int cnt)
 {
 	int		backup_fd;
 	pid_t	pid;
@@ -49,28 +202,28 @@ void	multi_process(t_struct *ds, int cnt, int type)
 		pid = fork();
 		if (pid == 0)
 		{
-			if (cmd 마지막일때)
-				자식프로세스명령실행
-			else
-			{
+			// if (cmd 마지막일때)
+				// 자식프로세스명령실행
+			// else
+			// {
 				printf("!ALERT! %d 자식 프로세스 명령어 실행\n", loop);
 				close(fd[0]);
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[1]);
 				exit(0);
-				// 자식프로세스 명령어 실행(cur_process, evnp);
-			}
+				child_process(cur_process->left, envp);
+			// }
 		}
 		else
 		{
-			if (last cmd)
-				status 함수 실행
-			else
-			{
+			// if (last cmd)
+				// status 함수 실행
+//			else
+//			{
 				close(fd[1]);
 				dup2(fd[0], STDIN_FILENO);
 				close(fd[0]);
-			}
+//			}
 		}
 		cur_process = cur_process->right;
 	}
@@ -79,61 +232,38 @@ void	multi_process(t_struct *ds, int cnt, int type)
 	{
 		printf("!ALERT! %d 마지막 자식 프로세스 명령어 실행\n", cnt);
 		exit(0);
-		// 자식프로세스 명령어 실행(cur_process, evnp);
+		child_process(cur_process->left, envp);
 	}
 	else
 	{
 		status = set_or_get_status(0);
 		waitpid(pid, &status, 0); // 마지막 프로세스
 		set_or_get_status(status);
-		while (cnt-- - 1)
-		{
-			printf("%d 회수\n", cnt);
+		while (cnt-- > 1)
 			wait(NULL);
-		}
 		dup2(backup_fd, STDIN_FILENO);
 	}
 }
 
-void	format_specifier(void (*f[])(char **))
-{
-    f[0] = ft_echo;
-    f[1] = ft_cd;
-    f[2] = ft_pwd;
-    f[3] = ft_export;
-    f[4] = ft_unset;
-    f[5] = ft_env;
-    f[6] = ft_exit;
-}
+// void	format_specifier(void (*f[])(char **))
+// {
+//     f[0] = ft_echo;
+//     f[1] = ft_cd;
+//     f[2] = ft_pwd;
+//     f[3] = ft_export;
+//     f[4] = ft_unset;
+//     f[5] = ft_env;
+//     f[6] = ft_exit;
+// }
 
-char	**lst_to_2d_array(t_node *arg)
-{
-	char	**ptr;
-	int		size;
-	int		i;
-
-	size = ft_lstsize(node);
-	i = -1;
-	ptr = (char **)malloc(sizeof(char *) * (size + 1));
-	if (!ptr)
-		return (NULL);
-	while (++i < size)
-		ptr[i] = ft_strdup(arg->content);
-	ptr[i] = NULL;
-	return (ptr);
-}
-
-void	single_builtin(t_struct *ds)
+void	single_builtin(t_struct *ds, FUNC_TYPE builtin[], int func)
 {
 	char	*cmd;
 	char	**args;
-	int		status;
 
-	cmd = ft_strdup(ds->left->right);
-	args = lst_to_2d_array(ds->left->right->right);
-	status = set_or_get_status(error);
-	if (!ft_strncmp(cmd[0], "pwd", 4))
-		ft_pwd();
+	cmd = ft_strdup(ds->root_node->left->right->content);
+	args = lst_to_2d_array(ds->root_node->left->right->right);
+	builtin[func](args);
 	free(cmd);
 	free(args);
 }
@@ -142,18 +272,26 @@ void	execute(t_struct *ds)
 {
 	t_node	*root;
 	int		process_cnt;
+	FUNC_TYPE	builtin[7];
+	int	func_idx;
 
+	format_specifier(builtin);
 	root = ds->root_node;
+	func_idx = is_builtin_func(root);
 	process_cnt = count_process(root);
 	printf("!ALERT! process는 %d개입니다.\n", process_cnt);
-	if (process_cnt == 1 && is_builtin_func(root))
+	if (process_cnt == 1 && func_idx > -1)
+	{
 		printf("!ALERT! main에서 실행하기.\n");
-		single_builtin(ds);
+		single_builtin(ds, builtin, func_idx);
+	}
 	else
+		fork_process(ds, process_cnt);
 		// printf("fork 후 실행하기.\n");
-		multi_process(ds, process_cnt);
-		// fork 후 실행함수();
 }
+
+
+
 
 /*
 void	dup_frame(int fd, int std)
@@ -268,7 +406,6 @@ void	ps_action(t_node *cur_phrase, char **envp)
 	else if (cur_phrase->right->type == T_WORD)
 		cmd_action(cur_phrase->right);
 }
-
 
 void	execvision(t_node *ps_cmd, char **envp)
 {

@@ -15,8 +15,6 @@ redirection    cmd
 // 현재토큰에서
 // RIDERIECTION 노드 만들기();
 
-void	tree_parser(t_node *node);
-
 size_t	ft_strlen(char *s)
 {
 	size_t	len;
@@ -146,8 +144,6 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (substr);
 }
 
-int status;
-
 int main(int argc, char **argv, char **envp)
 {
 	char		*str;
@@ -164,18 +160,18 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		str = readline("minishell > "); // 1. 입력 받기
-		if (ft_strncmp(str, "exit", 5) == 0) // || (ctrl-d signal)) // 종료 조건
-		{
+//		if (ft_strncmp(str, "exit", 5) == 0) // || (ctrl-d signal)) // 종료 조건
+//		{
 			// cleaner(str, &ds, NULL);
 			// free (str);
-			break ;
-		}
+//			break ;
+//		}
 //		else if (SIGINT :ctrl-C signal)
 //			printf("\n");
 //		else if (ctrl-\ sig)
 //			;
-		else
-		{
+		// else
+		// {
 			add_history(str);
 			// printf("input : %s\n", str);
 			ds.head_token = tokenize(str); // 2. 토큰화
@@ -186,16 +182,21 @@ int main(int argc, char **argv, char **envp)
 			}
 			ft_lstiter(ds.head_token, print_content);
 			make_tree(&ds); 	// 2-2. 토큰을 자료구조에 넣는다
+			printf("make tree done.\n");
 			ft_traverse(ds.root_node);	// delquote 적용 전
-			// printf("\n<tree parsing...>\n");
-			tree_parser(ds.root_node);
-			execute(&ds);
+			printf("\n<tree parsing...>\n");
+			if (!tree_parser(ds.root_node))
+			{
+				cleaner(str, &ds, NULL);
+				continue ;
+			}
+			// execute(&ds);
 			printf("\n!ALERT! <after delete quote & expand>\n");
 			ft_traverse(ds.root_node);	// delquote 적용 후
 			// int i = -1;
 			// while (++i < ft_lstsize(ds.head_token))
 			// 	ft_lstiter(head_token, (*printf)("%s\n", head_token->content));
-		}
+		// }
 		// heredoc_cleaner(&ds);
 		cleaner(str, &ds, NULL);
 	}
