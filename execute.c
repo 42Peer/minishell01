@@ -219,11 +219,14 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 	char	**args;
 	char	cwd_buff[256];
 	size_t	len;
+	// FUNC_TYPE	builtin[7];
+	int		func_idx;
 
 	args = lst_to_2d_array(cur_cmd);
-	if (is_builtin_func(cur_cmd) > -1)
+	func_idx = is_builtin_func(cur_cmd);
+	if (func_idx > -1)
 	{
-		// run_builtin(cur_cmd, NULL, 0);
+		// run_builtin(cur_cmd, builtin, func_idx);
 		exit(0);
 	}
 	else if (is_absolute_path(cur_cmd->content) || is_relative_path(cur_cmd->content))
@@ -328,10 +331,9 @@ void	fork_process(t_struct *ds, int cnt)
 		cur_process = cur_process->right;
 	}
 	pid = fork();
-	printf("pid = %d\n", pid);
+	// printf("pid = %d\n", pid);
 	if (pid == 0)
 	{
-		while (1);
 		// printf("!ALERT! %d 마지막 자식 프로세스 명령어 실행\n", cnt);
 		child_process(cur_process->left, ds->env_array, ds->head_env);
 	}
