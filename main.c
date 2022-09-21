@@ -49,7 +49,7 @@ char	*ft_strdup(char *s1)
 	i = 0;
 	copy = (char *)malloc(sizeof(char) * ft_strlen(s1) + 1);
 	if (!copy)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	while (s1[i])
 	{
 		copy[i] = s1[i];
@@ -111,7 +111,7 @@ char	*ft_strjoin_no_free(char *s1, char *s2)
 	len_s2 = ft_strlen((char *)s2);
 	ptr = (char *)malloc(sizeof(char) * len_s1 + len_s2 + 1);
 	if (!ptr)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	ft_strlcpy(ptr, s1, len_s1 + 1);
 	ft_strlcat(ptr, s2, len_s1 + len_s2 + 1);
 	return (ptr);
@@ -133,7 +133,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	len_s2 = ft_strlen((char *)s2);
 	ptr = (char *)malloc(sizeof(char) * len_s1 + len_s2 + 1);
 	if (!ptr)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	ft_strlcpy(ptr, s1, len_s1 + 1);
 	ft_strlcat(ptr, s2, len_s1 + len_s2 + 1);
 	free(s1);
@@ -154,7 +154,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 		len = ft_strlen(s) - start;
 	substr = (char *)malloc(sizeof(char) * (len + 1));
 	if (substr == NULL)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	i = 0;
 	while (i < len)
 	{
@@ -188,6 +188,7 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		str = readline("minishell > "); // 1. 입력 받기
+		printf("str : %s\n", str);
 //		if (ft_strncmp(str, "exit", 5) == 0) // || (ctrl-d signal)) // 종료 조건
 //		{
 			// cleaner(str, &ds, NULL);
@@ -208,15 +209,15 @@ int main(int argc, char **argv, char **envp)
 				free(str);
 				continue ;
 			}
-			ft_lstiter(ds.head_token, print_content);
+			// ft_lstiter(ds.head_token, print_content);
 			if (make_tree(&ds) == 0 || (!tree_parser(ds.root_node, &flag) && flag == 1)) // 2-2. 토큰을 자료구조에 넣는다
 			{
 				cleaner(str, &ds, NULL);
 				continue ;
 			}
-			printf("\n!ALERT! <after delete quote & expand>\n");
-			ft_traverse(ds.root_node);	// delquote 적용 후
-			printf("\n");
+			// printf("\n!ALERT! <after delete quote & expand>\n");
+			// ft_traverse(ds.root_node);	// delquote 적용 후
+			// printf("\n");
 			execute(&ds);
 		// }
 		// heredoc_cleaner(&ds);

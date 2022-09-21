@@ -116,7 +116,7 @@ char	**lst_to_2d_array(t_node *arg)
 void	dup_frame(int fd, int std)
 {
 	if (dup2(fd, std) == -1)
-		system_call_error();
+		system_call_error(errno);
 	close(fd);
 }
 
@@ -128,21 +128,21 @@ void	open_redir_file(char *file, int mode)
 	{
 		fd = open(file, O_RDONLY, 0777);
 		if (fd == -1)
-			system_call_error();
+			system_call_error(errno);
 		dup_frame(fd, STDIN_FILENO);
 	}
 	else if (mode == WRITE)
 	{
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		if (fd == -1)
-			system_call_error();
+			system_call_error(errno);
 		dup_frame(fd, STDOUT_FILENO);
 	}
 	else if (mode == APPEND)
 	{
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 		if (fd == -1)
-			system_call_error();
+			system_call_error(errno);
 		dup_frame(fd, STDOUT_FILENO);
 	}
 }
@@ -156,7 +156,7 @@ void	redir_action(t_node *cur_redir)
 	if (cur_redir->type == N_REDIR)
 	{
 		file_name = cur_redir->right->right->content;
-		printf("%s %s\n", cur_redir->right->content, file_name);
+		// printf("%s %s\n", cur_redir->right->content, file_name);
 		if (!ft_strncmp(cur_redir->right->content, "<", 2))
 			open_redir_file(file_name, READ);
 		else if (!ft_strncmp(cur_redir->right->content, ">", 2))
@@ -224,12 +224,13 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 	if (is_builtin_func(cur_cmd) > -1)
 	{
 		// run_builtin(cur_cmd, NULL, 0);
+		exit(0);
 	}
 	else if (is_absolute_path(cur_cmd->content) || is_relative_path(cur_cmd->content))
 	{
 		(void)env_arr;
 		if (execve(cur_cmd->content, args, check) == -1)
-			system_call_error();
+			system_call_error(CMD_NOT_FOUND);
 	}
 	else
 	{
@@ -240,21 +241,25 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 			if (getcwd(cwd_buff, 256) == 0)
 			{
 				free_2d(args);
-				system_call_error();
+				system_call_error(errno);
 			}
 			len = ft_strlen(cwd_buff);
-			cwd_buff[len + 1] = '/';
-			cwd_buff[len + 2] = 0;
+			cwd_buff[len] = '/';
+			cwd_buff[len + 1] = 0;
 			path = ft_strjoin_no_free(cwd_buff, cmd);
 			if (!path)
 			{
 				free_2d(args);
-				system_call_error();
+				// printf("cmd or cwd_buff is null\n");
+				exit(1);
+				// system_call_error(errno);
 			}
 		}
-		printf("cmd, path = %s\n", path);
+		// printf("cmd, path = %s\n", path);
 		if (execve(path, args, check) == -1)
-			system_call_error();
+		{
+			system_call_error(CMD_NOT_FOUND);
+		}
 	}
 }
 
@@ -264,23 +269,19 @@ void	child_process(t_node *cur_phrase, char **env_arr, t_env *env_lst)
 	// char	*filename;
 	// char	**args;
 	
-	printf("child_process->right->content > %s\n", cur_phrase->right->content);
-	if (!cur_phrase)
-	{
-		printf("return\n");
-		return ;
-	}
+	// printf("child_process->right->content > %s\n", cur_phrase->right->content);
 	if (cur_phrase->left && cur_phrase->left->type == N_REDIR)
 	{
-		printf("REDIR 처리 \n");
+		// printf("REDIR 처리 \n");
 		redir_action(cur_phrase->left);
 	}
 	if (cur_phrase->right && cur_phrase->right->type == T_WORD)
 	{
-		printf("커맨드처리 \n");
+		// printf("커맨드처리 \n");
 		cmd_action(cur_phrase->right, env_lst, env_arr);
 	}
-	printf("child process end \n");
+	// printf("child process end \n");
+	exit(0);
 }
 
 void	fork_process(t_struct *ds, int cnt)
@@ -296,7 +297,6 @@ void	fork_process(t_struct *ds, int cnt)
 	loop = 0;
 	while (cnt > ++loop)
 	{
-		printf("while \n");
 		int fd[2];
 		pipe(fd);
 		pid = fork();
@@ -306,13 +306,11 @@ void	fork_process(t_struct *ds, int cnt)
 				// 자식프로세스명령실행
 			// else
 			// {
-				printf("!ALERT! %d 자식 프로세스 명령어 실행\n", loop);
+				// printf("!ALERT! %d 자식 프로세스 명령어 실행\n", loop);
 				close(fd[0]);
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[1]);
-				// exit(0);
-				
-				printf("child\n");
+				// printf("child\n");
 				child_process(cur_process->left, ds->env_array, ds->head_env);
 			// }
 		}
@@ -330,10 +328,11 @@ void	fork_process(t_struct *ds, int cnt)
 		cur_process = cur_process->right;
 	}
 	pid = fork();
+	printf("pid = %d\n", pid);
 	if (pid == 0)
 	{
-		printf("!ALERT! %d 마지막 자식 프로세스 명령어 실행\n", cnt);
-		// exit(0);
+		while (1);
+		// printf("!ALERT! %d 마지막 자식 프로세스 명령어 실행\n", cnt);
 		child_process(cur_process->left, ds->env_array, ds->head_env);
 	}
 	else
@@ -379,12 +378,14 @@ void	execute(t_struct *ds)
 
 	format_specifier(builtin);
 	root = ds->root_node;
+	if (root->left->right == NULL)
+		return ;
 	func_idx = is_builtin_func(root->left->right);
 	process_cnt = count_process(root);
-	printf("!ALERT! process는 %d개입니다.\n", process_cnt);
+	// printf("!ALERT! process는 %d개입니다.\n", process_cnt);
 	if (process_cnt == 1 && func_idx > -1)
 	{
-		printf("!ALERT! main에서 실행하기.\n");
+		// printf("!ALERT! main에서 실행하기.\n");
 		run_builtin(ds->root_node->left->right, builtin, func_idx);
 	}
 	else

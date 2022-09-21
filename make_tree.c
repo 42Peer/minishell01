@@ -6,7 +6,7 @@
 /*   By: jujeon <jujeon@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 13:53:16 by sumsong           #+#    #+#             */
-/*   Updated: 2022/09/21 06:13:24 by jujeon           ###   ########seoul.kr  */
+/*   Updated: 2022/09/21 10:04:04 by jujeon           ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, int *flag)
 
 	io_redir = ft_calloc(1, sizeof(t_node));
 	if (!io_redir)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	io_redir->type = N_REDIR;
 	cur_node = cur_process->left;
 	while (cur_node->left)
@@ -36,7 +36,7 @@ t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, int *flag)
 	{
 		new_node = ft_calloc(1, sizeof(t_node));
 		if (!new_node)
-			system_call_error();
+			system_call_error(ALLOC_FAIL);
 		cur_node->right = new_node;
 		if (!cur_token)
 		{
@@ -64,7 +64,7 @@ t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token)
 		cur_node = cur_node->right;
 	cmd_node = ft_calloc(1, sizeof(t_node));
 	if (!cmd_node)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	cur_node->right = cmd_node;
 	cmd_node->type = cur_token->type;
 	cmd_node->content = ft_strdup(cur_token->content);
@@ -85,11 +85,11 @@ t_node	*make_dummy_node(void)
 
 	process = ft_calloc(1, sizeof(t_node));
 	if (!process)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	process->type = N_PROCESS;
 	phrase = ft_calloc(1, sizeof(t_node));
 	if (!phrase)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	phrase->type = N_PHRASE;
 	process->left = phrase;
 	return (process);

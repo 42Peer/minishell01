@@ -34,7 +34,7 @@ fclean	: clean
 	$(RM) $(NAME)
 
 lldb: all
-	$(CC) $(OBJS) $(CCFLAGS) $(LREADLINE) -lreadline -o $(NAME) -g3
+	$(CC) $(OBJS) $(CCFLAGS) $(LREADLINE) -lreadline -o $(NAME) -g
 
 re	:	fclean all
 

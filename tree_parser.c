@@ -46,13 +46,13 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 					expanded_str = save(expanded_str, str[i], ft_strlen(expanded_str));
 			}
 			if (write(fd, expanded_str, ft_strlen(expanded_str)) == -1)
-				system_call_error();
+				system_call_error(errno);
 		}
 		else
 			if (write(fd, str, ft_strlen(str)) == -1)
-				system_call_error();
+				system_call_error(errno);
 		if (write(fd, "\n", 1) == -1)
-			system_call_error();
+			system_call_error(errno);
 		free(str);
 		free(expanded_str);
 	}
@@ -99,7 +99,8 @@ void	redir_parser(t_node *node, int *flag)
 	{
 		if (ft_strncmp(node->content, ">>", 3) != 0
 			&& ft_strncmp(node->content, ">", 2) != 0
-			&& ft_strncmp(node->content, "<", 2) != 0)			
+			&& ft_strncmp(node->content, "<", 2) != 0
+			&& ft_strncmp(node->content, "<<", 3) != 0)			
 		{
 			printf("Error: syntax error in redir_parser!\n");
 			set_or_get_status(258);
@@ -107,8 +108,8 @@ void	redir_parser(t_node *node, int *flag)
 		}
 		if (ft_strncmp(node->content, "<<", 3) == 0)	// heredoc이면
 		{
-			printf("heredoc 도착!\n");
-			printf("delimiter : %s\n", node->right->content);
+			// printf("heredoc 도착!\n");
+			// printf("delimiter : %s\n", node->right->content);
 			new_content = delquote(node->right->content, &quoted);
 			free(node->right->content);
 			node->type = T_HEREDOC;

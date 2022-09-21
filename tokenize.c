@@ -26,7 +26,7 @@ int	make_token(char *str, int copy_idx, t_token_info *info)
 	len = copy_idx - info->start_idx + 1;
 	copy = ft_calloc(len + 1, sizeof(char));
 	if (!copy)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	ft_memcpy(copy, str + info->start_idx, len);
 	token = ft_lstnew(info->token_type, copy);
 	ft_lstadd_back(&(info->token_list), token);

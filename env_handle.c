@@ -11,7 +11,7 @@ t_env	*env_lstnew(char *env)
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	split = ft_split(env, '=');
 	new->key = ft_strdup(split[0]);
 	new->value = ft_strdup(split[1]);
@@ -96,7 +96,7 @@ void	make_env_array(char **envp, t_struct *ds)
 		++i;
 	env = malloc(sizeof(char *) * i);
 	if (!env)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	i = -1;
 	while (envp[++i])
 		env[i] = ft_strdup(envp[i]);

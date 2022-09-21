@@ -24,14 +24,21 @@
 
 typedef void	(*FUNC_TYPE)(char **);
 char **check;
-enum e_mode
+
+typedef enum e_err
+{
+	ALLOC_FAIL = 12,
+	CMD_NOT_FOUND = 127,
+}	t_err;
+
+typedef enum e_mode
 {
     READ,
     WRITE,
 	APPEND,
     END,
     CONTINUE
-}   t_mode;
+}	t_mode;
 
 
 typedef enum e_type
@@ -128,7 +135,7 @@ void	heredoc_cleaner(t_struct *ds);
 char	**ft_split(char const *s, char c);
 
 int		set_or_get_status(int error);
-void	system_call_error(void);
+void	system_call_error(int error);
 
 /*
  *						part I tokenize

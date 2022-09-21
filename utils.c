@@ -25,7 +25,7 @@ char	**ft_split(char const *s, char c)
 	word_cnt = ft_word_count(s, c);
 	array = (char **)malloc(sizeof(char *) * (word_cnt + 1));
 	if (array == NULL)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	array[word_cnt] = 0;
 	array = ft_put_array(array, s, c);
 	return (array);
@@ -124,11 +124,23 @@ int	set_or_get_status(int error)
 	return (status);
 }
 
-void	system_call_error(void)
+void	system_call_error(int error)
 {
-	perror("sys_error");
-	printf("ERROR: system call error!\n");
-	exit(errno);
+	char	*err_str;
+
+	// perror("sys_error");
+	if (error == CMD_NOT_FOUND)
+	{
+		err_str = "minishell error : command not found\n";
+		write(STDERR_FILENO, err_str, ft_strlen(err_str));
+		exit(CMD_NOT_FOUND);
+	}
+	else
+	{
+		err_str = "minishell error : system call error\n";
+		write(STDERR_FILENO, err_str, ft_strlen(err_str));
+		exit(errno);
+	}
 }
 
 void	free_tree(t_node *node)
@@ -137,7 +149,7 @@ void	free_tree(t_node *node)
 		return ;
 	if (node->type == T_HEREDOC)
 	{
-		printf("!ALERT! unlink target : %s\n", node->right->content);
+		// printf("!ALERT! unlink target : %s\n", node->right->content);
 		unlink(node->right->content);
 	}
 	free_tree(node->left);
@@ -149,7 +161,7 @@ void	free_tree(t_node *node)
 
 void	cleaner(char *str, t_struct *ds, t_token *token)
 {
-	printf("\n!ALERT! 한 줄 실행 완료. 청소완료!!\n\n");
+	// printf("\n!ALERT! 한 줄 실행 완료. 청소완료!!\n\n");
 	if (str)
 		free(str);
 	if (ds && ds->root_node)
@@ -215,7 +227,7 @@ void	*ft_calloc(size_t count, size_t size)
 
 	ary = malloc(count * size);
 	if (ary == NULL)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	ft_bzero(ary, count * size);
 	return (ary);
 }
@@ -243,7 +255,7 @@ t_token	*ft_lstnew(int type, char *content)
 
 	new = ft_calloc(1, sizeof(t_token));
 	if (new == NULL)
-		system_call_error();
+		system_call_error(ALLOC_FAIL);
 	new->type = type;
 	new->content = content;
 	new->next = NULL;
