@@ -22,6 +22,7 @@
 # define ERROR		1
 # define SUCCESS	0
 # define PATH_MAX	1024
+
 typedef void	(*FUNC_TYPE)(char **);
 char **check;
 
@@ -201,6 +202,9 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr);
 
 void	builtin_pwd(char **args);
 void	builtin_echo(char **args);
+int	not_newilne(char **str, int idx_last_word);
+int	last_word_count(char **str);
+void builtin_cd(char **args);
 
 /*
  *						test function
