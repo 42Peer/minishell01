@@ -14,14 +14,12 @@ char	*search_from_envp(char *word)
 		{
 			ret_split = ft_split(check[i], '=');
 			path = ft_strdup(ret_split[1]);
-			free(ret_split[0]);
-			free(ret_split[1]);
-			free(ret_split);
-			return (path);
+			free_2d(ret_split);
+			break ;
 		}
 		++i;
 	}
-	return (NULL);
+	return (path);
 }
 
 void builtin_cd(char **args)

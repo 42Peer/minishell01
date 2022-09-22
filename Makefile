@@ -2,14 +2,15 @@ NAME = minishell
 CC = cc
 #CCFLAGS	=	-I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib -g -lreadline
 CCFLAGS		=	-Wall -Wextra -Werror
-CCFLAGS_G	=	-Wall -Wextra -Werror -g3
+CCFLAGS_G	=	-Wall -Wextra -Werror -g
 IREADLINE	=	-I /usr/local/opt/readline/include/
 LREADLINE	=	-L /usr/local/opt/readline/lib/
 RM	=	rm -f
 
 SRCS	=	quote.c main.c tokenize.c make_tree.c tree_parser.c test.c utils.c \
 			env_handle.c signal_handle.c execute.c \
-			builtin_pwd.c builtin_cd.c builtin_echo.c
+			builtin_pwd.c builtin_cd.c builtin_echo.c \
+			builtin_env.c
 OBJS	=	$(SRCS:.c=.o)
 
 ifdef	WITH_BONUS

@@ -28,12 +28,13 @@ void builtin_unset(char **args)
 	(void)args;
 	printf("unset\n");
 }
+/*
 void builtin_env(char **args)
 {
 	(void)args;
 	printf("env\n");
 }
-
+*/
 void builtin_exit(char **args)
 {
 	(void)args;
@@ -258,7 +259,7 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 				exit(set_or_get_status(0));
 				// printf("cmd or cwd_buff is null\n");
 			}
-			if (stat(path, &statbuf) == 0)
+			if (stat(path, &statbuf) == -1)
 				system_call_error(CMD_NOT_FOUND);
 		}
 		// printf("cmd, path = %s\n", path);
