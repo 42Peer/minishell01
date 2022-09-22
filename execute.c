@@ -13,48 +13,53 @@ int	count_process(t_node *node)
 	return (cnt);
 }
 
-void ft_echo(char **args)
+void builtin_echo(char **args)
 {
 	(void)args;
 	printf("echo\n");
 }
-void ft_cd(char **args)
+void builtin_cd(char **args)
 {
 	(void)args;
 	printf("cd\n");
 }
-void ft_export(char **args)
+void builtin_export(char **args)
 {
 	(void)args;
 	printf("export\n");
 }
-void ft_unset(char **args)
+void builtin_unset(char **args)
 {
 	(void)args;
 	printf("unset\n");
 }
-void ft_env(char **args)
+void builtin_env(char **args)
 {
 	(void)args;
 	printf("env\n");
 }
 
-void ft_exit(char **args)
+void builtin_exit(char **args)
 {
 	(void)args;
 	printf("exit\n");
 	exit(0);
 }
 
+void	builtin_pwd(char **cmd)
+{
+	(void)cmd;
+	printf("pwd\n");
+}
 void	format_specifier(void (*f[])(char **))
 {
-	f[0] = ft_echo;
-	f[1] = ft_cd;
-	f[2] = ft_pwd;
-	f[3] = ft_export;
-	f[4] = ft_unset;
-	f[5] = ft_env;
-	f[6] = ft_exit;
+	f[0] = builtin_echo;
+	f[1] = builtin_cd;
+	f[2] = builtin_pwd;
+	f[3] = builtin_export;
+	f[4] = builtin_unset;
+	f[5] = builtin_env;
+	f[6] = builtin_exit;
 }
 
 int	is_builtin_func(t_node *cmd)
@@ -153,7 +158,8 @@ void	redir_action(t_node *cur_redir)
 
 	if (!cur_redir)
 		return ;
-	if (cur_redir->type == N_REDIR)
+	write(2, "test\n", 5);        // for test!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	if (cur_redir->type == N_REDIR)//
 	{
 		file_name = cur_redir->right->right->content;
 		// printf("%s %s\n", cur_redir->right->content, file_name);
@@ -221,6 +227,7 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 	size_t	len;
 	// FUNC_TYPE	builtin[7];
 	int		func_idx;
+	struct stat statbuf;
 
 	args = lst_to_2d_array(cur_cmd);
 	func_idx = is_builtin_func(cur_cmd);
@@ -253,15 +260,16 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 			if (!path)
 			{
 				free_2d(args);
+				exit(set_or_get_status(0));
 				// printf("cmd or cwd_buff is null\n");
-				exit(1);
-				// system_call_error(errno);
 			}
+			if (stat(path, &statbuf) == 0)
+				system_call_error(CMD_NOT_FOUND);
 		}
 		// printf("cmd, path = %s\n", path);
 		if (execve(path, args, check) == -1)
 		{
-			system_call_error(CMD_NOT_FOUND);
+			system_call_error(errno);
 		}
 	}
 }
@@ -271,14 +279,17 @@ void	child_process(t_node *cur_phrase, char **env_arr, t_env *env_lst)
 	// char	*redir;
 	// char	*filename;
 	// char	**args;
-	
+
 	// printf("child_process->right->content > %s\n", cur_phrase->right->content);
-	if (cur_phrase->left && cur_phrase->left->type == N_REDIR)
+	// if (cur_phrase->left && cur_phrase->left->type == N_REDIR) <-- 필요없는것같음.
+	if (cur_phrase->left)
 	{
+		write(2, "redir\n", 5);
 		// printf("REDIR 처리 \n");
 		redir_action(cur_phrase->left);
 	}
-	if (cur_phrase->right && cur_phrase->right->type == T_WORD)
+	// if (cur_phrase->right && cur_phrase->right->type == T_WORD)
+	if (cur_phrase->right)
 	{
 		// printf("커맨드처리 \n");
 		cmd_action(cur_phrase->right, env_lst, env_arr);
@@ -339,7 +350,7 @@ void	fork_process(t_struct *ds, int cnt)
 	}
 	else
 	{
-		status = set_or_get_status(0);
+		status = set_or_get_status(0); // <- 필요없는거같아.
 		waitpid(pid, &status, 0); // 마지막 프로세스
 		set_or_get_status(status);
 		while (cnt-- > 1)
@@ -348,24 +359,18 @@ void	fork_process(t_struct *ds, int cnt)
 	}
 }
 
-// void	format_specifier(void (*f[])(char **))
-// {
-//     f[0] = ft_echo;
-//     f[1] = ft_cd;
-//     f[2] = ft_pwd;
-//     f[3] = ft_export;
-//     f[4] = ft_unset;
-//     f[5] = ft_env;
-//     f[6] = ft_exit;
-// }
-
-void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[], int func)
+void	run_builtin(t_node *cur_phrase, FUNC_TYPE builtin[], int func)
 {
 	char	*cmd;
 	char	**args;
 
-	cmd = ft_strdup(cur_cmd->content);
-	args = lst_to_2d_array(cur_cmd->right);
+	if (cur_phrase->left)
+	{
+		// printf("REDIR 처리 \n");
+		redir_action(cur_phrase->left);
+	}
+	cmd = ft_strdup(cur_phrase->right->content);
+	args = lst_to_2d_array(cur_phrase->right->right);
 	builtin[func](args);
 	free(cmd);
 	free(args);
@@ -380,15 +385,15 @@ void	execute(t_struct *ds)
 
 	format_specifier(builtin);
 	root = ds->root_node;
-	if (root->left->right == NULL)
-		return ;
+	// if (root->left->right == NULL )
+	// 	return ;
 	func_idx = is_builtin_func(root->left->right);
 	process_cnt = count_process(root);
 	// printf("!ALERT! process는 %d개입니다.\n", process_cnt);
 	if (process_cnt == 1 && func_idx > -1)
 	{
 		// printf("!ALERT! main에서 실행하기.\n");
-		run_builtin(ds->root_node->left->right, builtin, func_idx);
+		run_builtin(ds->root_node->left, builtin, func_idx);
 	}
 	else
 		fork_process(ds, process_cnt);

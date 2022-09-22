@@ -115,6 +115,26 @@ static char	**ft_free_array(char **array, int end)
 // 	heredoc_traverse(ds->root_node);
 // }
 
+int	ft_stat(char *path, int error, int type)
+{
+	struct stat statbuf;
+
+	if (!stat(path, &statbuf))
+	{
+		if (type)
+			system_call_error(error);
+		else
+			return (0);
+	}
+	return (0);
+}
+
+void	ft_exit(int error)
+{
+	set_or_get_status(error);
+	exit(error);
+}
+
 int	set_or_get_status(int error)
 {
 	static int status;
@@ -133,13 +153,13 @@ void	system_call_error(int error)
 	{
 		err_str = "minishell error : command not found\n";
 		write(STDERR_FILENO, err_str, ft_strlen(err_str));
-		exit(CMD_NOT_FOUND);
+		ft_exit(CMD_NOT_FOUND);
 	}
 	else
 	{
 		err_str = "minishell error : system call error\n";
 		write(STDERR_FILENO, err_str, ft_strlen(err_str));
-		exit(errno);
+		ft_exit(errno);
 	}
 }
 

@@ -199,11 +199,12 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr);
  *						part V built-in
 */
 
-void	ft_pwd(char **cmd);
+void	builtin_pwd(char **cmd);
 
 /*
  *						test function
 */
+void	ft_exit(int error);
 
 void	ft_traverse(t_node *node);
 

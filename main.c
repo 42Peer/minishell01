@@ -111,7 +111,10 @@ char	*ft_strjoin_no_free(char *s1, char *s2)
 	len_s2 = ft_strlen((char *)s2);
 	ptr = (char *)malloc(sizeof(char) * len_s1 + len_s2 + 1);
 	if (!ptr)
-		system_call_error(ALLOC_FAIL);
+	{
+		set_or_get_status(errno);
+		return (NULL);
+	}
 	ft_strlcpy(ptr, s1, len_s1 + 1);
 	ft_strlcat(ptr, s2, len_s1 + len_s2 + 1);
 	return (ptr);
@@ -217,7 +220,7 @@ int main(int argc, char **argv, char **envp)
 			}
 			// printf("\n!ALERT! <after delete quote & expand>\n");
 			// ft_traverse(ds.root_node);	// delquote 적용 후
-			// printf("\n");
+			printf("before excute\n");
 			execute(&ds);
 		// }
 		// heredoc_cleaner(&ds);
