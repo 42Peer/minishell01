@@ -13,11 +13,6 @@ int	count_process(t_node *node)
 	return (cnt);
 }
 
-void builtin_echo(char **args)
-{
-	(void)args;
-	printf("echo\n");
-}
 void builtin_cd(char **args)
 {
 	(void)args;
@@ -46,11 +41,6 @@ void builtin_exit(char **args)
 	exit(0);
 }
 
-void	builtin_pwd(char **cmd)
-{
-	(void)cmd;
-	printf("pwd\n");
-}
 void	format_specifier(void (*f[])(char **))
 {
 	f[0] = builtin_echo;
@@ -228,7 +218,7 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 	char	*path;
 	char	*cmd;
 	char	**args;
-	char	cwd_buff[256];
+	char	cwd_buff[PATH_MAX];
 	size_t	len;
 	// FUNC_TYPE	builtin[7];
 	int		func_idx;
@@ -289,7 +279,6 @@ void	child_process(t_node *cur_phrase, char **env_arr, t_env *env_lst)
 	// if (cur_phrase->left && cur_phrase->left->type == N_REDIR) <-- 필요없는것같음.
 	if (cur_phrase->left)
 	{
-		write(2, "redir\n", 6);
 		// printf("REDIR 처리 \n");
 		redir_action(cur_phrase->left);
 	}
@@ -300,7 +289,6 @@ void	child_process(t_node *cur_phrase, char **env_arr, t_env *env_lst)
 		cmd_action(cur_phrase->right, env_lst, env_arr);
 	}
 	// printf("child process end \n");
-	write(2, "end_child\n", 10);
 	exit(0);
 }
 
@@ -356,16 +344,13 @@ void	fork_process(t_struct *ds, int cnt)
 	}
 	else
 	{
-		printf("mainprocess waiting child : %d\n", pid);
 		status = set_or_get_status(0); // <- 필요없는거같아.
 		waitpid(pid, &status, 0); // 마지막 프로세스
 //		waitpid(-1, &status, 0);
-		printf("waitpid end\n");
 		set_or_get_status(status);
 		while (cnt-- > loop)
 			wait(NULL);
 		dup2(backup_fd, STDIN_FILENO);
-		printf("mainprocess end\n");
 	}
 }
 

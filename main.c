@@ -191,7 +191,6 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		str = readline("minishell > "); // 1. 입력 받기
-		printf("str : %s\n", str);
 //		if (ft_strncmp(str, "exit", 5) == 0) // || (ctrl-d signal)) // 종료 조건
 //		{
 			// cleaner(str, &ds, NULL);
@@ -217,10 +216,10 @@ int main(int argc, char **argv, char **envp)
 				cleaner(str, &ds, NULL);
 				continue ;
 			}
-			printf("\n!ALERT! <after parsing>\n");
-			ft_lstiter(ds.head_token, print_content);
-			ft_traverse(ds.root_node);
-			printf("before excute\n");
+			// printf("\n!ALERT! <after parsing>\n");
+			// ft_lstiter(ds.head_token, print_content);
+			// ft_traverse(ds.root_node);
+			// printf("before excute\n");
 			execute(&ds);
 		// }
 		// heredoc_cleaner(&ds);
