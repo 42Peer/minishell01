@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 #CCFLAGS	=	-I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib -g -lreadline
-CCFLAGS		=	-Wall -Wextra -Werror -g
+CCFLAGS		=	-Wall -Wextra -Werror
 IREADLINE	=	-I /usr/local/opt/readline/include/
 LREADLINE	=	-L /usr/local/opt/readline/lib/
 RM	=	rm -f

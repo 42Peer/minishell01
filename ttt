@@ -1,6 +1,0 @@
-커맨드처리 
-cmd_action
-cmd, path = /usr/bin/grep
--rwxr-xr-x   1 apple  staff  71304 Sep 21 08:00 minishell
--rw-r--r--   1 apple  staff   5073 Sep 21 07:07 minishell.h
-drwxr-xr-x   3 apple  staff     96 Sep 21 07:21 minitest

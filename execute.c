@@ -67,7 +67,7 @@ int	is_builtin_func(t_node *cmd)
 	int	func;
 
 	func = -1;
-	if (cmd->type == T_WORD)
+	if (cmd && cmd->type == T_WORD)
 	{
 		if (ft_strncmp(cmd->content, "echo", 5) == 0)
 			func = 0;
@@ -138,10 +138,12 @@ void	open_redir_file(char *file, int mode)
 	}
 	else if (mode == WRITE)
 	{
+		write(2, "creat\n", 6);
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		if (fd == -1)
 			system_call_error(errno);
 		dup_frame(fd, STDOUT_FILENO);
+		write(2, "end\n", 4);
 	}
 	else if (mode == APPEND)
 	{
@@ -158,7 +160,7 @@ void	redir_action(t_node *cur_redir)
 
 	if (!cur_redir)
 		return ;
-	write(2, "test\n", 5);        // for test!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	write(2, "redirect_action start\n", strlen("redirect_action start\n"));        // for test!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	if (cur_redir->type == N_REDIR)//
 	{
 		file_name = cur_redir->right->right->content;
@@ -166,7 +168,10 @@ void	redir_action(t_node *cur_redir)
 		if (!ft_strncmp(cur_redir->right->content, "<", 2))
 			open_redir_file(file_name, READ);
 		else if (!ft_strncmp(cur_redir->right->content, ">", 2))
+		{
+			printf("open_redir_file getin\n");
 			open_redir_file(file_name, WRITE);
+		}
 		else if (!ft_strncmp(cur_redir->right->content, ">>", 3))
 			open_redir_file(file_name, APPEND);
 	}
@@ -284,7 +289,7 @@ void	child_process(t_node *cur_phrase, char **env_arr, t_env *env_lst)
 	// if (cur_phrase->left && cur_phrase->left->type == N_REDIR) <-- 필요없는것같음.
 	if (cur_phrase->left)
 	{
-		write(2, "redir\n", 5);
+		write(2, "redir\n", 6);
 		// printf("REDIR 처리 \n");
 		redir_action(cur_phrase->left);
 	}
@@ -295,6 +300,7 @@ void	child_process(t_node *cur_phrase, char **env_arr, t_env *env_lst)
 		cmd_action(cur_phrase->right, env_lst, env_arr);
 	}
 	// printf("child process end \n");
+	write(2, "end_child\n", 10);
 	exit(0);
 }
 
@@ -350,12 +356,16 @@ void	fork_process(t_struct *ds, int cnt)
 	}
 	else
 	{
+		printf("mainprocess waiting child : %d\n", pid);
 		status = set_or_get_status(0); // <- 필요없는거같아.
 		waitpid(pid, &status, 0); // 마지막 프로세스
+//		waitpid(-1, &status, 0);
+		printf("waitpid end\n");
 		set_or_get_status(status);
-		while (cnt-- > 1)
+		while (cnt-- > loop)
 			wait(NULL);
 		dup2(backup_fd, STDIN_FILENO);
+		printf("mainprocess end\n");
 	}
 }
 
@@ -385,7 +395,7 @@ void	execute(t_struct *ds)
 
 	format_specifier(builtin);
 	root = ds->root_node;
-	// if (root->left->right == NULL )
+	//if (root->left->right == NULL)
 	// 	return ;
 	func_idx = is_builtin_func(root->left->right);
 	process_cnt = count_process(root);
@@ -399,9 +409,6 @@ void	execute(t_struct *ds)
 		fork_process(ds, process_cnt);
 		// printf("fork 후 실행하기.\n");
 }
-
-
-
 
 /*
 void	dup_frame(int fd, int std)

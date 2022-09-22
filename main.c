@@ -187,7 +187,7 @@ int main(int argc, char **argv, char **envp)
 	// while ((ds.env_array)[i])
 		// printf("%s\n", ds.env_array[i++]);
 	// env_lstiter(ds.head_env, print_content);	// 출력용 함수
-	signal_handler();
+	// signal_handler();
 	while (1)
 	{
 		str = readline("minishell > "); // 1. 입력 받기
@@ -212,14 +212,14 @@ int main(int argc, char **argv, char **envp)
 				free(str);
 				continue ;
 			}
-			// ft_lstiter(ds.head_token, print_content);
 			if (make_tree(&ds) == 0 || (!tree_parser(ds.root_node, &flag) && flag == 1)) // 2-2. 토큰을 자료구조에 넣는다
 			{
 				cleaner(str, &ds, NULL);
 				continue ;
 			}
-			// printf("\n!ALERT! <after delete quote & expand>\n");
-			// ft_traverse(ds.root_node);	// delquote 적용 후
+			printf("\n!ALERT! <after parsing>\n");
+			ft_lstiter(ds.head_token, print_content);
+			ft_traverse(ds.root_node);
 			printf("before excute\n");
 			execute(&ds);
 		// }
