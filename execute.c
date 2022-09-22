@@ -369,7 +369,7 @@ void	run_builtin(t_node *cur_phrase, FUNC_TYPE builtin[], int func)
 	args = lst_to_2d_array(cur_phrase->right);
 	builtin[func](args);
 	free(cmd);
-	free(args);
+	free_2d(args);
 }
 
 void	execute(t_struct *ds)
