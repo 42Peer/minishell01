@@ -4,6 +4,28 @@ static int	ft_word_count(char const *str, char c);
 static char	**ft_put_array(char **array, char const *str, char c);
 static char	**ft_free_array(char **array, int end);
 
+// char	*search_from_envp(char *word)
+// {
+// 	int	i;
+// 	char	*path;
+// 	char	**ret_split;
+
+// 	i = 0;
+// 	path = NULL;
+// 	while (check[i])
+// 	{
+// 		if (ft_strncmp(check[i], word, ft_strlen(word)) == 0) // 찾으면 0
+// 		{
+// 			ret_split = ft_split(check[i], '=');
+// 			path = ft_strdup(ret_split[1]);
+// 			free_2d(ret_split);
+// 			break ;
+// 		}
+// 		++i;
+// 	}
+// 	return (path);
+// }
+
 void	free_2d(char **str)
 {
 	int	i;
@@ -194,11 +216,6 @@ void	cleaner(char *str, t_struct *ds, t_token *token)
 		ft_lstclear(&(ds->head_token));
 		ds->head_token = NULL;
 	}
-	// if (ds && ds->head_env)
-	// {
-	// 	env_lstclear(&(ds->head_env));
-	// 	ds->head_env = NULL;
-	// }
 	if (token)
 		ft_lstclear(&token);
 }
@@ -216,8 +233,6 @@ void	clean_exit(int flag, char *str, t_token *token_list, t_struct *ds)	// free�
 		free_tree(ds->root_node);
 	if (ds && ds->head_token)
 		ft_lstclear(&(ds->head_token));
-	if (ds && ds->head_env)
-		env_lstclear(&(ds->head_env));
 	if (flag == SUCCESS)
 		printf("!ALERT! 정상 종료!\n");
 	/* 실행 단계 

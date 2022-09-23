@@ -12,12 +12,7 @@ int	count_process(t_node *node)
 	}
 	return (cnt);
 }
-/*
-void builtin_cd(char **args)
-{
-	(void)args;
-	printf("cd\n");
-}*/
+
 void builtin_export(char **args)
 {
 	(void)args;
@@ -62,15 +57,15 @@ int	is_builtin_func(t_node *cmd)
 	{
 		if (ft_strncmp(cmd->content, "echo", 5) == 0)
 			func = 0;
-		else if (ft_strncmp(cmd->content, "cd", 4) == 0)
+		else if (ft_strncmp(cmd->content, "cd", 3) == 0)
 			func = 1;
-		else if (ft_strncmp(cmd->content, "pwd", 7) == 0)
+		else if (ft_strncmp(cmd->content, "pwd", 4) == 0)
 			func = 2;
-		else if (ft_strncmp(cmd->content, "export", 4) == 0)
+		else if (ft_strncmp(cmd->content, "export", 7) == 0)
 			func = 3;
-		else if (ft_strncmp(cmd->content, "unset", 5) == 0)
+		else if (ft_strncmp(cmd->content, "unset", 6) == 0)
 			func = 4;
-		else if (ft_strncmp(cmd->content, "env", 5) == 0)
+		else if (ft_strncmp(cmd->content, "env", 4) == 0)
 			func = 5;
 		else if (ft_strncmp(cmd->content, "exit", 5) == 0)
 			func = 6;
@@ -169,7 +164,7 @@ void	redir_action(t_node *cur_redir)
 	redir_action(cur_redir->left);
 }
 
-char	*search_path(char *cmd, t_env *env_lst)
+char	*search_path(char *cmd, char **env_arr)
 {
 	char	**other_paths;
 	char	*path;
@@ -180,14 +175,13 @@ char	*search_path(char *cmd, t_env *env_lst)
 	i = -1;
 	path = ft_strjoin_no_free("/", cmd);
 	other_paths = NULL;
-	while (env_lst)
+	while (env_arr[++i])
 	{
-		if (!ft_strncmp(env_lst->key, "PATH", 5))
+		if (!ft_strncmp(env_arr[i], "PATH=", 5))
 		{
-			other_paths = ft_split(env_lst->value, ':');
+			other_paths = ft_split(&env_arr[i][5], ':');
 			break ;
 		}
-		env_lst = env_lst->next;
 	}
 	i = -1;
 	while (other_paths[++i])
@@ -214,14 +208,14 @@ int	is_relative_path(char *path)
 			((path[0] == '.') && (path[1] == '.') && (path[2] == '/')));
 }
 
-void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
+void	cmd_action(t_node *cur_cmd, char **env_arr)
 {
 	char	*path;
 	char	*cmd;
 	char	**args;
 	char	cwd_buff[PATH_MAX];
 	size_t	len;
-	// FUNC_TYPE	builtin[7];
+	FUNC_TYPE	builtin[7];
 	int		func_idx;
 	struct stat statbuf;
 
@@ -229,7 +223,8 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 	func_idx = is_builtin_func(cur_cmd);
 	if (func_idx > -1)
 	{
-		// run_builtin(cur_cmd, builtin, func_idx);
+		printf("hoho funcidx : %d\n", func_idx);
+		run_builtin(cur_cmd, builtin, func_idx);
 		exit(0);
 	}
 	else if (is_absolute_path(cur_cmd->content) || is_relative_path(cur_cmd->content))
@@ -241,7 +236,7 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 	else
 	{
 		cmd = cur_cmd->content;
-		path = search_path(cmd, env_lst);
+		path = search_path(cmd, env_arr);
 		if (!path)
 		{
 			if (getcwd(cwd_buff, 256) == 0)
@@ -270,7 +265,7 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 	}
 }
 
-void	child_process(t_node *cur_phrase, char **env_arr, t_env *env_lst)
+void	child_process(t_node *cur_phrase, char **env_arr)
 {
 	// char	*redir;
 	// char	*filename;
@@ -287,7 +282,7 @@ void	child_process(t_node *cur_phrase, char **env_arr, t_env *env_lst)
 	if (cur_phrase->right)
 	{
 		// printf("커맨드처리 \n");
-		cmd_action(cur_phrase->right, env_lst, env_arr);
+		cmd_action(cur_phrase->right, env_arr);
 	}
 	// printf("child process end \n");
 	exit(0);
@@ -320,7 +315,7 @@ void	fork_process(t_struct *ds, int cnt)
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[1]);
 				// printf("child\n");
-				child_process(cur_process->left, ds->env_array, ds->head_env);
+				child_process(cur_process->left, ds->env_array);
 			// }
 		}
 		else
@@ -341,7 +336,7 @@ void	fork_process(t_struct *ds, int cnt)
 	if (pid == 0)
 	{
 		// printf("!ALERT! %d 마지막 자식 프로세스 명령어 실행\n", cnt);
-		child_process(cur_process->left, ds->env_array, ds->head_env);
+		child_process(cur_process->left, ds->env_array);
 	}
 	else
 	{
@@ -365,6 +360,7 @@ void	run_builtin(t_node *cur_phrase, FUNC_TYPE builtin[], int func)
 		// printf("REDIR 처리 \n");
 		redir_action(cur_phrase->left);
 	}
+	printf("hey\n");
 	cmd = ft_strdup(cur_phrase->right->content);
 	args = lst_to_2d_array(cur_phrase->right);
 	builtin[func](args);
@@ -397,40 +393,6 @@ void	execute(t_struct *ds)
 }
 
 /*
-void	dup_frame(int fd, int std)
-{
-	if (dup2(fd, std) == -1)
-		system_call_error();
-	close(fd);
-}
-
-void	redir_file(char *file, int mode)
-{
-	int	fd;
-
-	if (mode == READ)
-	{
-		fd = open(file, O_RDONLY, 0777);
-		if (fd == -1)
-			system_call_error();
-		dup_frame(fd, STDIN_FILENO);
-	}
-	else if (mode == WRITE)
-	{
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-		if (fd == -1)
-			system_call_error();
-		dup_frame(fd, STDOUT_FILENO);
-	}
-	else if (mode == APPEND)
-	{
-		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
-		if (fd == -1)
-			system_call_error();
-		dup_frame(fd, STDIN_FILENO);
-	}
-}
-
 void	fork_frame(t_node *cur_root, char **envp, int type)
 {
 	int		fd[2];
@@ -462,82 +424,5 @@ void	fork_frame(t_node *cur_root, char **envp, int type)
 			dup_frame(fd[0], STDIN_FILENO);
 		}
 	}
-}
-
-void	redir_action(t_node *cur_redir)
-{
-	if (!cur_redir)
-		return ;
-	if (cur_redir->type == N_REDIR)
-	{
-		filename = cur_redir->right->right->content;
-		if (ft_strncmp(cur_redir->right->content, "<", 2))
-			redir_file(filename, READ);
-		else if (ft_strncmp(cur_redir->right->content, ">", 2))
-			redir_file(filename, WRITE);
-		else
-			redir_file(filename, APPEND);
-	}
-	redir_action(cur_redir->left);
-
-
-
-	if (cur_redir->type == T_REDIR)
-		redir_action(cur_redir->right);
-	if (cur_redir->type == T_WORD)
-	{
-		if (ft_strncmp(cur_redir->content, "<", 2))
-			redir_file(cur_redir->content, READ);
-		else if (ft_strncmp(cur_redir->content, ">", 2))
-			redir_file(cur_redir->content, WRITE);
-		else
-			redir_file(cur_redir->content, APPEND);
-	}
-}
-
-void	cmd_action(t_node *cur_cmd)
-{
-	
-}
-
-void	ps_action(t_node *cur_phrase, char **envp)
-{
-	if (!cur_phrase)
-		return ;
-	if (cur_phrase->left->type == N_REDIR)
-		redir_action(cur_phrase->right);
-	else if (cur_phrase->right->type == T_WORD)
-		cmd_action(cur_phrase->right);
-}
-
-void	execvision(t_node *ps_cmd, char **envp)
-{
-	char	**cmd;
-	char	*program_path;
-
-	cmd = ;
-	program_path = search_path(ps_cmd, envp);
-	if (execve(program_path, cmd, envp) == -1)
-		system_call_error();
-}
-
-void	get_ps(t_node *root_node, char **envp)
-{
-    int     size;
-    int     count;
-
-    count = 0;
-    size = ft_lstsize(root_node);
-    while (count++ < size)
-	{
-		if (count + 1 == size)
-			fork_frame(root_node, envp, END);
-		else
-			fork_frame(root_node, envp, CONTINUE);
-		root_node = root_node->right;
-	}
-	while (--count >= 0)
-		waitpid(-1, 0, 0);
-    // 저장했던 입력방향 다시 재지정.
 }
 */

@@ -2,20 +2,20 @@
 # define MINISHELL_H
 
 // # include "libft/libft.h"
-# include <stdio.h>		// printf,
-# include <stdlib.h>		// malloc, free, exit, getenv,
-# include <unistd.h>		// write, close, fork, getcwd, unlink, execve, dup, dup2, pipe, chdir, isatty, ttyname, ttyslot,
-# include <fcntl.h>		// open,
-# include <sys/wait.h>		// wait, waitpid, wait3, wait4,
-# include <signal.h>		// signal, kill,
-# include <dirent.h>		// opendir, readdir, closedir,
-# include <sys/types.h>		//
-# include <sys/stat.h>		// stat, lstat, fstat,
-# include <string.h>		// strerror,
-# include <errno.h>		// errno,
-# include <sys/ioctl.h>		// ioctl,
-# include <termios.h>		// tcsetattr, tcgetattr,
-# include <term.h>		// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+# include <stdio.h>				// printf,
+# include <stdlib.h>			// malloc, free, exit, getenv,
+# include <unistd.h>			// write, close, fork, getcwd, unlink, execve, dup, dup2, pipe, chdir, isatty, ttyname, ttyslot,
+# include <fcntl.h>				// open,
+# include <sys/wait.h>			// wait, waitpid, wait3, wait4,
+# include <signal.h>			// signal, kill,
+# include <dirent.h>			// opendir, readdir, closedir,
+# include <sys/types.h>			//
+# include <sys/stat.h>			// stat, lstat, fstat,
+# include <string.h>			// strerror,
+# include <errno.h>				// errno,
+# include <sys/ioctl.h>			// ioctl,
+# include <termios.h>			// tcsetattr, tcgetattr,
+# include <term.h>				// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <readline/readline.h>	// readline,
 # include <readline/history.h>	// rl_on_new_line, rl_replace_line, rl_redisplay, add_history,
 
@@ -90,7 +90,6 @@ typedef struct s_struct
 {
 	t_token	*head_token;
 	t_node	*root_node;
-	t_env	*head_env;
 	char	**env_array;
 }	t_struct;
 
@@ -131,7 +130,7 @@ t_token	*ft_lstnew(int type, char *content);
 void	ft_lstiter(t_token *lst, void (*f)(char *));
 void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstclear(t_token **lst);
-int	ft_lstsize(t_node *lst);
+int		ft_lstsize(t_node *lst);
 void	heredoc_cleaner(t_struct *ds);
 char	**ft_split(char const *s, char c);
 
@@ -163,7 +162,7 @@ int		make_tree(t_struct *ds);
 */
 
 size_t	ft_strlen(char *s);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(char *s1);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
@@ -191,10 +190,12 @@ int		tree_parser(t_node *node, int *flag);
 
 int		count_process(t_node *node);
 int		is_builtin_func(t_node *node);
+void	child_process(t_node *cur_phrase, char **env_arr);
 void	fork_process(t_struct *ds, int cnt);
+void	run_builtin(t_node *cur_phrase, FUNC_TYPE builtin[], int func);
 void	execute(t_struct *ds);
 
-void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr);
+void	cmd_action(t_node *cur_cmd, char **env_arr);
 
 /*
  *						part V built-in
@@ -203,11 +204,11 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr);
 void	builtin_pwd(char **args);
 
 void	builtin_echo(char **args);
-int	not_newilne(char **str, int idx_last_word);
-int	last_word_count(char **str);
+int		not_newilne(char **str, int idx_last_word);
+int		last_word_count(char **str);
 void	print_str(char **str, int i, int idx_last_word);
 
-void builtin_cd(char **args);
+void	builtin_cd(char **args);
 
 void	builtin_env(char **args);
 

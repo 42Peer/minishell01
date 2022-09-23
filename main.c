@@ -176,30 +176,11 @@ int main(int argc, char **argv, char **envp)
 	int			flag;
 
 	flag = 0;
-	check = envp;
 	ds.head_token = NULL;
 	ds.root_node = NULL;
 	if (argc)
 		(void)argv;
-	make_env_list(envp, &ds);
 	make_env_array(envp, &ds);
-	/*
-	printf("\n\n\t\t<---- PRINT envp ---->\n\n");
-	int i = 0;
-	while(envp[i]) {
-		printf("[%d]\t%s\n", i, envp[i]);
-		++i;
-	}
-	printf("\t\t<---- PRINT END : %d ---->", i);
-	printf("\n\n\t\t<---- PRINT env_array ---->\n\n");
-	i = 0;
-	while ((ds.env_array)[i]) {
-		printf("[%d]\t%s\n", i, ds.env_array[i]);
-		++i;
-	}
-	printf("\t\t<---- PRINT END : %d ---->", i);
-	*/
-	// env_lstiter(ds.head_env, print_content);	// 출력용 함수
 	// signal_handler();
 	while (1)
 	{
