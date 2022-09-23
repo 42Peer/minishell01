@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/minishell.dir/env_handle.c.o.d"
   "CMakeFiles/minishell.dir/execute.c.o"
   "CMakeFiles/minishell.dir/execute.c.o.d"
+  "CMakeFiles/minishell.dir/ft_pwd.c.o"
+  "CMakeFiles/minishell.dir/ft_pwd.c.o.d"
   "CMakeFiles/minishell.dir/main.c.o"
   "CMakeFiles/minishell.dir/main.c.o.d"
   "CMakeFiles/minishell.dir/make_tree.c.o"

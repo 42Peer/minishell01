@@ -147,5 +147,15 @@ CMakeFiles/minishell.dir/quote.c.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/sys/ttydefaults.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/term.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/ncurses_dll.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/readline/readline.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/readline/history.h
+  /usr/local/opt/readline/include/readline/readline.h \
+  /usr/local/opt/readline/include/readline/rlstdc.h \
+  /usr/local/opt/readline/include/readline/rltypedefs.h \
+  /usr/local/opt/readline/include/readline/keymaps.h \
+  /usr/local/opt/readline/include/readline/chardefs.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/ctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/_ctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/runetype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/sys/_types/_wint_t.h \
+  /usr/local/opt/readline/include/readline/tilde.h \
+  /usr/local/opt/readline/include/readline/history.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/time.h

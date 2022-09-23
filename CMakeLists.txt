@@ -22,5 +22,6 @@ add_executable(minishell
         quote.c
         execute.c
         utils.c
+        ft_pwd.c
         test.c
         )

@@ -132,6 +132,9 @@
 		<Unit filename="/Users/sumsong/CLionProjects/minishell/execute.c">
 			<Option target="minishell"/>
 		</Unit>
+		<Unit filename="/Users/sumsong/CLionProjects/minishell/ft_pwd.c">
+			<Option target="minishell"/>
+		</Unit>
 		<Unit filename="/Users/sumsong/CLionProjects/minishell/main.c">
 			<Option target="minishell"/>
 		</Unit>

@@ -190,6 +190,30 @@ execute.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/execute.c.s
 .PHONY : execute.c.s
 
+ft_pwd.o: ft_pwd.c.o
+.PHONY : ft_pwd.o
+
+# target to build an object file
+ft_pwd.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/ft_pwd.c.o
+.PHONY : ft_pwd.c.o
+
+ft_pwd.i: ft_pwd.c.i
+.PHONY : ft_pwd.i
+
+# target to preprocess a source file
+ft_pwd.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/ft_pwd.c.i
+.PHONY : ft_pwd.c.i
+
+ft_pwd.s: ft_pwd.c.s
+.PHONY : ft_pwd.s
+
+# target to generate assembly for a file
+ft_pwd.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/ft_pwd.c.s
+.PHONY : ft_pwd.c.s
+
 main.o: main.c.o
 .PHONY : main.o
 
@@ -401,6 +425,9 @@ help:
 	@echo "... execute.o"
 	@echo "... execute.i"
 	@echo "... execute.s"
+	@echo "... ft_pwd.o"
+	@echo "... ft_pwd.i"
+	@echo "... ft_pwd.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
