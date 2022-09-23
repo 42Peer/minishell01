@@ -181,57 +181,28 @@ int main(int argc, char **argv, char **envp)
 		(void)argv;
 	make_env_array(envp, &ds);
 	check = ds.env_array;
-	/*
-	printf("\n\n\t\t<---- PRINT envp ---->\n\n");
-	int i = 0;
-	while(envp[i]) {
-		printf("[%d]\t%s\n", i, envp[i]);
-		++i;
-	}
-	printf("\t\t<---- PRINT END : %d ---->", i);
-	printf("\n\n\t\t<---- PRINT env_array ---->\n\n");
-	i = 0;
-	while ((ds.env_array)[i]) {
-		printf("[%d]\t%s\n", i, ds.env_array[i]);
-		++i;
-	}
-	printf("\t\t<---- PRINT END : %d ---->", i);
-	*/
-	// env_lstiter(ds.head_env, print_content);	// 출력용 함수
 	// signal_handler();
 	while (1)
 	{
 		str = readline("minishell > "); // 1. 입력 받기
-//		if (ft_strncmp(str, "exit", 5) == 0) // || (ctrl-d signal)) // 종료 조건
-//		{
-			// cleaner(str, &ds, NULL);
-			// free (str);
-//			break ;
-//		}
-//		else if (SIGINT :ctrl-C signal)
-//			printf("\n");
-//		else if (ctrl-\ sig)
-//			;
-		// else
-		// {
-			add_history(str);
-			// printf("input : %s\n", str);
-			ds.head_token = tokenize(str); // 2. 토큰화
-			if (ds.head_token == NULL)
-			{
-				free(str);
-				continue ;
-			}
-			if (make_tree(&ds) == 0 || (!tree_parser(ds.root_node, &flag) && flag == 1)) // 2-2. 토큰을 자료구조에 넣는다
-			{
-				cleaner(str, &ds, NULL);
-				continue ;
-			}
-			// printf("\n!ALERT! <after parsing>\n");
-			// ft_lstiter(ds.head_token, print_content);
-			// ft_traverse(ds.root_node);
-			// printf("before excute\n");
-			execute(&ds);
+		add_history(str);
+		// printf("input : %s\n", str);
+		ds.head_token = tokenize(str); // 2. 토큰화
+		if (ds.head_token == NULL)
+		{
+			free(str);
+			continue ;
+		}
+		if (make_tree(&ds) == 0 || (!tree_parser(ds.root_node, &flag) && flag == 1)) // 2-2. 토큰을 자료구조에 넣는다
+		{
+			cleaner(str, &ds, NULL);
+			continue ;
+		}
+		// printf("\n!ALERT! <after parsing>\n");
+		// ft_lstiter(ds.head_token, print_content);
+		// ft_traverse(ds.root_node);
+		// printf("before excute\n");
+		execute(&ds);
 		// }
 		// heredoc_cleaner(&ds);
 		cleaner(str, &ds, NULL);

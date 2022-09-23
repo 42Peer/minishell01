@@ -102,6 +102,5 @@ void	make_env_array(char **envp, t_struct *ds)
 	i = -1;
 	while (envp[++i])
 		env[i] = ft_strdup(envp[i]);
-	// env[i] = NULL;
 	ds->env_array = env;
 }
