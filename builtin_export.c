@@ -24,14 +24,14 @@ void	builtin_export(char **args)
 	i = 0;
 	while (check[i])
 		++i;
-	new = malloc(sizeof(char *) * i + 2);
+	new = ft_calloc(i + 2, sizeof(char *));
 	if (!new)
 		system_call_error(ALLOC_FAIL);
 	i = -1;
 	while (check[++i])
 		new[i] = ft_strdup(check[i]);
 	new[i++] = ft_strdup(args[1]);
-	new[i] = NULL;
+	// new[i] = NULL;
 	i = -1;
 	while (check[++i])
 		free(check[i]);
