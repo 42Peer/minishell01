@@ -18,18 +18,25 @@
 # include <term.h>				// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <readline/readline.h>	// readline,
 # include <readline/history.h>	// rl_on_new_line, rl_replace_line, rl_redisplay, add_history,
+# include <limits.h>
 
 # define ERROR		1
 # define SUCCESS	0
 # define PATH_MAX	1024
 
 typedef void	(*FUNC_TYPE)(char **);
-char **check;
+char **env_array;
 
 typedef enum e_err
 {
+	SUCCESS_EXECUTE = 0,
+	GENERAL_ERROR = 1,
 	ALLOC_FAIL = 12,
+	EXEC_FILE_FAIL = 126,//execve == -1 && errno~
 	CMD_NOT_FOUND = 127,
+	SYNTAX_ERROR = 258,
+	SIG_INT = 130,//sigint
+	SIG_QUIT = 131//sigquit
 }	t_err;
 
 typedef enum e_mode
@@ -90,7 +97,6 @@ typedef struct s_struct
 {
 	t_token	*head_token;
 	t_node	*root_node;
-	char	**env_array;
 }	t_struct;
 
 /*
@@ -112,7 +118,7 @@ void	make_env_list(char **envp, t_struct *ds);
 void	env_lstclear(t_env **lst);
 void	env_lstiter(t_env *lst, void (*f)(char *));		// tmp_func
 
-void	make_env_array(char **envp, t_struct *ds);
+void	make_env_array(char **envp);
 
 /*
  *						util function
@@ -136,6 +142,8 @@ char	**ft_split(char const *s, char c);
 
 int		set_or_get_status(int error);
 void	system_call_error(int error);
+void	cmd_not_found_error(t_node *cmd);
+void	builtin_error(void);
 
 /*
  *						part I tokenize
@@ -183,24 +191,26 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted);
 void	cmd_parser(t_node *node);
 void	redir_parser(t_node *node, int *flag);
 int		tree_parser(t_node *node, int *flag);
-
 /*
  *						part IV execute
 */
-
 int		count_process(t_node *node);
 int		is_builtin_func(t_node *node);
-void	child_process(t_node *cur_phrase, char **env_arr);
-void	fork_process(t_struct *ds, int cnt);
-void	run_builtin(t_node *cur_phrase, FUNC_TYPE builtin[], int func);
+void	child_process(t_node *cur_phrase, char **env_arr, FUNC_TYPE builtin[]);
+void	fork_process(t_struct *ds, int cnt, FUNC_TYPE builtin[]);
+void	run_builtin(t_node *cur_phrase, FUNC_TYPE builtin[], int func, int ps_type);
 void	execute(t_struct *ds);
+void	cmd_action(t_node *cur_cmd, char **env_arr, FUNC_TYPE builtin[]);
+/*
+ *						func_frame
+*/
+void	fork_frame(t_node *cur_process, FUNC_TYPE builtin[]);
 
-void	cmd_action(t_node *cur_cmd, char **env_arr);
-
+void	execve_frame(char *path, char **args, char **env_arr);
+char	*no_search_path(t_node *cur_cmd, char **args, char *cmd);
 /*
  *						part V built-in
 */
-
 void	builtin_pwd(char **args);
 
 void	builtin_echo(char **args);
@@ -213,22 +223,18 @@ void	builtin_cd(char **args);
 void	builtin_env(char **args);
 
 void	builtin_exit(char **args);
+int		is_numeric(char *str);
 int		cnt_args(char **args);
 void	print_and_exit(void);
+void	if_non_num(void);
+int		ft_atoi(const char *str);
+char	*ft_itoa(int n);
 
-
+void    builtin_export(char **args);
+void    builtin_unset(char **args);
 /*
  *						test function
 */
 void	ft_exit(int error);
-
 void	ft_traverse(t_node *node);
-
-// if REDIR
-// 	redir;
-// else if WORD
-// 	execve;
-// else if PIPE
-// 	fork;
-
 #endif

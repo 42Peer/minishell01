@@ -1,39 +1,27 @@
 #include "minishell.h"
-
-/*
-
-
-else if (cnt == 2)
+//정상종료시 다 free 해줘야될것같은데
+void	if_non_num(void)
 {
-	if (args[1] == 숫자)
-	{
-		set_or_get(숫자);
-		print_and_exit();
-	}
-	else //
-	{
-		printf("bash: exit: a: numeric argument required");
-		set_or_get(255);
-		print_and_exit();
-	}
-}
-else //(args 갯수 3개이상일때)
-{
-	if (args[1] == 숫자)
-	{
-		printf("exit\n");
-		printf("bash: exit: too many arguments");
-		set_or_get(1);
-	}
-	else
-	{
-		printf("bash: exit: a: numeric argument required");
-		set_or_get(255);
-		print_and_exit();
-	}
+	printf("minishell: exit: a: numeric argument required\n");
+	// set_or_get_status(255);
+	print_and_exit();
 }
 
-*/
+int	is_numeric(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if ((str[i] >= '0') && (str[i] <= '9'))
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
 int	cnt_args(char **args)
 {
 	int	idx;
@@ -49,16 +37,44 @@ int	cnt_args(char **args)
 void	print_and_exit(void)
 {
 	printf("exit\n");
-	exit(0);
+	ft_exit(SUCCESS_EXECUTE);
 }
 
 void	builtin_exit(char **args)
 {
 	int	cnt;
+	// int	num;
 
 	cnt = cnt_args(args);
+	// num = 0;
 	if (cnt == 1)
 		print_and_exit();
-	
-
+	else if (cnt == 2)
+	{
+		if (is_numeric(args[1]))
+		{
+			
+			// ft_atoi(args[1]);
+			// num = ft_atoi(args[1]);
+			// set_or_get_status(num);
+			print_and_exit();
+		}
+		else
+		{
+			if_non_num();
+		}
+	}
+	else
+	{
+		if (is_numeric(args[1]))
+		{
+			printf("exit\n");
+			printf("minishell: exit: too many arguments\n");
+			set_or_get_status(1);
+		}
+		else
+		{
+			if_non_num();
+		}
+	}
 }

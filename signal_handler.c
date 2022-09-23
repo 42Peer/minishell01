@@ -14,22 +14,20 @@ void	sigint_handler(int signum)
 void	process_handler(int signum)
 {
 	if (signum == SIGINT)
-		exit(130);
+		exit(SIG_INT);
 	else
-		exit(131);
+		exit(SIG_QUIT);
 }
 
 void	signal_handler(void)
 {
-	// signal(SIGINT, SIG_IGN);
 	signal(SIGINT, sigint_handler); // ctrl C //
-//	 signal(SIGINT, sigint_handle); // ctrl D //
 	signal(SIGQUIT, SIG_IGN);
-	// signal(SIGQUIT, sigquit_handler); // ctrl \ //
-}// 
+}
 
 void	in_process_signal_handle(void)
 {
 	signal(SIGINT, process_handler);
 	signal(SIGQUIT, process_handler);
 }
+//

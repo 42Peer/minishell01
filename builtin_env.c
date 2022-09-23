@@ -6,6 +6,7 @@ void	builtin_env(char **args)
 	int	i;
 
 	i = -1;
-	while (check[++i])
-		printf("%s\n", check[i]);
+	while (env_array[++i])
+		printf("%s\n", env_array[i]);
+	set_or_get_status(0);
 }

@@ -88,7 +88,7 @@ void	env_lstiter(t_env *lst, void (*f)(char *))
  *		배열로 만들기
  */
 
-void	make_env_array(char **envp, t_struct *ds)
+void	make_env_array(char **envp)
 {
 	int		i;
 	char	**env;
@@ -103,5 +103,5 @@ void	make_env_array(char **envp, t_struct *ds)
 	while (envp[++i])
 		env[i] = ft_strdup(envp[i]);
 	env[i] = NULL;
-	ds->env_array = env;
+	env_array = env;
 }

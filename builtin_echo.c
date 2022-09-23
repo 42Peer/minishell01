@@ -20,8 +20,7 @@ int	not_newline(char *str)
 	not_newline = 0;
 	if (str[++i] == '-') // 첫글자가 - 이면
 	{
-		while (str[++i] == 'n')
-			;
+		while (str[++i] == 'n');
 		if (str[i] == '\0')
 			not_newline = 1;
 	}
@@ -46,7 +45,7 @@ void	builtin_echo(char **args)
 	i = 1;
 	flag = not_newline(args[i]);
 	if (flag)
-		while (not_newline(args[++i])) ;
+		while (not_newline(args[++i]));
 	--i;
 	if (flag)
 		while (args[++i])
@@ -57,4 +56,5 @@ void	builtin_echo(char **args)
 			print_str(args, i, idx_last_word);
 		printf("\n");
 	}
+	set_or_get_status(0);
 }
