@@ -223,7 +223,7 @@ void	cmd_action(t_node *cur_cmd, char **env_arr)
 	func_idx = is_builtin_func(cur_cmd);
 	if (func_idx > -1)
 	{
-		printf("hoho funcidx : %d\n", func_idx);
+		printf("hoho funcidx : %d cur_cmd : %s\n", func_idx, cur_cmd->content);
 		run_builtin(cur_cmd, builtin, func_idx);
 		exit(0);
 	}
@@ -350,46 +350,41 @@ void	fork_process(t_struct *ds, int cnt)
 	}
 }
 
-void	run_builtin(t_node *cur_phrase, FUNC_TYPE builtin[], int func)
+void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[], int func)
 {
 	char	*cmd;
 	char	**args;
 
-	if (cur_phrase->left)
-	{
-		// printf("REDIR 처리 \n");
-		redir_action(cur_phrase->left);
-	}
 	printf("hey\n");
-	cmd = ft_strdup(cur_phrase->right->content);
-	args = lst_to_2d_array(cur_phrase->right);
+	args = lst_to_2d_array(cur_cmd);
+	printf("run_buil01 %s\n", cur_cmd->content);
+	cmd = ft_strdup(cur_cmd->content);
+	printf("run_buil02 %s\n", args[1]);
 	builtin[func](args);
+	printf("run_buil03\n");
 	free(cmd);
 	free_2d(args);
 }
 
 void	execute(t_struct *ds)
 {
-	t_node	*root;
-	int		process_cnt;
+	t_node		*root;
+	int			process_cnt;
+	int			func_idx;
 	FUNC_TYPE	builtin[7];
-	int	func_idx;
 
 	format_specifier(builtin);
 	root = ds->root_node;
-	//if (root->left->right == NULL)
-	// 	return ;
 	func_idx = is_builtin_func(root->left->right);
 	process_cnt = count_process(root);
-	// printf("!ALERT! process는 %d개입니다.\n", process_cnt);
 	if (process_cnt == 1 && func_idx > -1)
 	{
-		// printf("!ALERT! main에서 실행하기.\n");
+		if (root->left->left)
+			redir_action(root->left->left);
 		run_builtin(ds->root_node->left, builtin, func_idx);
 	}
 	else
 		fork_process(ds, process_cnt);
-		// printf("fork 후 실행하기.\n");
 }
 
 /*

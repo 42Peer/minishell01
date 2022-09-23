@@ -212,6 +212,11 @@ void	builtin_cd(char **args);
 
 void	builtin_env(char **args);
 
+void	builtin_exit(char **args);
+int		cnt_args(char **args);
+void	print_and_exit(void);
+
+
 /*
  *						test function
 */

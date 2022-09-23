@@ -1,55 +1,64 @@
 #include "minishell.h"
 
 /*
-- exit
-- exit argument
-	ㄴ exit 숫자
-		ㄴ$?하면 그 숫자가 출력돼야함
-		ex1)
-			bash-3.2$ exit 0
-			exit
-			jeanne@gimjiin-ui-MacBookPro ~ % $?  
-			zsh: command not found: 0
-		ex2)
-			bash-3.2$ exit 127
-			exit
-			jeanne@gimjiin-ui-MacBookPro ~ % $?
-			zsh: command not found: 127
-	ㄴ exit !숫자 : 메시지 뜨고, 나감
-		ex)
-			bash-3.2$ exit a
-			exit
-			bash: exit: a: numeric argument required
-			jeanne@gimjiin-ui-MacBookPro ~ % 
-- exit argument"s"
-	ㄴ exit 숫자 ... : 메시지 뜨고, exit 안됨
-		ex)
-			bash-3.2$ exit 0 1 2
-			exit
-			bash: exit: too many arguments
-			bash-3.2$
-	ㄴ exit 문자 ... : 메세지 뜨고, exit 됨
-		ex)
-			bash-3.2$ exit a b c
-			exit
-			bash: exit: a: numeric argument required
-			jeanne@gimjiin-ui-MacBookPro ~ %
 
-//if (args 갯수 1개일때)
-if (args 갯수 2개일때)
+
+else if (cnt == 2)
 {
 	if (args[1] == 숫자)
-		()
+	{
+		set_or_get(숫자);
+		print_and_exit();
+	}
+	else //
+	{
+		printf("bash: exit: a: numeric argument required");
+		set_or_get(255);
+		print_and_exit();
+	}
 }
-else if (args 갯수 3개이상일때)
-()
-printf("exit\n");
-exit(0);
+else //(args 갯수 3개이상일때)
+{
+	if (args[1] == 숫자)
+	{
+		printf("exit\n");
+		printf("bash: exit: too many arguments");
+		set_or_get(1);
+	}
+	else
+	{
+		printf("bash: exit: a: numeric argument required");
+		set_or_get(255);
+		print_and_exit();
+	}
+}
+
 */
+int	cnt_args(char **args)
+{
+	int	idx;
+
+	idx = 0;
+	while(args[idx])
+	{
+		idx++;
+	}
+	return (idx);
+}
+
+void	print_and_exit(void)
+{
+	printf("exit\n");
+	exit(0);
+}
 
 void	builtin_exit(char **args)
 {
-	(void)args;
-	printf("exit\n");
-	exit(0);
+	int	cnt;
+
+	cnt = cnt_args(args);
+	if (cnt == 1)
+		print_and_exit();
+	
+
 }

@@ -36,7 +36,7 @@ void	print_str(char **str, int i, int idx_last_word)
 		printf("%s", str[i]);
 }
 
-void	builtin_echo(char **args) // 가변으로 받기
+void	builtin_echo(char **args)
 {
 	int	i;
 	int	idx_last_word;
