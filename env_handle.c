@@ -94,23 +94,14 @@ void	make_env_array(char **envp, t_struct *ds)
 	char	**env;
 
 	i = 0;
-	printf("\t<--------- ENVP ---------->\n\n");
-	while (envp[i]) {
-		printf("[%d]\t%s\n", i, envp[i]);
+	while (envp[i])
 		++i;
-	}
-	printf("\n[%d]\t%s\n", i, envp[i]);
-	printf("sizeof(envp) : %lu\n", sizeof(envp));
 	env = malloc(sizeof(char *) * i + 1);
 	if (!env)
 		system_call_error(ALLOC_FAIL);
 	i = -1;
-	printf("\n\t<--------- MY ENVP ---------->\n\n");
-	while (envp[++i]) {
+	while (envp[++i])
 		env[i] = ft_strdup(envp[i]);
-		printf("[%d]\t%s\n", i, env[i]);}
 	env[i] = NULL;
-	printf("\n[%d]\t%s\n", i, env[i]);
-	printf("sizeof(env) : %lu\n", sizeof(env));
 	ds->env_array = env;
 }
