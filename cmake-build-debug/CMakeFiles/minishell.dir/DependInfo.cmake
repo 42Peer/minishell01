@@ -8,9 +8,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/Users/sumsong/CLionProjects/minishell/builtin_cd.c" "CMakeFiles/minishell.dir/builtin_cd.c.o" "gcc" "CMakeFiles/minishell.dir/builtin_cd.c.o.d"
+  "/Users/sumsong/CLionProjects/minishell/builtin_echo.c" "CMakeFiles/minishell.dir/builtin_echo.c.o" "gcc" "CMakeFiles/minishell.dir/builtin_echo.c.o.d"
+  "/Users/sumsong/CLionProjects/minishell/builtin_env.c" "CMakeFiles/minishell.dir/builtin_env.c.o" "gcc" "CMakeFiles/minishell.dir/builtin_env.c.o.d"
+  "/Users/sumsong/CLionProjects/minishell/builtin_export.c" "CMakeFiles/minishell.dir/builtin_export.c.o" "gcc" "CMakeFiles/minishell.dir/builtin_export.c.o.d"
+  "/Users/sumsong/CLionProjects/minishell/builtin_pwd.c" "CMakeFiles/minishell.dir/builtin_pwd.c.o" "gcc" "CMakeFiles/minishell.dir/builtin_pwd.c.o.d"
   "/Users/sumsong/CLionProjects/minishell/env_handle.c" "CMakeFiles/minishell.dir/env_handle.c.o" "gcc" "CMakeFiles/minishell.dir/env_handle.c.o.d"
   "/Users/sumsong/CLionProjects/minishell/execute.c" "CMakeFiles/minishell.dir/execute.c.o" "gcc" "CMakeFiles/minishell.dir/execute.c.o.d"
-  "/Users/sumsong/CLionProjects/minishell/ft_pwd.c" "CMakeFiles/minishell.dir/ft_pwd.c.o" "gcc" "CMakeFiles/minishell.dir/ft_pwd.c.o.d"
   "/Users/sumsong/CLionProjects/minishell/main.c" "CMakeFiles/minishell.dir/main.c.o" "gcc" "CMakeFiles/minishell.dir/main.c.o.d"
   "/Users/sumsong/CLionProjects/minishell/make_tree.c" "CMakeFiles/minishell.dir/make_tree.c.o" "gcc" "CMakeFiles/minishell.dir/make_tree.c.o.d"
   "/Users/sumsong/CLionProjects/minishell/quote.c" "CMakeFiles/minishell.dir/quote.c.o" "gcc" "CMakeFiles/minishell.dir/quote.c.o.d"

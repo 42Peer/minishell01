@@ -142,6 +142,126 @@ minishell/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/build
 .PHONY : minishell/fast
 
+builtin_cd.o: builtin_cd.c.o
+.PHONY : builtin_cd.o
+
+# target to build an object file
+builtin_cd.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_cd.c.o
+.PHONY : builtin_cd.c.o
+
+builtin_cd.i: builtin_cd.c.i
+.PHONY : builtin_cd.i
+
+# target to preprocess a source file
+builtin_cd.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_cd.c.i
+.PHONY : builtin_cd.c.i
+
+builtin_cd.s: builtin_cd.c.s
+.PHONY : builtin_cd.s
+
+# target to generate assembly for a file
+builtin_cd.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_cd.c.s
+.PHONY : builtin_cd.c.s
+
+builtin_echo.o: builtin_echo.c.o
+.PHONY : builtin_echo.o
+
+# target to build an object file
+builtin_echo.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_echo.c.o
+.PHONY : builtin_echo.c.o
+
+builtin_echo.i: builtin_echo.c.i
+.PHONY : builtin_echo.i
+
+# target to preprocess a source file
+builtin_echo.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_echo.c.i
+.PHONY : builtin_echo.c.i
+
+builtin_echo.s: builtin_echo.c.s
+.PHONY : builtin_echo.s
+
+# target to generate assembly for a file
+builtin_echo.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_echo.c.s
+.PHONY : builtin_echo.c.s
+
+builtin_env.o: builtin_env.c.o
+.PHONY : builtin_env.o
+
+# target to build an object file
+builtin_env.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_env.c.o
+.PHONY : builtin_env.c.o
+
+builtin_env.i: builtin_env.c.i
+.PHONY : builtin_env.i
+
+# target to preprocess a source file
+builtin_env.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_env.c.i
+.PHONY : builtin_env.c.i
+
+builtin_env.s: builtin_env.c.s
+.PHONY : builtin_env.s
+
+# target to generate assembly for a file
+builtin_env.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_env.c.s
+.PHONY : builtin_env.c.s
+
+builtin_export.o: builtin_export.c.o
+.PHONY : builtin_export.o
+
+# target to build an object file
+builtin_export.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_export.c.o
+.PHONY : builtin_export.c.o
+
+builtin_export.i: builtin_export.c.i
+.PHONY : builtin_export.i
+
+# target to preprocess a source file
+builtin_export.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_export.c.i
+.PHONY : builtin_export.c.i
+
+builtin_export.s: builtin_export.c.s
+.PHONY : builtin_export.s
+
+# target to generate assembly for a file
+builtin_export.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_export.c.s
+.PHONY : builtin_export.c.s
+
+builtin_pwd.o: builtin_pwd.c.o
+.PHONY : builtin_pwd.o
+
+# target to build an object file
+builtin_pwd.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_pwd.c.o
+.PHONY : builtin_pwd.c.o
+
+builtin_pwd.i: builtin_pwd.c.i
+.PHONY : builtin_pwd.i
+
+# target to preprocess a source file
+builtin_pwd.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_pwd.c.i
+.PHONY : builtin_pwd.c.i
+
+builtin_pwd.s: builtin_pwd.c.s
+.PHONY : builtin_pwd.s
+
+# target to generate assembly for a file
+builtin_pwd.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/builtin_pwd.c.s
+.PHONY : builtin_pwd.c.s
+
 env_handle.o: env_handle.c.o
 .PHONY : env_handle.o
 
@@ -189,30 +309,6 @@ execute.s: execute.c.s
 execute.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/execute.c.s
 .PHONY : execute.c.s
-
-ft_pwd.o: ft_pwd.c.o
-.PHONY : ft_pwd.o
-
-# target to build an object file
-ft_pwd.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/ft_pwd.c.o
-.PHONY : ft_pwd.c.o
-
-ft_pwd.i: ft_pwd.c.i
-.PHONY : ft_pwd.i
-
-# target to preprocess a source file
-ft_pwd.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/ft_pwd.c.i
-.PHONY : ft_pwd.c.i
-
-ft_pwd.s: ft_pwd.c.s
-.PHONY : ft_pwd.s
-
-# target to generate assembly for a file
-ft_pwd.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/ft_pwd.c.s
-.PHONY : ft_pwd.c.s
 
 main.o: main.c.o
 .PHONY : main.o
@@ -419,15 +515,27 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... minishell"
 	@echo "... token"
+	@echo "... builtin_cd.o"
+	@echo "... builtin_cd.i"
+	@echo "... builtin_cd.s"
+	@echo "... builtin_echo.o"
+	@echo "... builtin_echo.i"
+	@echo "... builtin_echo.s"
+	@echo "... builtin_env.o"
+	@echo "... builtin_env.i"
+	@echo "... builtin_env.s"
+	@echo "... builtin_export.o"
+	@echo "... builtin_export.i"
+	@echo "... builtin_export.s"
+	@echo "... builtin_pwd.o"
+	@echo "... builtin_pwd.i"
+	@echo "... builtin_pwd.s"
 	@echo "... env_handle.o"
 	@echo "... env_handle.i"
 	@echo "... env_handle.s"
 	@echo "... execute.o"
 	@echo "... execute.i"
 	@echo "... execute.s"
-	@echo "... ft_pwd.o"
-	@echo "... ft_pwd.i"
-	@echo "... ft_pwd.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -216,8 +216,6 @@ void	clean_exit(int flag, char *str, t_token *token_list, t_struct *ds)	// free�
 		free_tree(ds->root_node);
 	if (ds && ds->head_token)
 		ft_lstclear(&(ds->head_token));
-	if (ds && ds->head_env)
-		env_lstclear(&(ds->head_env));
 	if (flag == SUCCESS)
 		printf("!ALERT! 정상 종료!\n");
 	/* 실행 단계 

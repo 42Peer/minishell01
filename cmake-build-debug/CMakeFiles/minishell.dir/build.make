@@ -195,24 +195,80 @@ CMakeFiles/minishell.dir/utils.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/minishell.dir/utils.c.s"
 	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/sumsong/CLionProjects/minishell/utils.c -o CMakeFiles/minishell.dir/utils.c.s
 
-CMakeFiles/minishell.dir/ft_pwd.c.o: CMakeFiles/minishell.dir/flags.make
-CMakeFiles/minishell.dir/ft_pwd.c.o: ../ft_pwd.c
-CMakeFiles/minishell.dir/ft_pwd.c.o: CMakeFiles/minishell.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/minishell.dir/ft_pwd.c.o"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/minishell.dir/ft_pwd.c.o -MF CMakeFiles/minishell.dir/ft_pwd.c.o.d -o CMakeFiles/minishell.dir/ft_pwd.c.o -c /Users/sumsong/CLionProjects/minishell/ft_pwd.c
+CMakeFiles/minishell.dir/builtin_pwd.c.o: CMakeFiles/minishell.dir/flags.make
+CMakeFiles/minishell.dir/builtin_pwd.c.o: ../builtin_pwd.c
+CMakeFiles/minishell.dir/builtin_pwd.c.o: CMakeFiles/minishell.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/minishell.dir/builtin_pwd.c.o"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/minishell.dir/builtin_pwd.c.o -MF CMakeFiles/minishell.dir/builtin_pwd.c.o.d -o CMakeFiles/minishell.dir/builtin_pwd.c.o -c /Users/sumsong/CLionProjects/minishell/builtin_pwd.c
 
-CMakeFiles/minishell.dir/ft_pwd.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/minishell.dir/ft_pwd.c.i"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/sumsong/CLionProjects/minishell/ft_pwd.c > CMakeFiles/minishell.dir/ft_pwd.c.i
+CMakeFiles/minishell.dir/builtin_pwd.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/minishell.dir/builtin_pwd.c.i"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/sumsong/CLionProjects/minishell/builtin_pwd.c > CMakeFiles/minishell.dir/builtin_pwd.c.i
 
-CMakeFiles/minishell.dir/ft_pwd.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/minishell.dir/ft_pwd.c.s"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/sumsong/CLionProjects/minishell/ft_pwd.c -o CMakeFiles/minishell.dir/ft_pwd.c.s
+CMakeFiles/minishell.dir/builtin_pwd.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/minishell.dir/builtin_pwd.c.s"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/sumsong/CLionProjects/minishell/builtin_pwd.c -o CMakeFiles/minishell.dir/builtin_pwd.c.s
+
+CMakeFiles/minishell.dir/builtin_env.c.o: CMakeFiles/minishell.dir/flags.make
+CMakeFiles/minishell.dir/builtin_env.c.o: ../builtin_env.c
+CMakeFiles/minishell.dir/builtin_env.c.o: CMakeFiles/minishell.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/minishell.dir/builtin_env.c.o"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/minishell.dir/builtin_env.c.o -MF CMakeFiles/minishell.dir/builtin_env.c.o.d -o CMakeFiles/minishell.dir/builtin_env.c.o -c /Users/sumsong/CLionProjects/minishell/builtin_env.c
+
+CMakeFiles/minishell.dir/builtin_env.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/minishell.dir/builtin_env.c.i"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/sumsong/CLionProjects/minishell/builtin_env.c > CMakeFiles/minishell.dir/builtin_env.c.i
+
+CMakeFiles/minishell.dir/builtin_env.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/minishell.dir/builtin_env.c.s"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/sumsong/CLionProjects/minishell/builtin_env.c -o CMakeFiles/minishell.dir/builtin_env.c.s
+
+CMakeFiles/minishell.dir/builtin_export.c.o: CMakeFiles/minishell.dir/flags.make
+CMakeFiles/minishell.dir/builtin_export.c.o: ../builtin_export.c
+CMakeFiles/minishell.dir/builtin_export.c.o: CMakeFiles/minishell.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/minishell.dir/builtin_export.c.o"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/minishell.dir/builtin_export.c.o -MF CMakeFiles/minishell.dir/builtin_export.c.o.d -o CMakeFiles/minishell.dir/builtin_export.c.o -c /Users/sumsong/CLionProjects/minishell/builtin_export.c
+
+CMakeFiles/minishell.dir/builtin_export.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/minishell.dir/builtin_export.c.i"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/sumsong/CLionProjects/minishell/builtin_export.c > CMakeFiles/minishell.dir/builtin_export.c.i
+
+CMakeFiles/minishell.dir/builtin_export.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/minishell.dir/builtin_export.c.s"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/sumsong/CLionProjects/minishell/builtin_export.c -o CMakeFiles/minishell.dir/builtin_export.c.s
+
+CMakeFiles/minishell.dir/builtin_cd.c.o: CMakeFiles/minishell.dir/flags.make
+CMakeFiles/minishell.dir/builtin_cd.c.o: ../builtin_cd.c
+CMakeFiles/minishell.dir/builtin_cd.c.o: CMakeFiles/minishell.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/minishell.dir/builtin_cd.c.o"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/minishell.dir/builtin_cd.c.o -MF CMakeFiles/minishell.dir/builtin_cd.c.o.d -o CMakeFiles/minishell.dir/builtin_cd.c.o -c /Users/sumsong/CLionProjects/minishell/builtin_cd.c
+
+CMakeFiles/minishell.dir/builtin_cd.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/minishell.dir/builtin_cd.c.i"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/sumsong/CLionProjects/minishell/builtin_cd.c > CMakeFiles/minishell.dir/builtin_cd.c.i
+
+CMakeFiles/minishell.dir/builtin_cd.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/minishell.dir/builtin_cd.c.s"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/sumsong/CLionProjects/minishell/builtin_cd.c -o CMakeFiles/minishell.dir/builtin_cd.c.s
+
+CMakeFiles/minishell.dir/builtin_echo.c.o: CMakeFiles/minishell.dir/flags.make
+CMakeFiles/minishell.dir/builtin_echo.c.o: ../builtin_echo.c
+CMakeFiles/minishell.dir/builtin_echo.c.o: CMakeFiles/minishell.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object CMakeFiles/minishell.dir/builtin_echo.c.o"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/minishell.dir/builtin_echo.c.o -MF CMakeFiles/minishell.dir/builtin_echo.c.o.d -o CMakeFiles/minishell.dir/builtin_echo.c.o -c /Users/sumsong/CLionProjects/minishell/builtin_echo.c
+
+CMakeFiles/minishell.dir/builtin_echo.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/minishell.dir/builtin_echo.c.i"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/sumsong/CLionProjects/minishell/builtin_echo.c > CMakeFiles/minishell.dir/builtin_echo.c.i
+
+CMakeFiles/minishell.dir/builtin_echo.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/minishell.dir/builtin_echo.c.s"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/sumsong/CLionProjects/minishell/builtin_echo.c -o CMakeFiles/minishell.dir/builtin_echo.c.s
 
 CMakeFiles/minishell.dir/test.c.o: CMakeFiles/minishell.dir/flags.make
 CMakeFiles/minishell.dir/test.c.o: ../test.c
 CMakeFiles/minishell.dir/test.c.o: CMakeFiles/minishell.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/minishell.dir/test.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building C object CMakeFiles/minishell.dir/test.c.o"
 	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/minishell.dir/test.c.o -MF CMakeFiles/minishell.dir/test.c.o.d -o CMakeFiles/minishell.dir/test.c.o -c /Users/sumsong/CLionProjects/minishell/test.c
 
 CMakeFiles/minishell.dir/test.c.i: cmake_force
@@ -234,7 +290,11 @@ minishell_OBJECTS = \
 "CMakeFiles/minishell.dir/quote.c.o" \
 "CMakeFiles/minishell.dir/execute.c.o" \
 "CMakeFiles/minishell.dir/utils.c.o" \
-"CMakeFiles/minishell.dir/ft_pwd.c.o" \
+"CMakeFiles/minishell.dir/builtin_pwd.c.o" \
+"CMakeFiles/minishell.dir/builtin_env.c.o" \
+"CMakeFiles/minishell.dir/builtin_export.c.o" \
+"CMakeFiles/minishell.dir/builtin_cd.c.o" \
+"CMakeFiles/minishell.dir/builtin_echo.c.o" \
 "CMakeFiles/minishell.dir/test.c.o"
 
 # External object files for target minishell
@@ -249,11 +309,15 @@ minishell: CMakeFiles/minishell.dir/tree_parser.c.o
 minishell: CMakeFiles/minishell.dir/quote.c.o
 minishell: CMakeFiles/minishell.dir/execute.c.o
 minishell: CMakeFiles/minishell.dir/utils.c.o
-minishell: CMakeFiles/minishell.dir/ft_pwd.c.o
+minishell: CMakeFiles/minishell.dir/builtin_pwd.c.o
+minishell: CMakeFiles/minishell.dir/builtin_env.c.o
+minishell: CMakeFiles/minishell.dir/builtin_export.c.o
+minishell: CMakeFiles/minishell.dir/builtin_cd.c.o
+minishell: CMakeFiles/minishell.dir/builtin_echo.c.o
 minishell: CMakeFiles/minishell.dir/test.c.o
 minishell: CMakeFiles/minishell.dir/build.make
 minishell: CMakeFiles/minishell.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking C executable minishell"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking C executable minishell"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/minishell.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

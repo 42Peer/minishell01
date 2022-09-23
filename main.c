@@ -168,7 +168,6 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (substr);
 }
 
-
 int main(int argc, char **argv, char **envp)
 {
 	char		*str;
@@ -176,13 +175,12 @@ int main(int argc, char **argv, char **envp)
 	int			flag;
 
 	flag = 0;
-	check = envp;
 	ds.head_token = NULL;
 	ds.root_node = NULL;
 	if (argc)
 		(void)argv;
-	make_env_list(envp, &ds);
 	make_env_array(envp, &ds);
+	check = ds.env_array;
 	/*
 	printf("\n\n\t\t<---- PRINT envp ---->\n\n");
 	int i = 0;

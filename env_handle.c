@@ -2,7 +2,7 @@
 
 /*
  *			리스트로 만들기
- */
+
 
 t_env	*env_lstnew(char *env)
 {
@@ -81,6 +81,8 @@ void	env_lstiter(t_env *lst, void (*f)(char *))
 		lst = lst->next;
 	}
 }
+
+*/
 
 /*
  *		배열로 만들기

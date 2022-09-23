@@ -10,7 +10,7 @@ RM	=	rm -f
 SRCS	=	quote.c main.c tokenize.c make_tree.c tree_parser.c test.c utils.c \
 			env_handle.c signal_handle.c execute.c \
 			builtin_pwd.c builtin_cd.c builtin_echo.c \
-			builtin_env.c
+			builtin_env.c builtin_export.c
 OBJS	=	$(SRCS:.c=.o)
 
 ifdef	WITH_BONUS

@@ -18,11 +18,11 @@ void builtin_cd(char **args)
 	(void)args;
 	printf("cd\n");
 }*/
-void builtin_export(char **args)
-{
-	(void)args;
-	printf("export\n");
-}
+//void builtin_export(char **args)
+//{
+//	(void)args;
+//	printf("export\n");
+//}
 void builtin_unset(char **args)
 {
 	(void)args;
@@ -169,7 +169,7 @@ void	redir_action(t_node *cur_redir)
 	redir_action(cur_redir->left);
 }
 
-char	*search_path(char *cmd, t_env *env_lst)
+char	*search_path(char *cmd, char **env_arr)
 {
 	char	**other_paths;
 	char	*path;
@@ -180,14 +180,13 @@ char	*search_path(char *cmd, t_env *env_lst)
 	i = -1;
 	path = ft_strjoin_no_free("/", cmd);
 	other_paths = NULL;
-	while (env_lst)
+	while (env_arr[++i])
 	{
-		if (!ft_strncmp(env_lst->key, "PATH", 5))
+		if (!ft_strncmp(env_arr[i], "PATH=", 5))
 		{
-			other_paths = ft_split(env_lst->value, ':');
+			other_paths = ft_split(&env_arr[i][5], ':');
 			break ;
 		}
-		env_lst = env_lst->next;
 	}
 	i = -1;
 	while (other_paths[++i])
@@ -214,7 +213,7 @@ int	is_relative_path(char *path)
 			((path[0] == '.') && (path[1] == '.') && (path[2] == '/')));
 }
 
-void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
+void	cmd_action(t_node *cur_cmd, char **env_arr)
 {
 	char	*path;
 	char	*cmd;
@@ -241,7 +240,7 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 	else
 	{
 		cmd = cur_cmd->content;
-		path = search_path(cmd, env_lst);
+		path = search_path(cmd, env_arr);
 		if (!path)
 		{
 			if (getcwd(cwd_buff, 256) == 0)
@@ -270,7 +269,7 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 	}
 }
 
-void	child_process(t_node *cur_phrase, char **env_arr, t_env *env_lst)
+void	child_process(t_node *cur_phrase, char **env_arr)
 {
 	// char	*redir;
 	// char	*filename;
@@ -287,7 +286,7 @@ void	child_process(t_node *cur_phrase, char **env_arr, t_env *env_lst)
 	if (cur_phrase->right)
 	{
 		// printf("커맨드처리 \n");
-		cmd_action(cur_phrase->right, env_lst, env_arr);
+		cmd_action(cur_phrase->right, env_arr);
 	}
 	// printf("child process end \n");
 	exit(0);
@@ -320,7 +319,7 @@ void	fork_process(t_struct *ds, int cnt)
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[1]);
 				// printf("child\n");
-				child_process(cur_process->left, ds->env_array, ds->head_env);
+				child_process(cur_process->left, ds->env_array);
 			// }
 		}
 		else
@@ -341,7 +340,7 @@ void	fork_process(t_struct *ds, int cnt)
 	if (pid == 0)
 	{
 		// printf("!ALERT! %d 마지막 자식 프로세스 명령어 실행\n", cnt);
-		child_process(cur_process->left, ds->env_array, ds->head_env);
+		child_process(cur_process->left, ds->env_array);
 	}
 	else
 	{

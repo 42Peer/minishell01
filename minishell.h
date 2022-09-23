@@ -90,7 +90,6 @@ typedef struct s_struct
 {
 	t_token	*head_token;
 	t_node	*root_node;
-	t_env	*head_env;
 	char	**env_array;
 }	t_struct;
 
@@ -194,14 +193,14 @@ int		is_builtin_func(t_node *node);
 void	fork_process(t_struct *ds, int cnt);
 void	execute(t_struct *ds);
 
-void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr);
+void	cmd_action(t_node *cur_cmd, char **env_arr);
 
 /*
  *						part V built-in
 */
 
 void	builtin_pwd(char **args);
-
+void	builtin_export(char **args);
 void	builtin_echo(char **args);
 int	not_newilne(char **str, int idx_last_word);
 int	last_word_count(char **str);

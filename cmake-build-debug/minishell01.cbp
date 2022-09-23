@@ -126,13 +126,25 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/sumsong/CLionProjects/minishell/builtin_cd.c">
+			<Option target="minishell"/>
+		</Unit>
+		<Unit filename="/Users/sumsong/CLionProjects/minishell/builtin_echo.c">
+			<Option target="minishell"/>
+		</Unit>
+		<Unit filename="/Users/sumsong/CLionProjects/minishell/builtin_env.c">
+			<Option target="minishell"/>
+		</Unit>
+		<Unit filename="/Users/sumsong/CLionProjects/minishell/builtin_export.c">
+			<Option target="minishell"/>
+		</Unit>
+		<Unit filename="/Users/sumsong/CLionProjects/minishell/builtin_pwd.c">
+			<Option target="minishell"/>
+		</Unit>
 		<Unit filename="/Users/sumsong/CLionProjects/minishell/env_handle.c">
 			<Option target="minishell"/>
 		</Unit>
 		<Unit filename="/Users/sumsong/CLionProjects/minishell/execute.c">
-			<Option target="minishell"/>
-		</Unit>
-		<Unit filename="/Users/sumsong/CLionProjects/minishell/ft_pwd.c">
 			<Option target="minishell"/>
 		</Unit>
 		<Unit filename="/Users/sumsong/CLionProjects/minishell/main.c">
