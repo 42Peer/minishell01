@@ -1,4 +1,0 @@
-/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles/token.dir
-/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles/minishell.dir
-/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/sumsong/CLionProjects/minishell/cmake-build-debug/CMakeFiles/rebuild_cache.dir
