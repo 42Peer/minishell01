@@ -235,7 +235,7 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 	else if (is_absolute_path(cur_cmd->content) || is_relative_path(cur_cmd->content))
 	{
 		(void)env_arr;
-		if (execve(cur_cmd->content, args, check) == -1)
+		if (execve(cur_cmd->content, args, env_arr) == -1)
 			system_call_error(CMD_NOT_FOUND);
 	}
 	else
@@ -263,7 +263,7 @@ void	cmd_action(t_node *cur_cmd, t_env *env_lst, char **env_arr)
 				system_call_error(CMD_NOT_FOUND);
 		}
 		// printf("cmd, path = %s\n", path);
-		if (execve(path, args, check) == -1)
+		if (execve(path, args, env_arr) == -1)
 		{
 			system_call_error(errno);
 		}
