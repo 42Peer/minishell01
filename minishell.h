@@ -202,15 +202,15 @@ void	cmd_action(t_node *cur_cmd, char **env_arr);
 */
 
 void	builtin_pwd(char **args);
-void	builtin_export(char **args);
 void	builtin_echo(char **args);
 int		not_newilne(char **str, int idx_last_word);
 int		last_word_count(char **str);
 void	print_str(char **str, int i, int idx_last_word);
-
 void	builtin_cd(char **args);
-
 void	builtin_env(char **args);
+int		builtin_arg_count(char **args);
+void	builtin_export(char **args);
+void	builtin_unset(char **args);
 
 /*
  *						test function

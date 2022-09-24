@@ -13,11 +13,14 @@ int	count_process(t_node *node)
 	return (cnt);
 }
 
+/*
 void builtin_unset(char **args)
 {
 	(void)args;
 	printf("unset\n");
 }
+*/
+
 /*
 void builtin_env(char **args)
 {
@@ -25,6 +28,7 @@ void builtin_env(char **args)
 	printf("env\n");
 }
 */
+
 void builtin_exit(char **args)
 {
 	(void)args;
