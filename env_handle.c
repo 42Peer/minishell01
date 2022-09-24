@@ -4,6 +4,7 @@
  *			리스트로 만들기
 
 
+/*
 t_env	*env_lstnew(char *env)
 {
 	t_env	*new;
@@ -81,6 +82,7 @@ void	env_lstiter(t_env *lst, void (*f)(char *))
 		lst = lst->next;
 	}
 }
+*/
 
 */
 
