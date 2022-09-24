@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	export_arg_count(char **args)
+int	builtin_arg_count(char **args)
 {
 	int	arg_cnt;
 
@@ -46,7 +46,7 @@ void	builtin_export(char **args)
 	char	**new;
 	int		i;
 
-	if (!export_arg_count(args))
+	if (!builtin_arg_count(args))
 		return ;
 	if (replace_value(args))
 		return ;
