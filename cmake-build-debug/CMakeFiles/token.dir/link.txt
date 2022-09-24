@@ -1,1 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/cc -lreadline -L /usr/local/opt/readline/lib/ -I /usr/local/opt/readline/include/ -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/token.dir/tokenize.c.o -o token 
