@@ -3,6 +3,7 @@ CC = cc
 #CCFLAGS	=	-I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib -g -lreadline
 CCFLAGS		=	-Wall -Wextra -Werror
 CCFLAGS_G	=	-Wall -Wextra -Werror -g
+SANITIZER	=	-fsanitize=address
 IREADLINE	=	-I /usr/local/opt/readline/include/
 LREADLINE	=	-L /usr/local/opt/readline/lib/
 RM	=	rm -f
@@ -50,6 +51,9 @@ fclean	: clean
 
 lldb: all
 	$(CC) $(OBJS) $(CCFLAGS_G) $(LREADLINE) -lreadline -o $(NAME)
+
+sani: $(OBJS)
+	$(CC) $(OBJS) $(CCFLAGS) $(SANITIZER) $(LREADLINE) -lreadline -o $(NAME)
 
 re	:	fclean all
 

@@ -2,9 +2,7 @@
 
 /*
  *			리스트로 만들기
- */
 
-/*
 t_env	*env_lstnew(char *env)
 {
 	t_env	*new;
@@ -96,12 +94,11 @@ void	make_env_array(char **envp)
 	i = 0;
 	while (envp[i])
 		++i;
-	env = malloc(sizeof(char *) * i + 1);
+	env = ft_calloc(i + 1, sizeof(char *));
 	if (!env)
 		system_call_error(ALLOC_FAIL);
 	i = -1;
 	while (envp[++i])
 		env[i] = ft_strdup(envp[i]);
-	env[i] = NULL;
 	env_array = env;
 }
