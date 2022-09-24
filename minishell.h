@@ -202,7 +202,7 @@ void	cmd_action(t_node *cur_cmd, char **env_arr);
 */
 
 void	builtin_pwd(char **args);
-
+void	builtin_export(char **args);
 void	builtin_echo(char **args);
 int		not_newilne(char **str, int idx_last_word);
 int		last_word_count(char **str);

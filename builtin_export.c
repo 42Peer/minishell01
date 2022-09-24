@@ -1,1 +1,40 @@
 #include "minishell.h"
+
+int		export_arg_count(char **args)
+{
+	int 	arg_cnt;
+
+	arg_cnt = 0;
+	while (args[arg_cnt])
+		++arg_cnt;
+	if (arg_cnt != 2) {
+		printf("ERROR: syntax error!\n");
+		return (0);
+	}
+	return (1);
+}
+
+void	builtin_export(char **args)
+{
+	char	**new;
+	int 	i;
+
+	if (!export_arg_count(args))
+		return ;
+	i = 0;
+	while (check[i])
+		++i;
+	new = ft_calloc(i + 2, sizeof(char *));
+	if (!new)
+		system_call_error(ALLOC_FAIL);
+	i = -1;
+	while (check[++i])
+		new[i] = ft_strdup(check[i]);
+	new[i++] = ft_strdup(args[1]);
+	// new[i] = NULL;
+	i = -1;
+	while (check[++i])
+		free(check[i]);
+	free(check);
+	check = new;
+}

@@ -2,7 +2,7 @@
 
 /*
  *			리스트로 만들기
- */
+
 
 /*
 t_env	*env_lstnew(char *env)
@@ -84,6 +84,8 @@ void	env_lstiter(t_env *lst, void (*f)(char *))
 }
 */
 
+*/
+
 /*
  *		배열로 만들기
  */
@@ -96,12 +98,11 @@ void	make_env_array(char **envp, t_struct *ds)
 	i = 0;
 	while (envp[i])
 		++i;
-	env = malloc(sizeof(char *) * i + 1);
+	env = ft_calloc(i + 1, sizeof(char *));
 	if (!env)
 		system_call_error(ALLOC_FAIL);
 	i = -1;
 	while (envp[++i])
 		env[i] = ft_strdup(envp[i]);
-	env[i] = NULL;
 	ds->env_array = env;
 }
