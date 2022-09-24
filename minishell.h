@@ -106,7 +106,7 @@ typedef struct s_struct
 void	sigint_handler(int signum);
 void	process_handler(int signum);
 void	signal_handler(void);
-void	in_process_signal_handle(void);
+void	in_process_signal_handler(void);
 
 /*
  *						env function

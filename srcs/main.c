@@ -182,10 +182,13 @@ int main(int argc, char **argv, char **envp)
 	if (argc)
 		(void)argv;
 	make_env_array(envp);
-	// signal_handler();
 	while (1)
 	{
+		signal_handler();
 		str = readline("minishell > "); // 1. 입력 받기
+		if (!str)
+			exit(130);
+		in_process_signal_handler();
 		add_history(str);
 		// printf("input : %s\n", str);
 		ds.head_token = tokenize(str); // 2. 토큰화
