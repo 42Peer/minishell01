@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 char *token_str[7]
 	= {"NONE", "T_WORD", "T_PIPE", "T_REDIR", "N_REDIR",

@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 /*
 root
@@ -47,6 +47,8 @@ char	*ft_strdup(char *s1)
 	size_t	i;
 
 	i = 0;
+	if (!s1)
+		return (NULL);
 	copy = (char *)malloc(sizeof(char) * ft_strlen(s1) + 1);
 	if (!copy)
 		system_call_error(ALLOC_FAIL);

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   make_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jujeon <jujeon@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: sumsong <sumsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 13:53:16 by sumsong           #+#    #+#             */
-/*   Updated: 2022/09/21 10:04:04 by jujeon           ###   ########seoul.kr  */
+/*   Updated: 2022/09/24 20:44:31 by sumsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // main 문에서 make_tree 어떻게 되어있는지
 // root = make_tree(head_token); // 토큰을 자료구조에 넣는다
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, int *flag)
 {

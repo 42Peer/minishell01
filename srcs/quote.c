@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*save(char *src, char c, size_t len)
 {
@@ -28,6 +28,30 @@ int	is_expandable(char *str, int i)
 		return (0);
 }
 
+char	*ft_getenv(char *key)
+{
+	char	**split;
+	char	*value;
+	int		i;
+	int		j;
+
+	/* key : app	env : apple */
+	/* key : apple	env : app	*/
+	value = NULL;
+	i = -1;
+	while (env_array[++i] && !value)
+	{
+		split = ft_split(env_array[i], '=');
+		if (ft_strncmp(split[0], key, ft_strlen(key) + 1) == 0)
+			value = ft_strdup(split[1]);
+		j = -1;
+		while (split[++j])
+			free(split[j]);
+		free(split);
+	}
+	return (value);
+}
+
 char	*dollar_sign(char *str, int *env_i)
 {
 	char	*value;
@@ -52,17 +76,16 @@ char	*dollar_sign(char *str, int *env_i)
 		len = i - *env_i - 1;
 		env_key = ft_substr(str, (unsigned int)((*env_i) + 1), len);
 		*env_i = i - 1; 			// i = 환경변수명 가장 마지막 글자 인덱스로 업데이트
-		value = getenv(env_key);
+		value = ft_getenv(env_key);
 		if (env_key)
 			free(env_key);
 		if (!value)
 			return (ft_strdup(""));
 		else
-			return (ft_strdup(value));
+			return (value);
 	}
 }
 
-//    sumsong ~ing    수정 필요!
 char	*reset_cursor(char *str, int quote_i, int env_i, int *origin_i)
 {
 	char	*piece;

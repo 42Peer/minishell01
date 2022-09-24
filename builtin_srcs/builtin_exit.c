@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 //정상종료시 다 free 해줘야될것같은데
 void	if_non_num(void)
 {

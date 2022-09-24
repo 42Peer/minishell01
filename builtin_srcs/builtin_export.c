@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int	builtin_arg_count(char **args)
 {
@@ -26,7 +26,7 @@ int	replace_value(char **args)
 	replace_flag = 0;
 	while (env_array[++i])
 	{
-		if (ft_strncmp(split[0], env_array[i], ft_strlen(split[0])) == 0)
+		if (ft_strncmp(split[0], env_array[i], ft_strlen(split[0]) + 1) == 0)
 		{
 			free(env_array[i]);
 			env_array[i] = ft_strdup(args[1]);
@@ -54,8 +54,6 @@ void	builtin_export(char **args)
 	while (env_array[i])
 		++i;
 	new = ft_calloc(i + 2, sizeof(char *));
-	if (!new)
-		system_call_error(ALLOC_FAIL);
 	i = -1;
 	while (env_array[++i])
 		new[i] = ft_strdup(env_array[i]);
