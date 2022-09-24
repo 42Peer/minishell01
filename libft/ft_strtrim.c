@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jujeon <jujeon@student.42seoul.kr>         +#+  +:+       +#+        */
+/*   By: sumsong <sumsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 12:04:05 by sumsong           #+#    #+#             */
-/*   Updated: 2022/09/23 22:06:07 by jujeon           ###   ########seoul.kr  */
+/*   Updated: 2022/09/24 14:48:44 by sumsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	start_i = ft__pnt(s1, set, 1);
 	if (s1[start_i] == 0)
 		return (ft_strdup(""));
-	end_i = ft_check_pnt(s1, set, -1);
+	end_i = ft_env_array_pnt(s1, set, -1);
 	len = end_i - start_i + 1;
 	str = ft_substr(s1, start_i, len);
 	return (str);
@@ -47,7 +47,7 @@ static int	ft_is_in_set(char c, char const *set)
 	return (0);
 }
 
-static int	ft_check_pnt(char const *str, char const *set, int way)
+static int	ft_env_array_pnt(char const *str, char const *set, int way)
 {
 	int	i;
 
