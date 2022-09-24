@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*save(char *src, char c, size_t len)	// 문자열 src에 문자 c 붙이는 함수, len은 src의 길이
+char	*save(char *src, char c, size_t len)
 {
 	char	*dst;
 
@@ -28,34 +28,38 @@ int	is_expandable(char *str, int i)
 		return (0);
 }
 
-char	*dollar_sign(char *str, int *env_i)		// i는 $ 인덱스
+char	*dollar_sign(char *str, int *env_i)
 {
 	char	*value;
 	char	*env_key;
 	int		i;
 	int		len;
-	// $USER-
-	// 012345
-	// ^  처음엔 여기 가리키는중
-	//  ^ 여기부터 가리켜야함.
 
 	/* (1)영문자, 숫자, _가 아닌 부분까지 읽고 */
 	i = *env_i + 1;
 	if (str[i] == '\0' || is_whitespace(str[i]))
 		return (ft_strdup("$"));
-	while (is_expandable(str, i))	// while을 빠져나오면 i는 환경변수명 조건이 아닌 위치
-		++i;
-	/* (2)env_key = 해당 부분까지 넣기; */
-	len = i - *env_i - 1;
-	env_key = ft_substr(str, (unsigned int)((*env_i) + 1), len);
-	*env_i = i - 1; 			// i = 환경변수명 가장 마지막 글자 인덱스로 업데이트
-	value = getenv(env_key);
-	if (env_key)
-		free(env_key);
-	if (!value)
-		return (ft_strdup(""));
+	if (str[i] == '?' && (str[i + 1] == '\0' || is_whitespace(str[i + 1])))
+	{
+		*env_i = i;
+		return (ft_strdup(ft_itoa(set_or_get_status(-1))));
+	}
 	else
-		return (ft_strdup(value));
+	{
+		while (is_expandable(str, i))	// while을 빠져나오면 i는 환경변수명 조건이 아닌 위치
+			++i;
+		/* (2)env_key = 해당 부분까지 넣기; */
+		len = i - *env_i - 1;
+		env_key = ft_substr(str, (unsigned int)((*env_i) + 1), len);
+		*env_i = i - 1; 			// i = 환경변수명 가장 마지막 글자 인덱스로 업데이트
+		value = getenv(env_key);
+		if (env_key)
+			free(env_key);
+		if (!value)
+			return (ft_strdup(""));
+		else
+			return (ft_strdup(value));
+	}
 }
 
 //    sumsong ~ing    수정 필요!
@@ -119,7 +123,7 @@ char	*double_quote(char *str, int *quote_i, int *quoted)		// quote_i는 " 위치
 	int		env_i;
 	int		sigq_i;
 	int		i;
-	
+
 	i = *quote_i;	// " 다음 인덱스
 	env_i = 0;
 	sigq_i = 0;

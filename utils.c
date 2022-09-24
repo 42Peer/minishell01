@@ -3,7 +3,101 @@
 static int	ft_word_count(char const *str, char c);
 static char	**ft_put_array(char **array, char const *str, char c);
 static char	**ft_free_array(char **array, int end);
+static int	ft_sign_check(const char *str);
+static int	ft_is_positive(int n);
+static int	ft_count_digit(long n, int sign);
 
+char	*ft_itoa(int n)
+{
+	char	*str;
+	long	nb;
+	int		sign;
+	int		digit;
+
+	sign = ft_is_positive(n);
+	nb = n;
+	if (n < 0)
+		nb = -nb;
+	digit = ft_count_digit(nb, sign);
+	str = (char *)malloc(sizeof(char) * digit + 1);
+	if (str == NULL)
+		return (NULL);
+	if (sign == -1)
+		str[0] = '-';
+	str[digit] = 0;
+	while (nb > 9)
+	{
+		str[digit-- - 1] = nb % 10 + '0';
+		nb = nb / 10;
+	}
+	str[digit - 1] = nb + '0';
+	return (str);
+}
+
+static int	ft_is_positive(int n)
+{
+	if (n >= 0)
+		return (1);
+	else
+		return (-1);
+}
+
+static int	ft_count_digit(long n, int sign)
+{
+	int	cnt;
+
+	cnt = 1;
+	if (sign < 0)
+		++cnt;
+	while (n > 9)
+	{
+		n = n / 10;
+		++cnt;
+	}
+	return (cnt);
+}
+
+int	ft_isdigit(int c)
+{
+	if ('0' <= c && c <= '9')
+		return (4);
+	else
+		return (0);
+}
+
+int	ft_atoi(const char *str)
+{
+	long	nb;
+	int		i;
+	int		sign;
+
+	nb = 0;
+	i = 0;
+	sign = 1;
+	while ((9 <= str[i] && str[i] <= 13) || str[i] == ' ')
+		++i;
+	if (str[i] == '+' || str[i] == '-')
+		sign = ft_sign_check(&str[i++]);
+	while (str[i] && ft_isdigit(str[i]))
+	{
+		if (sign == 1 && ((nb > LONG_MAX / 10)
+				|| (nb == LONG_MAX / 10 && str[i] >= '7')))
+			return (-1);
+		else if (sign == -1 && ((nb > LONG_MIN / 10 * -1)
+				|| (nb == LONG_MIN / 10 * -1 && str[i] >= '8')))
+			return (0);
+		nb = nb * 10 + str[i++] - '0';
+	}
+	return (sign * (int)nb);
+}
+
+static int	ft_sign_check(const char *str)
+{
+	if (*str == '+')
+		return (1);
+	else
+		return (-1);
+}
 // char	*search_from_envp(char *word)
 // {
 // 	int	i;
@@ -137,17 +231,12 @@ static char	**ft_free_array(char **array, int end)
 // 	heredoc_traverse(ds->root_node);
 // }
 
-int	ft_stat(char *path, int error, int type)
+int	ft_stat(char *path, t_node *cmd)
 {
 	struct stat statbuf;
 
-	if (!stat(path, &statbuf))
-	{
-		if (type)
-			system_call_error(error);
-		else
-			return (0);
-	}
+	if (stat(path, &statbuf) == -1)
+		cmd_not_found_error(cmd);
 	return (0);
 }
 
@@ -157,32 +246,51 @@ void	ft_exit(int error)
 	exit(error);
 }
 
-int	set_or_get_status(int error)
+int	set_or_get_status(int error) // -1 get status, >= 0 set status
 {
 	static int status;
 
-	if (error)
+	if (error >= 0)
 		status = error;
 	return (status);
+}
+
+void	cmd_not_found_error(t_node *cmd)
+{
+	char	*err_str;
+
+	err_str = "❀ ❂ smash 🍾 ";
+	write(STDERR_FILENO, err_str, ft_strlen(err_str));
+	err_str = cmd->content;
+	write(STDERR_FILENO, err_str, ft_strlen(err_str));
+	err_str = " 🍾 hey~ command not found\n";
+	write(STDERR_FILENO, err_str, ft_strlen(err_str));
+	ft_exit(CMD_NOT_FOUND);
 }
 
 void	system_call_error(int error)
 {
 	char	*err_str;
 
-	// perror("sys_error");
-	if (error == CMD_NOT_FOUND)
-	{
-		err_str = "minishell error : command not found\n";
-		write(STDERR_FILENO, err_str, ft_strlen(err_str));
-		ft_exit(CMD_NOT_FOUND);
-	}
+	err_str = strerror(error);
+	write(STDERR_FILENO, err_str, ft_strlen(err_str));
+	write(2, "\n", 1);
+	if (error == ALLOC_FAIL)
+		ft_exit(ALLOC_FAIL);
+	else if (error == EACCES || error == ENOEXEC)
+		ft_exit(EXEC_FILE_FAIL);
 	else
-	{
-		err_str = "minishell error : system call error\n";
-		write(STDERR_FILENO, err_str, ft_strlen(err_str));
-		ft_exit(errno);
-	}
+		ft_exit(GENERAL_ERROR);
+}
+
+void	builtin_error(void)
+{
+	char	*err_str;
+
+	err_str = strerror(errno);
+	write(STDERR_FILENO, err_str, ft_strlen(err_str));
+	write(2, "\n", 1);
+	set_or_get_status(GENERAL_ERROR);
 }
 
 void	free_tree(t_node *node)
@@ -190,20 +298,16 @@ void	free_tree(t_node *node)
 	if (!node)
 		return ;
 	if (node->type == T_HEREDOC)
-	{
-		// printf("!ALERT! unlink target : %s\n", node->right->content);
 		unlink(node->right->content);
-	}
 	free_tree(node->left);
 	free_tree(node->right);
 	if (node->content)
 		free(node->content);
 	free(node);
-}	//후위 순회
+}
 
 void	cleaner(char *str, t_struct *ds, t_token *token)
 {
-	// printf("\n!ALERT! 한 줄 실행 완료. 청소완료!!\n\n");
 	if (str)
 		free(str);
 	if (ds && ds->root_node)
@@ -235,15 +339,8 @@ void	clean_exit(int flag, char *str, t_token *token_list, t_struct *ds)	// free�
 		ft_lstclear(&(ds->head_token));
 	if (flag == SUCCESS)
 		printf("!ALERT! 정상 종료!\n");
-	/* 실행 단계 
-	if (flag == no)
-		printf syntax error;
-	else if (flag == CMDNF)
-		printf command not found;
-	*/
-	exit (flag);	//error
-}//when do exit, message by strerror()
-
+	exit (flag);
+}
 void	ft_bzero(void *s, size_t n)
 {
 	unsigned char	*ptr;
@@ -333,7 +430,7 @@ void	ft_lstclear(t_token **lst)
 	while (*lst)
 	{
 		cur = *lst;
-		cur->type = 0;//NONE
+		cur->type = 0;
 		if (cur->content)
 			free(cur->content);
 		*lst = (*lst)->next;

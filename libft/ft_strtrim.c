@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumsong <sumsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jujeon <jujeon@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 12:04:05 by sumsong           #+#    #+#             */
-/*   Updated: 2022/01/25 00:17:52 by sumsong          ###   ########.fr       */
+/*   Updated: 2022/09/23 22:06:07 by jujeon           ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 static int	ft_is_in_set(char c, char const *set);
-static int	ft_check_pnt(char const *str, char const *set, int way);
+static int	ft__pnt(char const *str, char const *set, int way);
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
@@ -24,7 +24,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	if (s1 == NULL)
 		return (NULL);
-	start_i = ft_check_pnt(s1, set, 1);
+	start_i = ft__pnt(s1, set, 1);
 	if (s1[start_i] == 0)
 		return (ft_strdup(""));
 	end_i = ft_check_pnt(s1, set, -1);

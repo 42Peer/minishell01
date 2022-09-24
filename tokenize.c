@@ -107,6 +107,7 @@ t_token	*tokenize(char *str)
 	if (info.sin_quoted || info.dou_quoted)
 	{
 		printf("WARNING: syntax error! non-quoted!\n");
+		set_or_get_status(SYNTAX_ERROR);
 		cleaner(NULL, NULL, info.token_list);
 		return (NULL);
 	}

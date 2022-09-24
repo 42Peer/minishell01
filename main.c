@@ -179,8 +179,7 @@ int main(int argc, char **argv, char **envp)
 	ds.root_node = NULL;
 	if (argc)
 		(void)argv;
-	make_env_array(envp, &ds);
-	check = ds.env_array;
+	make_env_array(envp);
 	// signal_handler();
 	while (1)
 	{
@@ -203,7 +202,6 @@ int main(int argc, char **argv, char **envp)
 		// ft_traverse(ds.root_node);
 		// printf("before excute\n");
 		execute(&ds);
-		// }
 		// heredoc_cleaner(&ds);
 		cleaner(str, &ds, NULL);
 	}

@@ -5,8 +5,6 @@ void	builtin_pwd(char **args)
 	(void)args;
 	char path[PATH_MAX];
 
-	printf("here\n");
-	write(2, "hi\n", 3);
 	if (getcwd(path, PATH_MAX) == NULL)
 	{
 		set_or_get_status(errno);
