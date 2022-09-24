@@ -8,6 +8,7 @@
 		"ios": "c",
 		"history.h": "c",
 		"__tuple": "c",
-		"array": "c"
+		"array": "c",
+		"cstring": "c"
 	}
 }
