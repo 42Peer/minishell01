@@ -42,7 +42,7 @@ char	*ft_getenv(char *key)
 	while (env_array[++i] && !value)
 	{
 		split = ft_split(env_array[i], '=');
-		if (ft_strncmp(split[0], key, ft_strlen(key)) == 0)
+		if (ft_strncmp(split[0], key, ft_strlen(key) + 1) == 0)
 			value = ft_strdup(split[1]);
 		j = -1;
 		while (split[++j])
