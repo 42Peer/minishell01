@@ -1,29 +1,35 @@
 NAME = minishell
-CC = cc
+CC 			=	cc
 #CCFLAGS	=	-I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib -g -lreadline
 CCFLAGS		=	-Wall -Wextra -Werror
 CCFLAGS_G	=	-Wall -Wextra -Werror -g
 SANITIZER	=	-fsanitize=address
 IREADLINE	=	-I /usr/local/opt/readline/include/
 LREADLINE	=	-L /usr/local/opt/readline/lib/
-RM	=	rm -f
+RM			=	rm -f
 
-SRCS	=	main.c \
-			env_handler.c \
-			tokenize.c \
-			make_tree.c \
-			tree_parser.c \
-			quote.c \
-			execute.c \
-			signal_handler.c \
-			test.c utils.c \
-			builtin_pwd.c \
-			builtin_cd.c \
-			builtin_echo.c \
-			builtin_env.c \
-			builtin_exit.c \
-			builtin_export.c \
-			builtin_unset.c
+SRC_DIR		=	./srcs/
+SRC			=	main.c \
+				env_handler.c \
+				tokenize.c \
+				make_tree.c \
+				tree_parser.c \
+				quote.c \
+				execute.c \
+				signal_handler.c \
+				test.c utils.c
+BUILTIN_DIR	=	./builtin_srcs/
+BUILTIN		=	builtin_pwd.c \
+				builtin_cd.c \
+				builtin_echo.c \
+				builtin_env.c \
+				builtin_exit.c \
+				builtin_export.c \
+				builtin_unset.c
+
+SRCS		=	$(addprefix $(SRC_DIR), $(SRC)) \
+				$(addprefix $(BUILTIN_DIR), $(BUILTIN))
+BUILTIN_SRCS=	$(addprefix $(BUILTIN_DIR), $(BUILTIN))
 OBJS	=	$(SRCS:.c=.o)
 
 ifdef	WITH_BONUS

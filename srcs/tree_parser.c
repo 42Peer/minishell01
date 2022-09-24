@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 {
