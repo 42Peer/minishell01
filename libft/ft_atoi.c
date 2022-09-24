@@ -6,14 +6,14 @@
 /*   By: sumsong <sumsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 14:46:35 by sumsong           #+#    #+#             */
-/*   Updated: 2022/01/25 00:02:33 by sumsong          ###   ########.fr       */
+/*   Updated: 2022/09/24 14:48:44 by sumsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <limits.h>
 
-static int	ft_sign_check(const char *str);
+static int	ft_sign_env_array(const char *str);
 
 int	ft_atoi(const char *str)
 {
@@ -27,7 +27,7 @@ int	ft_atoi(const char *str)
 	while ((9 <= str[i] && str[i] <= 13) || str[i] == ' ')
 		++i;
 	if (str[i] == '+' || str[i] == '-')
-		sign = ft_sign_check(&str[i++]);
+		sign = ft_sign_env_array(&str[i++]);
 	while (str[i] && ft_isdigit(str[i]))
 	{
 		if (sign == 1 && ((nb > LONG_MAX / 10)
@@ -41,7 +41,7 @@ int	ft_atoi(const char *str)
 	return (sign * (int)nb);
 }
 
-static int	ft_sign_check(const char *str)
+static int	ft_sign_env_array(const char *str)
 {
 	if (*str == '+')
 		return (1);

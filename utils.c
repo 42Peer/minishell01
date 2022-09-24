@@ -3,7 +3,7 @@
 static int	ft_word_count(char const *str, char c);
 static char	**ft_put_array(char **array, char const *str, char c);
 static char	**ft_free_array(char **array, int end);
-static int	ft_sign_check(const char *str);
+static int	ft_sign_env_array(const char *str);
 static int	ft_is_positive(int n);
 static int	ft_count_digit(long n, int sign);
 
@@ -77,7 +77,7 @@ int	ft_atoi(const char *str)
 	while ((9 <= str[i] && str[i] <= 13) || str[i] == ' ')
 		++i;
 	if (str[i] == '+' || str[i] == '-')
-		sign = ft_sign_check(&str[i++]);
+		sign = ft_sign_env_array(&str[i++]);
 	while (str[i] && ft_isdigit(str[i]))
 	{
 		if (sign == 1 && ((nb > LONG_MAX / 10)
@@ -91,7 +91,7 @@ int	ft_atoi(const char *str)
 	return (sign * (int)nb);
 }
 
-static int	ft_sign_check(const char *str)
+static int	ft_sign_env_array(const char *str)
 {
 	if (*str == '+')
 		return (1);
@@ -106,11 +106,11 @@ static int	ft_sign_check(const char *str)
 
 // 	i = 0;
 // 	path = NULL;
-// 	while (check[i])
+// 	while (env_array[i])
 // 	{
-// 		if (ft_strncmp(check[i], word, ft_strlen(word)) == 0) // 찾으면 0
+// 		if (ft_strncmp(env_array[i], word, ft_strlen(word)) == 0) // 찾으면 0
 // 		{
-// 			ret_split = ft_split(check[i], '=');
+// 			ret_split = ft_split(env_array[i], '=');
 // 			path = ft_strdup(ret_split[1]);
 // 			free_2d(ret_split);
 // 			break ;
