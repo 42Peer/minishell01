@@ -1,2 +1,5 @@
 cmake-build-debug
 *.o
+*.dSYM
+.idea
+minishell
