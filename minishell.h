@@ -152,7 +152,18 @@ void	builtin_error(void);
 int		is_operator(char c);
 int		is_whitespace(char c);
 int		is_quote(char c);
+
+void	case_part_of_operator(char *str, t_token_info *info);
+void	case_quote_start(char chr, t_token_info *info);
+void	case_operator(char *str, t_token_info *info);
+void	case_blank(char *str, t_token_info *info);
+void	case_part_of_word(char *str, t_token_info *info);
+void	case_new_word(t_token_info *info);
+int		is_case_unquoted(t_token_info *info);
+
+void	info_init(t_token_info *info);
 int		make_token(char *str, int copy_idx, t_token_info *info);
+void	token_search(char *str, t_token_info *info);
 t_token	*tokenize(char *str);
 
 /*

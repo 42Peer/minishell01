@@ -12,6 +12,9 @@ SRC_DIR		=	./srcs/
 SRC			=	main.c \
 				env_handler.c \
 				tokenize.c \
+				tokenize_utils.c \
+				tokenize_case1.c \
+				tokenize_case2.c \
 				make_tree.c \
 				tree_parser.c \
 				quote.c \
