@@ -4,7 +4,7 @@ void	put_paths(char **env_arr, int *p_i, char ***p_other_paths)
 {
 	while (env_arr[++(*p_i)])
 	{
-		if (!ft_strcmp(env_arr[*p_i], "PATH=", 5))
+		if (!ft_strncmp(env_arr[*p_i], "PATH=", 5))
 		{
 			*p_other_paths = ft_split(&env_arr[*p_i][5], ':');
 			break ;
