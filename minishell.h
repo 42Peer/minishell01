@@ -208,8 +208,6 @@ char	*dollar_sign(char *str, int *env_i);
 char	*ft_getenv(char *key);
 
 char	**func_heredoc(t_node *node, char *delimiter, int quoted);
-void	cmd_parser(t_node *node);
-void	redir_parser(t_node *node, int *flag);
 int		tree_parser(t_node *node, int *flag);
 
 /*

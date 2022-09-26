@@ -15,17 +15,16 @@ SRC			=	main.c \
 				tokenize_utils.c tokenize_case1.c tokenize_case2.c \
 				make_tree.c \
 				make_tree_redir_node.c \
-				tree_parser.c \
+				tree_parser.c tree_parser_heredoc.c \
 				quote.c \
 				execute.c \
 				signal_handler.c \
 				utils1.c utils2.c \
 				utils_cleaners.c utils_system.c utils_list.c \
-				utils_atoi.c utils_itoa.c utils_split.c \
+				utils_atoi.c utils_itoa.c utils_split.c utils_strjoin.c \
 				cmd_action.c \
 				delete_quote.c \
 				fork_frame.c \
-				ft_strjoin.c \
 				open_redir_file.c \
 				path.c \
 				test.c		# tmp file

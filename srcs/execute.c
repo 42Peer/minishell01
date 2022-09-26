@@ -16,7 +16,12 @@ void	run_builtin(t_node *cur_phrase, FUNC_TYPE builtin[],
 		}
 	}
 	args = lst_to_2d_array(cur_phrase->right);
+	printf("<--------------- here 1 ----------------->\n");
+	int i = -1;
+	while (args && args[++i])
+		printf("args : %s\n", args[i]);
 	cmd = ft_strdup(cur_phrase->right->content);
+	printf("<--------------- here 2 ----------------->\n");
 	builtin[func](args);
 	free(cmd);
 	free_2d(args);
