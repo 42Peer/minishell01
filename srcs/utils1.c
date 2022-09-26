@@ -42,5 +42,5 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 
 void	print_content(char *str)
 {
-	printf("token > %s\n", str);
+	printf("%s", str);
 }

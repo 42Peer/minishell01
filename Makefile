@@ -21,15 +21,14 @@ SRC			=	main.c \
 				signal_handler.c \
 				utils1.c utils2.c \
 				utils_cleaners.c utils_system.c utils_list.c \
-				utils_itoa.c utils_split.c \
+				utils_atoi.c utils_itoa.c utils_split.c \
 				cmd_action.c \
 				delete_quote.c \
 				fork_frame.c \
 				ft_strjoin.c \
 				open_redir_file.c \
 				path.c \
-				utils3.c \
-				test.c
+				test.c		// tmp file
 
 BUILTIN_DIR	=	./builtin_srcs/
 BUILTIN		=	builtin_pwd.c \

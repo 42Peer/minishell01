@@ -17,7 +17,10 @@ void	ft_lstiter(t_token *lst, void (*f)(char *))
 {
 	while (lst)
 	{
+		printf("type : %d", lst->type);
+		printf(" content : ");
 		f(lst->content);
+		printf("\n");
 		lst = lst->next;
 	}
 }
