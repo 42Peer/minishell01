@@ -13,7 +13,7 @@ int	builtin_arg_count(char **args)
 		i = 0;
 		while (env_array[++i])
 			printf("%s\n", env_array[i]);
-		set_or_get_status(0);
+		set_or_get_status(0);	
 		return (0);
 	}
 	if (arg_cnt != 2)
@@ -24,29 +24,32 @@ int	builtin_arg_count(char **args)
 	return (1);
 }
 
-int	replace_value(char **args)
+int replace_value(char **args)
 {
-	size_t	split_i;
-	int		i;
-	int		replace_flag;
+    char    **split;
+    int     i;
+    int     replace_flag;
 
-	split_i = 0;
-	while (args[1][split_i] && args[1][split_i] != '=')
-		++split_i;
-	i = -1;
-	replace_flag = 0;
-	while (env_array[++i])
-	{
-		if (env_array[i][split_i] == '\0'
-			|| ft_strncmp(args[1], env_array[i], split_i + 1) == 0)
-		{
-			free(env_array[i]);
-			env_array[i] = ft_strdup(args[1]);
-			replace_flag = 1;
-			break ;
-		}
-	}
-	return (replace_flag);
+    split = ft_split(args[1], '=');
+    if (split[1])
+		split[0] = save(split[0], '=', ft_strlen(split[0]));
+    i = -1;
+    replace_flag = 0;
+    while (env_array[++i])
+    {
+        if (!ft_strncmp(split[0], env_array[i], ft_strlen(split[0])))
+        {
+            if (split[1])
+            {
+                free(env_array[i]);
+                env_array[i] = ft_strdup(args[1]);
+            }
+            replace_flag = 1;
+            break ;
+        }
+    }
+    free_2d(split);
+    return (replace_flag);
 }
 
 void	builtin_export(char **args)
