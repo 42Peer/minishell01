@@ -45,7 +45,7 @@ bonus	:
 	make WITH_BONUS=1 all
 
 .c.o	:
-	$(CC) $(CCFLAGS) $(IREADLINE) -c -o $@ $<
+	$(CC) $(CCFLAGS_G) $(IREADLINE) -c -o $@ $<
 
 $(NAME)	: $(OBJS)
 	$(CC) $(OBJS) $(CCFLAGS) $(LREADLINE) -lreadline -o $(NAME)
@@ -57,7 +57,7 @@ fclean	: clean
 	$(RM) $(NAME)
 
 lldb: all
-	$(CC) $(OBJS) $(CCFLAGS_G) $(LREADLINE) -lreadline -o $(NAME)
+	gcc $(OBJS) $(CCFLAGS_G) $(LREADLINE) -lreadline -o $(NAME)
 
 sani: $(OBJS)
 	$(CC) $(OBJS) $(CCFLAGS) $(SANITIZER) $(LREADLINE) -lreadline -o $(NAME)

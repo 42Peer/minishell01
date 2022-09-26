@@ -45,14 +45,16 @@ void	fork_process(t_struct *ds, int cnt, FUNC_TYPE builtin[])
 	int		status;
 	int		loop;
 	pid_t	pid;
+	t_node	*cur_node;
 
 	backup_fd = dup(STDIN_FILENO);
+	cur_node = ds->root_node;
 	loop = 0;
 	while (cnt > ++loop)
-		fork_frame(&ds->root_node, builtin);
+		fork_frame(&cur_node, builtin);
 	pid = fork();
 	if (pid == 0)
-		child_process(ds->root_node->left, env_array, builtin);
+		child_process(cur_node->left, env_array, builtin);
 	else
 	{
 		status = set_or_get_status(-1);
