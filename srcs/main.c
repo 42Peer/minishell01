@@ -70,6 +70,11 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (substr);
 }
 
+void	main_init(int *p_flag, t_struct *p_ds, )
+{
+
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*str;
