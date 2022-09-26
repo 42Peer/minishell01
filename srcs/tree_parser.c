@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tree_parser.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kyolee <kyolee@student.42.seoul.kr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/26 15:21:50 by kyolee            #+#    #+#             */
+/*   Updated: 2022/09/26 15:27:21 by kyolee           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 {
 	int		fd;
 	int		i;
-	char 	*filename;
+	char	*filename;
 	char	*str;
 	char	*expnd_str;
 
@@ -28,7 +40,7 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 			while (str[++i])
 			{
 				if (str[i] == '$')
-					expnd_str = ft_strjoin(expanded_str, dollar_sign(str, &i));
+					expnd_str = ft_strjoin(expnd_str, dollar_sign(str, &i));
 				else
 					expnd_str = save(expnd_str, str[i], ft_strlen(expnd_str));
 			}
@@ -46,12 +58,9 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 	free(str);
 	free(expnd_str);
 	close(fd);
-	// (3) 노드 갱신
-	// (3-1) << 노드의 content 의 <로 바꿔주기
 	if (node->content)
 		free(node->content);
 	node->content = ft_strdup("<");
-	// (3-2) << 노드의 DELIMITER를 heredoc 임시파일로 바꿔주기
 	if (node->right->content)
 		free(node->right->content);
 	node->right->content = filename;
@@ -87,7 +96,7 @@ void	redir_parser(t_node *node, int *flag)
 		if (ft_strncmp(node->content, ">>", 3) != 0
 			&& ft_strncmp(node->content, ">", 2) != 0
 			&& ft_strncmp(node->content, "<", 2) != 0
-			&& ft_strncmp(node->content, "<<", 3) != 0)			
+			&& ft_strncmp(node->content, "<<", 3) != 0)
 		{
 			printf("Error: syntax error in redir_parser!\n");
 			set_or_get_status(258);
@@ -113,7 +122,6 @@ int	tree_parser(t_node *node, int *flag)
 {
 	if (!(node))
 		return (0);
-	// printf("now node type : %s node str : %s\n", token_str[node->type], node->str);
 	if (node->type == N_PHRASE)
 	{
 		redir_parser(node->left, flag);
@@ -121,8 +129,8 @@ int	tree_parser(t_node *node, int *flag)
 	}
 	else
 	{
-		tree_parser(node->left, flag);	// phrase
-		tree_parser(node->right, flag);	// 새 프로세스
+		tree_parser(node->left, flag);
+		tree_parser(node->right, flag);
 	}
 	return (0);
 }
