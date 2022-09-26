@@ -1,9 +1,8 @@
 #include "../minishell.h"
-//정상종료시 다 free 해줘야될것같은데
+
 void	if_non_num(void)
 {
 	printf("minishell: exit: a: numeric argument required\n");
-	// set_or_get_status(255);
 	print_and_exit();
 }
 
@@ -27,10 +26,8 @@ int	cnt_args(char **args)
 	int	idx;
 
 	idx = 0;
-	while(args[idx])
-	{
+	while (args[idx])
 		idx++;
-	}
 	return (idx);
 }
 
@@ -43,26 +40,16 @@ void	print_and_exit(void)
 void	builtin_exit(char **args)
 {
 	int	cnt;
-	// int	num;
 
 	cnt = cnt_args(args);
-	// num = 0;
 	if (cnt == 1)
 		print_and_exit();
 	else if (cnt == 2)
 	{
 		if (is_numeric(args[1]))
-		{
-			
-			// ft_atoi(args[1]);
-			// num = ft_atoi(args[1]);
-			// set_or_get_status(num);
 			print_and_exit();
-		}
 		else
-		{
 			if_non_num();
-		}
 	}
 	else
 	{
@@ -73,8 +60,6 @@ void	builtin_exit(char **args)
 			set_or_get_status(1);
 		}
 		else
-		{
 			if_non_num();
-		}
 	}
 }
