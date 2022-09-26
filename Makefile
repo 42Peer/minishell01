@@ -12,16 +12,16 @@ SRC_DIR		=	./srcs/
 SRC			=	main.c \
 				env_handler.c \
 				tokenize.c \
-				tokenize_utils.c \
-				tokenize_case1.c \
-				tokenize_case2.c \
+				tokenize_utils.c tokenize_case1.c tokenize_case2.c \
 				make_tree.c \
 				make_tree_redir_node.c \
 				tree_parser.c \
 				quote.c \
 				execute.c \
 				signal_handler.c \
-				test.c utils.c \
+				utils1.c utils2.c \
+				utils_cleaners.c utils_system.c utils_list.c \
+				utils_itoa.c utils_split.c \
 				cmd_action.c \
 				delete_quote.c \
 				fork_frame.c \
