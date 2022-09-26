@@ -27,7 +27,8 @@ SRC			=	main.c \
 				fork_frame.c \
 				ft_strjoin.c \
 				open_redir_file.c \
-				path.c
+				path.c \
+				utils3.c
 
 BUILTIN_DIR	=	./builtin_srcs/
 BUILTIN		=	builtin_pwd.c \
