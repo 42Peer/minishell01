@@ -10,22 +10,13 @@ RM			=	rm -f
 
 SRC_DIR		=	./srcs/
 SRC			=	main.c \
-				env_handler.c \
-				tokenize.c \
-				tokenize_utils.c tokenize_case1.c tokenize_case2.c \
-				make_tree.c \
-				make_tree_redir_node.c \
-				tree_parser.c tree_parser_heredoc.c \
-				execute.c \
-				signal_handler.c \
-				utils1.c utils2.c \
-				utils_cleaners.c utils_system.c utils_list.c \
-				utils_atoi.c utils_itoa.c utils_split.c utils_strjoin.c \
-				cmd_action.c \
-				delquote_expand.c delquote_utils.c \
-				fork_frame.c \
-				open_redir_file.c \
-				path.c \
+				init/env_handler.c init/signal_handler.c \
+				tokenize/tokenize.c tokenize/tokenize_utils.c tokenize/tokenize_case1.c tokenize/tokenize_case2.c \
+				tree_structure/make_tree.c tree_structure/make_tree_redir_node.c \
+				parser/tree_parser.c parser/tree_parser_heredoc.c parser/delquote_expand.c parser/delquote_utils.c \
+				execute/execute.c execute/cmd_action.c execute/fork_frame.c execute/open_redir_file.c execute/path.c \
+				utils/utils1.c utils/utils2.c utils/utils_cleaners.c utils/utils_system.c utils/utils_list.c \
+				utils/utils_atoi.c utils/utils_itoa.c utils/utils_split.c utils/utils_strjoin.c \
 				test.c		# tmp file
 
 BUILTIN_DIR	=	./builtin_srcs/

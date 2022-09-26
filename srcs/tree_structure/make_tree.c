@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token)
 {

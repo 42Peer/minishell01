@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[],
 	int func)

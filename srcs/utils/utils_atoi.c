@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 #include <limits.h>
 
 static int	ft_sign_env_array(const char *str);

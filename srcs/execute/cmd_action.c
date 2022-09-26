@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	execve_frame(char *path, char **args, char **env_arr)
 {

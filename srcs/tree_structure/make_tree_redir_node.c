@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	make_io_redir_node(t_node **io_redir)
 {

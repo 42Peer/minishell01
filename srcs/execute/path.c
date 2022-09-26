@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	put_paths(char **env_arr, int *p_i, char ***p_other_paths)
 {

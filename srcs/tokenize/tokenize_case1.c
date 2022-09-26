@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	case_part_of_operator(char *str, t_token_info *info)
 {
