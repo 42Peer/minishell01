@@ -5,7 +5,8 @@ int	last_word_count(char **str)
 	int	count;
 
 	count = -1;
-	while (str[++count]);
+	while (str[++count])
+		;
 	return (count - 1);
 }
 
@@ -18,9 +19,10 @@ int	not_newline(char *str)
 		return (0);
 	i = -1;
 	not_newline = 0;
-	if (str[++i] == '-') // 첫글자가 - 이면
+	if (str[++i] == '-')
 	{
-		while (str[++i] == 'n');
+		while (str[++i] == 'n')
+			;
 		if (str[i] == '\0')
 			not_newline = 1;
 	}
@@ -45,7 +47,8 @@ void	builtin_echo(char **args)
 	i = 1;
 	flag = not_newline(args[i]);
 	if (flag)
-		while (not_newline(args[++i]));
+		while (not_newline(args[++i]))
+			;
 	--i;
 	if (flag)
 		while (args[++i])

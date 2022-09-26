@@ -2,9 +2,9 @@
 
 void	builtin_env(char **args)
 {
-	(void)args;
 	int	i;
 
+	(void)args;
 	i = -1;
 	while (env_array[++i])
 		printf("%s\n", env_array[i]);
