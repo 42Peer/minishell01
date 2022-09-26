@@ -28,7 +28,8 @@ SRC			=	main.c \
 				ft_strjoin.c \
 				open_redir_file.c \
 				path.c \
-				utils3.c
+				utils3.c \
+				test.c
 
 BUILTIN_DIR	=	./builtin_srcs/
 BUILTIN		=	builtin_pwd.c \

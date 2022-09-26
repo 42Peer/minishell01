@@ -237,7 +237,7 @@ void	open_redir_file(char *file, int mode);
  *						func_frame
 */
 
-void	fork_frame(t_node *cur_process, FUNC_TYPE builtin[]);
+void	fork_frame(t_node **cur_process, FUNC_TYPE builtin[]);
 void	execve_frame(char *path, char **args, char **env_arr);
 char	*no_search_path(t_node *cur_cmd, char **args, char *cmd);
 

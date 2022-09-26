@@ -31,12 +31,16 @@ int	main(int argc, char **argv, char **envp)
 			free(str);
 			continue ;
 		}
+		// printf("token \n =--------------------------------");
+		ft_lstiter(ds.head_token, print_content);
 		if (make_tree(&ds) == 0
 			|| (!tree_parser(ds.root_node, &flag) && flag == 1))
 		{
 			cleaner(str, &ds, NULL);
 			continue ;
 		}
+		// printf("tree \n =--------------------------------");
+		ft_traverse(ds.root_node);
 		execute(&ds);
 		cleaner(str, &ds, NULL);
 	}
