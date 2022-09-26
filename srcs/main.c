@@ -1,16 +1,21 @@
 #include "../minishell.h"
 
+void	main_init(int *p_flag, t_struct *p_ds, int argc, char ***p_argv)
+{
+	*p_flag = 0;
+	p_ds->head_token = NULL;
+	p_ds->root_node = NULL;
+	if (argc)
+		(void)(*p_argv);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*str;
 	t_struct	ds;
 	int			flag;
 
-	flag = 0;
-	ds.head_token = NULL;
-	ds.root_node = NULL;
-	if (argc)
-		(void)argv;
+	main_init(&flag, &ds, argc, &argv);
 	make_env_array(envp);
 	while (1)
 	{
@@ -26,12 +31,14 @@ int	main(int argc, char **argv, char **envp)
 			free(str);
 			continue ;
 		}
+		// ft_lstiter(ds.head_token, print_content);
 		if (make_tree(&ds) == 0
 			|| (!tree_parser(ds.root_node, &flag) && flag == 1))
 		{
 			cleaner(str, &ds, NULL);
 			continue ;
 		}
+		ft_traverse(ds.root_node);
 		execute(&ds);
 		cleaner(str, &ds, NULL);
 	}
