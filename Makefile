@@ -16,7 +16,6 @@ SRC			=	main.c \
 				make_tree.c \
 				make_tree_redir_node.c \
 				tree_parser.c tree_parser_heredoc.c \
-				quote.c \
 				execute.c \
 				signal_handler.c \
 				utils1.c utils2.c \

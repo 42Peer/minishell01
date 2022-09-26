@@ -207,6 +207,7 @@ int		is_expandable(char *str, int i);
 char	*ft_getenv(char *key);
 char	*save(char *src, char c, size_t len);
 
+char	*dollar_sign(char *str, int *cur);
 char	*single_quote(char *str, int *quote_i, int *quoted_delimit);
 char	*double_quote(char *str, int *quote_i, int *quoted_delimit);
 char	*delquote_expand(char *str, int *quoted_delimit);
