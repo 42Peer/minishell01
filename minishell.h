@@ -124,42 +124,43 @@ void	make_env_array(char **envp);
  *						util function
 */
 
-// 정리 함수 : cleaners.c
 void	free_2d(char **str);
 void	free_tree(t_node *node);
 void	cleaner(char *str, t_struct *ds, t_token *token);
 void	clean_exit(int error, char *str, t_token *token_list, t_struct *ds);
-void	heredoc_cleaner(t_struct *ds);
 
-// libft_utils_1~n.c
-void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t count, size_t size);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-size_t	ft_strlen(char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_strdup(char *s1);
-size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
-size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strjoin_no_free(char *s1, char *s2);
-char	**ft_split(char const *s, char c);
-char	*ft_substr(char *s, unsigned int start, size_t len);
+void	ft_exit(int error);
+int		set_or_get_status(int error);
+void	cmd_not_found_error(t_node *cmd);
+void	system_call_error(int error);
+void	builtin_error(void);
 
-void	print_content(char *str);			// tmp func
-
-// list_utils.c
 t_token	*ft_lstnew(int type, char *content);
 void	ft_lstiter(t_token *lst, void (*f)(char *));
 void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstclear(t_token **lst);
 int		ft_lstsize(t_node *lst);
 
-// system_utils.c
-void	ft_exit(int error);
-int		set_or_get_status(int error);
-void	system_call_error(int error);
-void	cmd_not_found_error(t_node *cmd);
-void	builtin_error(void);
+// libft_utils_1~n.c
+char	**ft_split(char const *s, char c);
+char	*ft_itoa(int n);
+
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t count, size_t size);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+
+size_t	ft_strlen(char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strdup(char *s1);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
+size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin_no_free(char *s1, char *s2);
+
+void	print_content(char *str);			// tmp func
+
 
 /*
  *						part I tokenize.c
@@ -246,21 +247,12 @@ char	*no_search_path(t_node *cur_cmd, char **args, char *cmd);
 
 void	builtin_pwd(char **args);
 void	builtin_echo(char **args);
-int		not_newilne(char **str, int idx_last_word);
-int		last_word_count(char **str);
-void	print_str(char **str, int i, int idx_last_word);
 void	builtin_cd(char **args);
 void	builtin_env(char **args);
 int		builtin_arg_count(char **args);
 void	builtin_export(char **args);
 void	builtin_unset(char **args);
 void	builtin_exit(char **args);
-int		is_numeric(char *str);
-int		cnt_args(char **args);
-void	print_and_exit(void);
-void	if_non_num(void);
-int		ft_atoi(const char *str);
-char	*ft_itoa(int n);
 
 /*
  *						test function

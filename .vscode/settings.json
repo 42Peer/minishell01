@@ -9,6 +9,7 @@
 		"history.h": "c",
 		"__tuple": "c",
 		"array": "c",
-		"cstring": "c"
+		"cstring": "c",
+		"types.h": "c"
 	}
 }
