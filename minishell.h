@@ -124,29 +124,45 @@ void	make_env_array(char **envp);
  *						util function
 */
 
+// 정리 함수 : cleaners.c
+void	free_2d(char **str);
 void	free_tree(t_node *node);
 void	cleaner(char *str, t_struct *ds, t_token *token);
 void	clean_exit(int error, char *str, t_token *token_list, t_struct *ds);
+void	heredoc_cleaner(t_struct *ds);
+
+// libft_utils_1~n.c
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
+size_t	ft_strlen(char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strdup(char *s1);
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
+size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin_no_free(char *s1, char *s2);
+char	**ft_split(char const *s, char c);
+char	*ft_substr(char *s, unsigned int start, size_t len);
 
 void	print_content(char *str);			// tmp func
+
+// list_utils.c
 t_token	*ft_lstnew(int type, char *content);
 void	ft_lstiter(t_token *lst, void (*f)(char *));
 void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstclear(t_token **lst);
 int		ft_lstsize(t_node *lst);
-void	heredoc_cleaner(t_struct *ds);
-char	**ft_split(char const *s, char c);
 
+// system_utils.c
+void	ft_exit(int error);
 int		set_or_get_status(int error);
 void	system_call_error(int error);
 void	cmd_not_found_error(t_node *cmd);
 void	builtin_error(void);
 
 /*
- *						part I tokenize
+ *						part I tokenize.c
 */
 
 int		is_operator(char c);
@@ -156,7 +172,7 @@ int		make_token(char *str, int copy_idx, t_token_info *info);
 t_token	*tokenize(char *str);
 
 /*
- *						part II make_tree
+ *						part II make_tree.c
 */
 
 t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, int *flag);
@@ -169,16 +185,7 @@ int		make_tree(t_struct *ds);
  *						part III quote & expand & here_doc
 */
 
-size_t	ft_strlen(char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_strdup(char *s1);
-size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
-size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strjoin_no_free(char *s1, char *s2);
-void	free_2d(char **str);
 
-char	*ft_substr(char *s, unsigned int start, size_t len);
 char	*save(char *src, char c, size_t len);	// 문자열 src에 문자 c 붙이는 함수, len은 src의 길이
 int		is_expandable(char *str, int i);
 char	*reset_cursor(char *str, int quote_i, int env_i, int *origin_i);
@@ -191,9 +198,11 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted);
 void	cmd_parser(t_node *node);
 void	redir_parser(t_node *node, int *flag);
 int		tree_parser(t_node *node, int *flag);
+
 /*
  *						part IV execute
 */
+
 int		count_process(t_node *node);
 int		is_builtin_func(t_node *node);
 void	child_process(t_node *cur_phrase, char **env_arr, FUNC_TYPE builtin[]);
@@ -201,16 +210,19 @@ void	fork_process(t_struct *ds, int cnt, FUNC_TYPE builtin[]);
 void	run_builtin(t_node *cur_phrase, FUNC_TYPE builtin[], int func, int ps_type);
 void	execute(t_struct *ds);
 void	cmd_action(t_node *cur_cmd, char **env_arr, FUNC_TYPE builtin[]);
+
 /*
  *						func_frame
 */
-void	fork_frame(t_node *cur_process, FUNC_TYPE builtin[]);
 
+void	fork_frame(t_node *cur_process, FUNC_TYPE builtin[]);
 void	execve_frame(char *path, char **args, char **env_arr);
 char	*no_search_path(t_node *cur_cmd, char **args, char *cmd);
+
 /*
  *						part V built-in
 */
+
 void	builtin_pwd(char **args);
 void	builtin_echo(char **args);
 int		not_newilne(char **str, int idx_last_word);
@@ -221,7 +233,6 @@ void	builtin_env(char **args);
 int		builtin_arg_count(char **args);
 void	builtin_export(char **args);
 void	builtin_unset(char **args);
-
 void	builtin_exit(char **args);
 int		is_numeric(char *str);
 int		cnt_args(char **args);
@@ -230,11 +241,10 @@ void	if_non_num(void);
 int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
 
-void    builtin_export(char **args);
-void    builtin_unset(char **args);
 /*
  *						test function
 */
-void	ft_exit(int error);
+
 void	ft_traverse(t_node *node);
+
 #endif

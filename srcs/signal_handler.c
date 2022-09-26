@@ -24,8 +24,8 @@ void	process_handler(int signum)
 
 void	signal_handler(void)
 {
-	signal(SIGINT, sigint_handler);	// ctrl 'C'
-	signal(SIGQUIT, SIG_IGN);		// ctrl '\'
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	in_process_signal_handler(void)
