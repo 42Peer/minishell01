@@ -51,8 +51,20 @@ void	fork_process(t_struct *ds, int cnt, FUNC_TYPE builtin[])
 	while (cnt > ++loop)
 		fork_frame(&ds->root_node, builtin);
 	pid = fork();
+	printf("pid = %d\n", pid);
 	if (pid == 0)
+	{
+		int i = 0;
+		int	j = 0;
+		while (i < 100 * 100)
+		{
+			j = 0;
+			while(j < 1000 * 1000)
+				j++;
+			i++;
+		}
 		child_process(ds->root_node->left, env_array, builtin);
+	}
 	else
 	{
 		status = set_or_get_status(-1);
