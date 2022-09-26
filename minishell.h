@@ -61,6 +61,12 @@ typedef enum e_type
 	N_PROCESS
 }	t_type;
 
+typedef struct s_quote_idx
+{
+	int	env;
+	int	cur;
+}	t_quote_idx;
+
 typedef struct s_token
 {
 	int				type;
@@ -197,17 +203,15 @@ int		make_tree(t_struct *ds);
  *						part III quote & expand & here_doc
 */
 
-
-char	*save(char *src, char c, size_t len);	// 문자열 src에 문자 c 붙이는 함수, len은 src의 길이
 int		is_expandable(char *str, int i);
-char	*reset_cursor(char *str, int quote_i, int env_i, int *origin_i);
-char	*single_quote(char *str, int *quote_i, int *quoted);	// '를 만났을 때, ' 인덱스(i)부터 들어옴
-char	*double_quote(char *str, int *quote_i, int *quoted);		// quote_i는 " 위치.
-char	*delquote(char *str, int *quoted);
-char	*dollar_sign(char *str, int *env_i);
 char	*ft_getenv(char *key);
+char	*save(char *src, char c, size_t len);
 
-char	**func_heredoc(t_node *node, char *delimiter, int quoted);
+char	*single_quote(char *str, int *quote_i, int *quoted_delimit);
+char	*double_quote(char *str, int *quote_i, int *quoted_delimit);
+char	*delquote_expand(char *str, int *quoted_delimit);
+
+char	**func_heredoc(t_node *node, char *delimiter, int quoted_delimit);
 int		tree_parser(t_node *node, int *flag);
 
 /*

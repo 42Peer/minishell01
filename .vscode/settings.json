@@ -10,6 +10,25 @@
 		"__tuple": "c",
 		"array": "c",
 		"cstring": "c",
-		"types.h": "c"
+		"types.h": "c",
+		"__bit_reference": "c",
+		"atomic": "c",
+		"bitset": "c",
+		"chrono": "c",
+		"cstddef": "c",
+		"__memory": "c",
+		"limits": "c",
+		"locale": "c",
+		"optional": "c",
+		"ratio": "c",
+		"system_error": "c",
+		"tuple": "c",
+		"type_traits": "c",
+		"vector": "c",
+		"__functional_base": "c",
+		"algorithm": "c",
+		"functional": "c",
+		"iterator": "c",
+		"memory": "c"
 	}
 }

@@ -23,7 +23,7 @@ SRC			=	main.c \
 				utils_cleaners.c utils_system.c utils_list.c \
 				utils_atoi.c utils_itoa.c utils_split.c utils_strjoin.c \
 				cmd_action.c \
-				delete_quote.c \
+				delquote_expand.c delquote_utils.c \
 				fork_frame.c \
 				open_redir_file.c \
 				path.c \

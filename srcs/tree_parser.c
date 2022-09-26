@@ -31,10 +31,10 @@ static void	check_invalid_redir_content(t_node *node, int *flag)
 
 static void	redir_parser(t_node *node, int *flag)
 {
-	int		quoted;
+	int		quoted_delimit;
 	char	*new_content;
 
-	quoted = 0;
+	quoted_delimit = 0;
 	if (!node)
 		return ;
 	if (node->type == T_REDIR)
@@ -42,11 +42,11 @@ static void	redir_parser(t_node *node, int *flag)
 		check_invalid_redir_content(node, flag);
 		if (ft_strncmp(node->content, "<<", 3) == 0)
 		{
-			new_content = delquote(node->right->content, &quoted);
+			new_content = delquote(node->right->content, &quoted_delimit);
 			free(node->right->content);
 			node->type = T_HEREDOC;
 			node->right->content = new_content;
-			func_heredoc(node, node->right->content, quoted);
+			func_heredoc(node, node->right->content, quoted_delimit);
 		}
 	}
 	else
