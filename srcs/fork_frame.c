@@ -18,7 +18,7 @@ void	child_process(t_node *cur_phrase, char **env_arr, FUNC_TYPE builtin[])
 	exit(0);
 }
 
-void	fork_frame(t_node *cur_process, FUNC_TYPE builtin[])
+void	fork_frame(t_node **cur_process, FUNC_TYPE builtin[])
 {
 	int		fd[2];
 	pid_t	pid;
@@ -29,14 +29,14 @@ void	fork_frame(t_node *cur_process, FUNC_TYPE builtin[])
 	{
 		close(fd[0]);
 		dup_frame(fd[1], STDOUT_FILENO);
-		child_process(cur_process->left, env_array, builtin);
+		child_process((*cur_process)->left, env_array, builtin);
 	}
 	else
 	{
 		close(fd[1]);
 		dup_frame(fd[0], STDIN_FILENO);
 	}
-	cur_process = cur_process->right;
+	*cur_process = (*cur_process)->right;
 }
 
 void	fork_process(t_struct *ds, int cnt, FUNC_TYPE builtin[])
@@ -49,7 +49,7 @@ void	fork_process(t_struct *ds, int cnt, FUNC_TYPE builtin[])
 	backup_fd = dup(STDIN_FILENO);
 	loop = 0;
 	while (cnt > ++loop)
-		fork_frame(ds->root_node, builtin);
+		fork_frame(&ds->root_node, builtin);
 	pid = fork();
 	if (pid == 0)
 		child_process(ds->root_node->left, env_array, builtin);
