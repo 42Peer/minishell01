@@ -7,7 +7,6 @@ void	sigint_handler(int signum)
 	printf("\n");
 	if (rl_on_new_line() == -1)
 		exit(1);
-	// rl_replace_line("", 1);
 	rl_redisplay();
 }
 
