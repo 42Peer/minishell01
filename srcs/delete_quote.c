@@ -2,7 +2,6 @@
 
 char	*dollar_sign(char *str, int *env_i)
 {
-	char	*value;
 	char	*env_key;
 	int		i;
 	int		len;
@@ -22,11 +21,10 @@ char	*dollar_sign(char *str, int *env_i)
 		len = i - *env_i - 1;
 		env_key = ft_substr(str, (unsigned int)((*env_i) + 1), len);
 		*env_i = i - 1;
-		value = ft_getenv(env_key);
-		if (!value)
+		if (!ft_getenv(env_key))
 			return (ft_strdup(""));
 		else
-			return (value);
+			return (ft_getenv(env_key));
 	}
 }
 
