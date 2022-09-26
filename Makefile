@@ -16,6 +16,7 @@ SRC			=	main.c \
 				tokenize_case1.c \
 				tokenize_case2.c \
 				make_tree.c \
+				make_tree_redir_node.c \
 				tree_parser.c \
 				quote.c \
 				execute.c \
