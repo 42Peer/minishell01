@@ -204,7 +204,7 @@ int main(int argc, char **argv, char **envp)
 		}
 		// printf("\n!ALERT! <after parsing>\n");
 		// ft_lstiter(ds.head_token, print_content);
-		ft_traverse(ds.root_node);
+		// ft_traverse(ds.root_node);
 		// printf("before excute\n");
 		execute(&ds);
 		// heredoc_cleaner(&ds);
