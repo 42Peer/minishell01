@@ -260,4 +260,11 @@ void	builtin_exit(char **args);
 
 void	ft_traverse(t_node *node);
 
+/*
+builtin_exit
+*/
+void	print_and_exit(int exit_stat);
+int		ft_atoi(const char *str);
+
+
 #endif
