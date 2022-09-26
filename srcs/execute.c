@@ -1,34 +1,16 @@
 #include "../minishell.h"
 
-void	run_builtin(t_node *cur_phrase, FUNC_TYPE builtin[],
-	int func, int ps_type)
+void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[],
+	int func)
 {
 	char	*cmd;
 	char	**args;
-	int		old_fd;
 
-	if (ps_type)
-	{
-		if (cur_phrase->left)
-		{
-			old_fd = dup(STDOUT_FILENO);
-			redir_action(cur_phrase->left);
-		}
-	}
-	args = lst_to_2d_array(cur_phrase->right);
-	printf("<--------------- here 1 ----------------->\n");
-	int i = -1;
-	while (args && args[++i])
-		printf("args : %s\n", args[i]);
-	cmd = ft_strdup(cur_phrase->right->content);
-	printf("<--------------- here 2 ----------------->\n");
+	args = lst_to_2d_array(cur_cmd);
+	cmd = ft_strdup(cur_cmd->content);
 	builtin[func](args);
 	free(cmd);
 	free_2d(args);
-	if (!ps_type)
-		exit(0);
-	else if (cur_phrase->left)
-		dup_frame(old_fd, STDOUT_FILENO);
 }
 
 int	count_process(t_node *node)
@@ -85,12 +67,23 @@ void	execute(t_struct *ds)
 	int			process_cnt;
 	int			func_idx;
 	FUNC_TYPE	builtin[7];
+	int			old_fd;
 
 	format_specifier(builtin);
 	func_idx = is_builtin_func(ds->root_node->left->right);
 	process_cnt = count_process(ds->root_node);
+	old_fd = 0;
 	if (process_cnt == 1 && func_idx > -1)
-		run_builtin(ds->root_node->left, builtin, func_idx, 1);
+	{
+		if (ds->root_node->left->left)
+		{
+			old_fd = dup(STDOUT_FILENO);
+			redir_action(ds->root_node->left->left);
+		}
+		run_builtin(ds->root_node->left->right, builtin, func_idx);
+		if (ds->root_node->left->left)
+			dup_frame(old_fd, STDOUT_FILENO);
+	}
 	else
 		fork_process(ds, process_cnt, builtin);
 }

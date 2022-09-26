@@ -223,7 +223,7 @@ int		count_process(t_node *node);
 int		is_builtin_func(t_node *node);
 void	child_process(t_node *cur_phrase, char **env_arr, FUNC_TYPE builtin[]);
 void	fork_process(t_struct *ds, int cnt, FUNC_TYPE builtin[]);
-void	run_builtin(t_node *cur_phrase, FUNC_TYPE builtin[], int func, int ps_type);
+void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[], int func);
 void	execute(t_struct *ds);
 void	cmd_action(t_node *cur_cmd, char **env_arr, FUNC_TYPE builtin[]);
 void	redir_action(t_node *cur_redir);
