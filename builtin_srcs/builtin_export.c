@@ -24,28 +24,41 @@ int	builtin_arg_count(char **args)
 	return (1);
 }
 
+char	*if_value(char **split)
+{
+	char	*ptr;
+
+	ptr = NULL;
+    if (split[1])
+	{
+		ptr = ft_strdup(split[0]);
+		split[0] = save(split[0], '=', ft_strlen(split[0]));	
+	}
+	return (ptr);
+}
+
 int replace_value(char **args)
 {
     char    **split;
+	char	*tmp;
     int     i;
     int     replace_flag;
 
     split = ft_split(args[1], '=');
-    if (split[1])
-		split[0] = save(split[0], '=', ft_strlen(split[0]));
+	tmp = if_value(split);
     i = -1;
     replace_flag = 0;
-    while (env_array[++i])
+    while (env_array[++i] && replace_flag)
     {
-        if (!ft_strncmp(split[0], env_array[i], ft_strlen(split[0])))
+        if (!ft_strncmp(split[0], env_array[i], ft_strlen(split[0]))
+		|| (tmp && !ft_strncmp(tmp, env_array[i], ft_strlen(split[0]) + 1)))
         {
             if (split[1])
             {
                 free(env_array[i]);
                 env_array[i] = ft_strdup(args[1]);
+				free(tmp);
             }
-            replace_flag = 1;
-            break ;
         }
     }
     free_2d(split);
