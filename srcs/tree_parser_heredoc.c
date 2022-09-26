@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_parser_heredoc.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyolee <kyolee@student.42.seoul.kr>        +#+  +:+       +#+        */
+/*   By: sumsong <sumsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 18:22:12 by kyolee            #+#    #+#             */
-/*   Updated: 2022/09/26 18:22:18 by kyolee           ###   ########.fr       */
+/*   Updated: 2022/09/26 19:24:37 by sumsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	e_here_write(int fd, char *str, size_t len)
 static void	e_write_heredoc_str_to_file(
 				int fd,
 				char *delimiter,
-				int quoted)
+				int quoted_delimit)
 {
 	char	*expnd_str;
 	char	*str;
@@ -54,7 +54,7 @@ static void	e_write_heredoc_str_to_file(
 		str = readline("> ");
 		if (!ft_strncmp(str, delimiter, ft_strlen(delimiter) + 1))
 			break ;
-		if (!quoted)
+		if (!quoted_delimit)
 		{
 			expnd_str = e_make_expnd_str(str);
 			e_here_write(fd, expnd_str, ft_strlen(expnd_str));

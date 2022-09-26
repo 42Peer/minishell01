@@ -33,24 +33,6 @@ char	*ft_getenv(char *key)
 	return (value);
 }
 
-/*
-char	*reset_cursor(char *str, int quote_i, int env_i, int *origin_i)
-{
-	char	*piece;
-	int		i;
-
-	piece = ft_strdup("");
-	i = 0;
-	if ((quote_i && env_i && quote_i < env_i) || (quote_i && !env_i))
-		i = quote_i;
-	else if ((quote_i && env_i && quote_i > env_i) || (!quote_i && env_i))
-		i = env_i;
-	while (*origin_i < i)
-		piece = save(piece, str[(*origin_i)++], ft_strlen(piece));
-	--(*origin_i);
-	return (piece);
-}
-*/
 char	*save(char *src, char c, size_t len)
 {
 	char	*dst;
