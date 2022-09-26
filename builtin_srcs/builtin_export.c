@@ -3,10 +3,19 @@
 int	builtin_arg_count(char **args)
 {
 	int	arg_cnt;
+	int	i;
 
 	arg_cnt = 0;
 	while (args[arg_cnt])
 		++arg_cnt;
+	if (arg_cnt == 1)
+	{
+		i = 0;
+		while (env_array[++i])
+			printf("%s\n", env_array[i]);
+		set_or_get_status(0);
+		return (0);
+	}
 	if (arg_cnt != 2)
 	{
 		printf("ERROR: syntax error!\n");
@@ -17,16 +26,19 @@ int	builtin_arg_count(char **args)
 
 int	replace_value(char **args)
 {
-	char	**split;
+	size_t	split_i;
 	int		i;
 	int		replace_flag;
 
-	split = ft_split(args[1], '=');
+	split_i = 0;
+	while (args[1][split_i] && args[1][split_i] != '=')
+		++split_i;
 	i = -1;
 	replace_flag = 0;
 	while (env_array[++i])
 	{
-		if (ft_strncmp(split[0], env_array[i], ft_strlen(split[0]) + 1) == 0)
+		if (env_array[i][split_i] == '\0'
+			|| ft_strncmp(args[1], env_array[i], split_i + 1) == 0)
 		{
 			free(env_array[i]);
 			env_array[i] = ft_strdup(args[1]);
@@ -34,10 +46,6 @@ int	replace_value(char **args)
 			break ;
 		}
 	}
-	i = -1;
-	while (split[++i])
-		free(split[i]);
-	free(split);
 	return (replace_flag);
 }
 
