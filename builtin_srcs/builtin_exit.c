@@ -1,5 +1,11 @@
 #include "../minishell.h"
 
+void	print_and_exit(void)
+{
+	printf("exit\n");
+	ft_exit(SUCCESS_EXECUTE);
+}
+
 void	if_non_num(void)
 {
 	printf("minishell: exit: a: numeric argument required\n");
@@ -29,12 +35,6 @@ int	cnt_args(char **args)
 	while (args[idx])
 		idx++;
 	return (idx);
-}
-
-void	print_and_exit(void)
-{
-	printf("exit\n");
-	ft_exit(SUCCESS_EXECUTE);
 }
 
 void	builtin_exit(char **args)
