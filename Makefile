@@ -17,7 +17,14 @@ SRC			=	main.c \
 				quote.c \
 				execute.c \
 				signal_handler.c \
-				test.c utils.c
+				test.c utils.c \
+				cmd_action.c \
+				delete_quote.c \
+				fork_frame.c \
+				ft_strjoin.c \
+				open_redir_file.c \
+				path.c
+
 BUILTIN_DIR	=	./builtin_srcs/
 BUILTIN		=	builtin_pwd.c \
 				builtin_cd.c \
