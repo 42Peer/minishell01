@@ -204,6 +204,7 @@ char	*single_quote(char *str, int *quote_i, int *quoted);	// '를 만났을 때,
 char	*double_quote(char *str, int *quote_i, int *quoted);		// quote_i는 " 위치.
 char	*delquote(char *str, int *quoted);
 char	*dollar_sign(char *str, int *env_i);
+char	*ft_getenv(char *key);
 
 char	**func_heredoc(t_node *node, char *delimiter, int quoted);
 void	cmd_parser(t_node *node);
@@ -221,6 +222,15 @@ void	fork_process(t_struct *ds, int cnt, FUNC_TYPE builtin[]);
 void	run_builtin(t_node *cur_phrase, FUNC_TYPE builtin[], int func, int ps_type);
 void	execute(t_struct *ds);
 void	cmd_action(t_node *cur_cmd, char **env_arr, FUNC_TYPE builtin[]);
+void	redir_action(t_node *cur_redir);
+char	**lst_to_2d_array(t_node *arg);
+void	dup_frame(int fd, int std);
+int		is_absolute_path(char *path);
+int		is_relative_path(char *path);
+char	*search_path(char *cmd, char **env_arr);
+void	open_redir_file(char *file, int mode);
+
+
 
 /*
  *						func_frame
