@@ -10,7 +10,7 @@ static void	cmd_parser(t_node *node)
 	cmd_parser(node->right);
 	if (node->type == T_WORD)
 	{
-		new_content = delquote(node->content, NULL);
+		new_content = delquote_expand(node->content, NULL);
 		free(node->content);
 		node->content = new_content;
 	}
@@ -42,7 +42,8 @@ static void	redir_parser(t_node *node, int *flag)
 		check_invalid_redir_content(node, flag);
 		if (ft_strncmp(node->content, "<<", 3) == 0)
 		{
-			new_content = delquote(node->right->content, &quoted_delimit);
+			new_content = delquote_expand(node->right->content,
+					&quoted_delimit);
 			free(node->right->content);
 			node->type = T_HEREDOC;
 			node->right->content = new_content;

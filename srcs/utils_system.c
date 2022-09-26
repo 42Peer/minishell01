@@ -52,4 +52,3 @@ void	builtin_error(void)
 	write(2, "\n", 1);
 	set_or_get_status(GENERAL_ERROR);
 }
-
