@@ -67,6 +67,7 @@ void	builtin_cd(char **args)
 	if (args[2] != 0)
 	{
 		printf("too many arguments\n");
+		set_or_get_status(GENERAL_ERROR);
 		return ;
 	}
 	if (get_pwd(old_path) < 0)

@@ -1,5 +1,30 @@
 #include "../minishell.h"
 
+int	is_valid_args(char **args)
+{
+	int	str_idx;
+	int	chr_idx;
+	int	ch;
+
+	str_idx = 0;
+	while (args[str_idx])
+	{
+		chr_idx = 0;
+		while (args[str_idx][chr_idx])
+		{
+			ch = args[str_idx][chr_idx];
+			if ((chr_idx == 0) && (ch >= '0' && ch <= '9'))
+				return (0);
+			if (!ft_isalnum(ch) && (ch != '_'))
+				return (0);
+			++chr_idx;
+		}
+		++str_idx;
+	}
+	return (1);
+}
+
+
 int	is_exist(char **args)
 {
 	int		i;
@@ -31,9 +56,10 @@ int	builtin_unset_arg_count(char **args)
 		++arg_cnt;
 	if (arg_cnt == 1)
 		return (0);
-	if (arg_cnt != 2)
+	if (!is_valid_args(args))
 	{
 		printf("ERROR: syntax error!\n");
+		set_or_get_status(1);
 		return (0);
 	}
 	return (1);

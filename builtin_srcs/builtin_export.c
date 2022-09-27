@@ -19,6 +19,7 @@ int	builtin_arg_count(char **args)
 	if (arg_cnt != 2)
 	{
 		printf("ERROR: syntax error!\n");
+		set_or_get_status(1);
 		return (0);
 	}
 	return (1);
