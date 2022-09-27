@@ -53,4 +53,5 @@ void	cmd_action(t_node *cur_cmd, char **env_arr, FUNC_TYPE builtin[])
 			path = no_search_path(cur_cmd, args, cur_cmd->content);
 		execve_frame(path, args, env_arr);
 	}
+	free_2d(args);
 }

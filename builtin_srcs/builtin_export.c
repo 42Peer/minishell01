@@ -41,23 +41,24 @@ int replace_value(char **args)
 {
     char    **split;
 	char	*tmp;
-    int     i;
+	int     i;
     int     replace_flag;
 
     split = ft_split(args[1], '=');
 	tmp = if_value(split);
     i = -1;
     replace_flag = 0;
-    while (env_array[++i] && replace_flag)
+    while (env_array[++i] && !replace_flag)
     {
         if (!ft_strncmp(split[0], env_array[i], ft_strlen(split[0]))
-		|| (tmp && !ft_strncmp(tmp, env_array[i], ft_strlen(split[0]) + 1)))
+		|| (tmp && !ft_strncmp(tmp, env_array[i], ft_strlen(tmp) + 1)))
         {
             if (split[1])
             {
                 free(env_array[i]);
                 env_array[i] = ft_strdup(args[1]);
 				free(tmp);
+				replace_flag = 1;
             }
         }
     }

@@ -1,7 +1,7 @@
 NAME = minishell
-CC 			=	cc
+CC 			=	gcc
 #CCFLAGS	=	-I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib -g -lreadline
-CCFLAGS		=	-Wall -Wextra -Werror
+CCFLAGS		=	-Wall -Wextra -Werror -g
 CCFLAGS_G	=	-Wall -Wextra -Werror -g
 SANITIZER	=	-fsanitize=address
 IREADLINE	=	-I /usr/local/opt/readline/include/
