@@ -48,6 +48,7 @@ void	cmd_action(t_node *cur_cmd, char **env_arr, FUNC_TYPE builtin[])
 		(void)env_arr;
 		if (stat(cur_cmd->content, &statbuf) == -1)
 			cmd_not_found_error(cur_cmd);
+		printf("hey\n");
 		execve_frame(cur_cmd->content, args, env_arr);
 	}
 	else
@@ -58,4 +59,5 @@ void	cmd_action(t_node *cur_cmd, char **env_arr, FUNC_TYPE builtin[])
 		if (path)
 			execve_frame(path, args, env_arr);
 	}
+	free_2d(args);
 }

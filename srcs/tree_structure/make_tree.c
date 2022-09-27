@@ -50,6 +50,7 @@ int	make_tree(t_struct *ds)
 	ds->root_node = make_dummy_node();
 	cur_token = ds->head_token;
 	cur_process = ds->root_node;
+	flag = 0;
 	while (cur_token)
 	{
 		if (cur_token->type == T_REDIR)
