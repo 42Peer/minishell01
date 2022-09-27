@@ -9,6 +9,10 @@ void	case_part_of_operator(char *str, t_token_info *info)
 		make_token(str, info->cur_idx - 1, info);
 		if (!is_whitespace(str[info->cur_idx]))
 		{
+			if (str[info->cur_idx] == '\'')
+				info->sin_quoted = 1;
+			else if (str[info->cur_idx] == '"')
+				info->dou_quoted = 1;
 			info->start_idx = info->cur_idx;
 			info->token_type = T_WORD;
 		}
