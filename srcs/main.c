@@ -42,6 +42,7 @@ int	main(int argc, char **argv, char **envp)
 			cleaner(str, &ds, NULL);
 			continue ;
 		}
+		// ft_traverse(ds.root_node);
 		execute(&ds);
 		cleaner(str, &ds, NULL);
 	}

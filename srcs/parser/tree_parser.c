@@ -29,6 +29,17 @@ static void	check_invalid_redir_content(t_node *node, int *flag)
 	}
 }
 
+void	redir_deal_quote(t_node *node)
+{
+	char	*new_content;	
+	int		quoted_delimit;
+
+	quoted_delimit = 0;
+	new_content = delquote_expand(node->content, &quoted_delimit);
+	free(node->content);
+	node->content = new_content;
+}
+
 static void	redir_parser(t_node *node, int *flag)
 {
 	int		quoted_delimit;
@@ -49,6 +60,8 @@ static void	redir_parser(t_node *node, int *flag)
 			node->right->content = new_content;
 			func_heredoc(node, node->right->content, quoted_delimit);
 		}
+		if (node->right)
+		redir_deal_quote(node->right);
 	}
 	else
 	{
