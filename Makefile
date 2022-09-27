@@ -4,8 +4,8 @@ CC 			=	cc
 CCFLAGS		=	-Wall -Wextra -Werror
 CCFLAGS_G	=	-Wall -Wextra -Werror -g
 SANITIZER	=	-fsanitize=address
-IREADLINE	=	-I /usr/local/opt/readline/include/
-LREADLINE	=	-L /usr/local/opt/readline/lib/
+IREADLINE	=	-I/opt/homebrew/opt/readline/include
+LREADLINE	=	-L/opt/homebrew/opt/readline/lib
 RM			=	rm -f
 
 SRC_DIR		=	./srcs/
