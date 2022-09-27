@@ -51,15 +51,15 @@ int replace_value(char **args)
     while (env_array[++i] && !replace_flag)
     {
         if (!ft_strncmp(split[0], env_array[i], ft_strlen(split[0]))
-		|| (tmp && !ft_strncmp(tmp, env_array[i], ft_strlen(tmp) + 1)))
+		|| (tmp && !ft_strncmp(tmp, env_array[i], ft_strlen(tmp))))
         {
-            if (split[1])
+            if (tmp)
             {
                 free(env_array[i]);
                 env_array[i] = ft_strdup(args[1]);
 				free(tmp);
-				replace_flag = 1;
             }
+			replace_flag = 1;
         }
     }
     free_2d(split);
