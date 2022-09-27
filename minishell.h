@@ -22,7 +22,7 @@
 
 # define ERROR		1
 # define SUCCESS	0
-# define PATH_MAX	1024
+//# define PATH_MAX	1024
 
 typedef void	(*FUNC_TYPE)(char **);
 char **env_array;
