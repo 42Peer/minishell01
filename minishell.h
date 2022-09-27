@@ -164,7 +164,7 @@ size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strjoin_no_free(char *s1, char *s2);
-
+int		ft_isalnum(int c);
 void	print_content(char *str);			// tmp func
 
 

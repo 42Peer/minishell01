@@ -19,6 +19,12 @@ void	builtin_env(char **args)
 	int	i;
 
 	(void)args;
+	if (args[1] != 0)
+	{
+		printf("too many arguments\n");
+		set_or_get_status(GENERAL_ERROR);
+		return ;
+	}
 	i = -1;
 	while (env_array[++i])
 	{
