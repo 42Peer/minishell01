@@ -55,6 +55,7 @@ void	cmd_action(t_node *cur_cmd, char **env_arr, FUNC_TYPE builtin[])
 		path = search_path(cur_cmd->content, env_arr);
 		if (!path)
 			path = no_search_path(cur_cmd, args, cur_cmd->content);
-		execve_frame(path, args, env_arr);
+		if (path)
+			execve_frame(path, args, env_arr);
 	}
 }
