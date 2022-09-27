@@ -1,5 +1,8 @@
 #include "../minishell.h"
 
+static char	*if_value(char **split);
+static int	env_reassignment(char *args, char *tmp, char *env_array, char **split);
+
 int	builtin_arg_count(char **args)
 {
 	int	arg_cnt;
@@ -24,7 +27,7 @@ int	builtin_arg_count(char **args)
 	return (1);
 }
 
-char	*if_value(char **split)
+static char	*if_value(char **split)
 {
 	char	*ptr;
 
@@ -32,9 +35,25 @@ char	*if_value(char **split)
     if (split[1])
 	{
 		ptr = ft_strdup(split[0]);
-		split[0] = save(split[0], '=', ft_strlen(split[0]));	
+		ptr = save(ptr, '=', ft_strlen(ptr));	
 	}
 	return (ptr);
+}
+
+static int	env_reassignment(char *args, char *tmp, char *env_array, char **split)
+{
+	int	flag;
+
+	flag = 0;
+	if (!tmp && env_array[ft_strlen(split[0])] == '=')
+		flag = 1;
+	if (!flag && tmp)
+	{
+		free(env_array);
+		env_array = ft_strdup(args);
+		flag = 1;
+	}
+	return (flag);
 }
 
 int replace_value(char **args)
@@ -49,21 +68,12 @@ int replace_value(char **args)
     i = -1;
     replace_flag = 0;
     while (env_array[++i] && !replace_flag)
-    {
-        if (!ft_strncmp(split[0], env_array[i], ft_strlen(split[0]))
+        if ((!ft_strncmp(split[0], env_array[i], ft_strlen(split[0])))
 		|| (tmp && !ft_strncmp(tmp, env_array[i], ft_strlen(tmp))))
-        {
-            if (tmp)
-            {
-                free(env_array[i]);
-                env_array[i] = ft_strdup(args[1]);
-				free(tmp);
-            }
-			replace_flag = 1;
-        }
-    }
+			replace_flag = env_reassignment(args[1], tmp, env_array[i], split);
     free_2d(split);
-    return (replace_flag);
+    free(tmp);
+	return (replace_flag);
 }
 
 void	builtin_export(char **args)
