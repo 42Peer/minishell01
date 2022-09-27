@@ -15,7 +15,7 @@ void	child_process(t_node *cur_phrase, char **env_arr, FUNC_TYPE builtin[])
 		redir_action(cur_phrase->left);
 	if (cur_phrase->right)
 		cmd_action(cur_phrase->right, env_arr, builtin);
-	exit(0);
+	exit(set_or_get_status(-1));
 }
 
 void	fork_frame(t_node **cur_process, FUNC_TYPE builtin[])
