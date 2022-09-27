@@ -2,6 +2,11 @@
 
 void	execve_frame(char *path, char **args, char **env_arr)
 {
+	if (opendir(path))
+	{
+		printf("-minishell: %s: Is a directory\n", path);
+		return ;
+	}
 	if (execve(path, args, env_arr) == -1)
 		system_call_error(errno);
 }
