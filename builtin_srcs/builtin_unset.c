@@ -6,7 +6,7 @@ int	is_valid_args(char **args)
 	int	chr_idx;
 	int	ch;
 
-	str_idx = 0;
+	str_idx = 1;
 	while (args[str_idx])
 	{
 		chr_idx = 0;
