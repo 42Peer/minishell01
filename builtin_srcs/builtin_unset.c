@@ -22,11 +22,28 @@ int	is_exist(char **args)
 	return (exist_i);
 }
 
+int	builtin_unset_arg_count(char **args)
+{
+	int	arg_cnt;
+
+	arg_cnt = 0;
+	while (args[arg_cnt])
+		++arg_cnt;
+	if (arg_cnt == 1)
+		return (0);
+	if (arg_cnt != 2)
+	{
+		printf("ERROR: syntax error!\n");
+		return (0);
+	}
+	return (1);
+}
+
 int	unset_work_condition(char **args)
 {
 	int	exist_i;
 
-	if (!builtin_arg_count(args))
+	if (!builtin_unset_arg_count(args))
 		return (-1);
 	exist_i = is_exist(args);
 	return (exist_i);
