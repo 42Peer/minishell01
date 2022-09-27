@@ -19,6 +19,8 @@ static char	*e_make_expnd_str(char *str)
 
 	i = -1;
 	expnd_str = NULL;
+	if (str[0] == '\0')
+		expnd_str = ft_strdup("");
 	while (str[++i])
 	{
 		if (str[i] == '$')
