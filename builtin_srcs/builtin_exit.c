@@ -14,15 +14,22 @@ void	if_non_num(void)
 
 int	is_numeric(char *str)
 {
-	int	i;
+	char	*temp;
 
-	i = 0;
-	while (str[i] != '\0')
+	while (*str == 32 || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == '-' || *str == '+')
+		str++;
+	temp = (char *)str;
+	while (temp[0] == '0' && temp[0] != '\0')
+		temp++;
+	if (ft_strlen(temp) > 10)
+		return (0);
+	while (*str)
 	{
-		if ((str[i] >= '0') && (str[i] <= '9'))
-			i++;
-		else
+		if (*str < '0' || *str > '9')
 			return (0);
+		str++;
 	}
 	return (1);
 }
