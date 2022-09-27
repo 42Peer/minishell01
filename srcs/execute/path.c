@@ -20,6 +20,8 @@ char	*search_path(char *cmd, char **env_arr)
 	int			i;
 	struct stat	statbuf;
 
+	if (cmd[0] == '\0')
+		return (NULL);
 	i = -1;
 	path = ft_strjoin_no_free("/", cmd);
 	other_paths = NULL;
@@ -56,6 +58,8 @@ char	*no_search_path(t_node *cur_cmd, char **args, char *cmd)
 	struct stat	statbuf;
 	size_t		len;
 
+	if (cmd[0] == '\0')
+		return (NULL);
 	if (getcwd(cwd_buff, PATH_MAX) == 0)
 	{
 		free_2d(args);
