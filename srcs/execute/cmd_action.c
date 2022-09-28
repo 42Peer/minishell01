@@ -31,7 +31,11 @@ char	**lst_to_2d_array(t_node *arg)
 	return (ptr);
 }
 
-void	cmd_action(t_node *cur_cmd, char **env_arr, FUNC_TYPE builtin[])
+void	cmd_action(
+	t_node *cur_cmd, 
+	char **env_arr, 
+	FUNC_TYPE builtin[], 
+	int old_stdin)
 {
 	char		*path;
 	char		**args;
@@ -41,7 +45,7 @@ void	cmd_action(t_node *cur_cmd, char **env_arr, FUNC_TYPE builtin[])
 	args = lst_to_2d_array(cur_cmd);
 	func_idx = is_builtin_func(cur_cmd);
 	if (func_idx > -1)
-		run_builtin(cur_cmd, builtin, func_idx);
+		run_builtin(cur_cmd, builtin, func_idx, old_stdin);
 	else if (is_absolute_path(cur_cmd->content)
 		|| is_relative_path(cur_cmd->content))
 	{

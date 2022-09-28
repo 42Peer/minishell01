@@ -1,7 +1,7 @@
 #include "../../minishell.h"
 
 void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[],
-	int func)
+	int func, int old_stdin)
 {
 	char	*cmd;
 	char	**args;
@@ -9,6 +9,8 @@ void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[],
 	args = lst_to_2d_array(cur_cmd);
 	cmd = ft_strdup(cur_cmd->content);
 	builtin[func](args);
+	dup_frame(old_stdin, STDIN_FILENO);
+	close(old_stdin);
 	free(cmd);
 	free_2d(args);
 }
@@ -67,22 +69,24 @@ void	execute(t_struct *ds)
 	int			process_cnt;
 	int			func_idx;
 	FUNC_TYPE	builtin[7];
-	int			old_fd;
+	int			old_stdout;
+	int			old_stdin;
 
 	format_specifier(builtin);
 	func_idx = is_builtin_func(ds->root_node->left->right);
 	process_cnt = count_process(ds->root_node);
-	old_fd = 0;
+	old_stdout = 0;
+	old_stdin = dup(STDIN_FILENO);
 	if (process_cnt == 1 && func_idx > -1)
 	{
 		if (ds->root_node->left->left)
 		{
-			old_fd = dup(STDOUT_FILENO);
+			old_stdout = dup(STDOUT_FILENO);
 			redir_action(ds->root_node->left->left);
 		}
-		run_builtin(ds->root_node->left->right, builtin, func_idx);
+		run_builtin(ds->root_node->left->right, builtin, func_idx, old_stdin);
 		if (ds->root_node->left->left)
-			dup_frame(old_fd, STDOUT_FILENO);
+			dup_frame(old_stdout, STDOUT_FILENO);
 	}
 	else
 		fork_process(ds, process_cnt, builtin);
