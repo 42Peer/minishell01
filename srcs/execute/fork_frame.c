@@ -11,10 +11,13 @@ int	get_child_exit_value(int status)
 
 void	child_process(t_node *cur_phrase, char **env_arr, FUNC_TYPE builtin[])
 {
+	int	old_stdin;
+
+	old_stdin = dup(STDIN_FILENO);
 	if (cur_phrase->left)
 		redir_action(cur_phrase->left);
 	if (cur_phrase->right)
-		cmd_action(cur_phrase->right, env_arr, builtin);
+		cmd_action(cur_phrase->right, env_arr, builtin, old_stdin);
 	exit(set_or_get_status(-1));
 }
 
