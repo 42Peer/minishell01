@@ -21,6 +21,8 @@ char	*expand_env(char *str, int i, int *cur)
 char	*dollar_sign(char *str, int *cur)
 {
 	int		i;
+	char	*str_err_num;
+	char	*str_itoa;
 
 	i = *cur + 1;
 	if (str[i] == '\0' || is_whitespace(str[i]))
@@ -28,7 +30,10 @@ char	*dollar_sign(char *str, int *cur)
 	if (str[i] == '?')
 	{
 		*cur = i;
-		return (ft_strdup(ft_itoa(set_or_get_status(-1))));
+		str_itoa = ft_itoa(set_or_get_status(-1)); 
+		str_err_num = ft_strdup(str_itoa);
+		free(str_itoa);
+		return (str_err_num);
 	}
 	else
 		return (expand_env(str, i, cur));
