@@ -14,7 +14,7 @@ void	about_prompt(char **p_str)
 	signal_handler();
 	*p_str = readline("minishell > ");
 	if (!(*p_str))
-		exit(set_or_get_status(-1)); // exit status를 출력해야함
+		exit(set_or_get_status(-1));
 	in_process_signal_handler();
 	add_history(*p_str);
 }
@@ -42,7 +42,6 @@ int	main(int argc, char **argv, char **envp)
 			cleaner(str, &ds, NULL);
 			continue ;
 		}
-		// ft_traverse(ds.root_node);
 		execute(&ds);
 		cleaner(str, &ds, NULL);
 	}

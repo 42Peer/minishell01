@@ -25,7 +25,7 @@ char	*dollar_sign(char *str, int *cur)
 	i = *cur + 1;
 	if (str[i] == '\0' || is_whitespace(str[i]))
 		return (ft_strdup("$"));
-	if (str[i] == '?' /*&& (str[i + 1] == '\0' || is_whitespace(str[i + 1]))*/)
+	if (str[i] == '?')
 	{
 		*cur = i;
 		return (ft_strdup(ft_itoa(set_or_get_status(-1))));

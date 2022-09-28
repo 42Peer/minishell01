@@ -1,11 +1,11 @@
 #include "../minishell.h"
 
-char *token_str[8]
-	= {"NONE", "T_WORD", "T_PIPE", "T_REDIR", "T_HEREDOC", "N_REDIR",
-	"N_PHRASE", "N_PROCESS"};
-
 void	ft_traverse(t_node *node)
 {
+	const char	*token_str[8]
+		= {"NONE", "T_WORD", "T_PIPE", "T_REDIR", "T_HEREDOC", "N_REDIR",
+		"N_PHRASE", "N_PROCESS"};
+
 	if (!(node))
 		return ;
 	if (node)

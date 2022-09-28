@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tree_parser_heredoc.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sumsong <sumsong@student.42seoul.kr>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/26 18:22:12 by kyolee            #+#    #+#             */
-/*   Updated: 2022/09/26 19:24:37 by sumsong          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../minishell.h"
 
 static char	*e_make_expnd_str(char *str)
@@ -58,6 +46,7 @@ static void	e_write_heredoc_str_to_file(
 			break ;
 		if (!quoted_delimit)
 		{
+			free(expnd_str);
 			expnd_str = e_make_expnd_str(str);
 			e_here_write(fd, expnd_str, ft_strlen(expnd_str));
 		}
