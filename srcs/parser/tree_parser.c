@@ -60,15 +60,14 @@ static void	redir_parser(t_node *node, int *flag)
 			node->right->content = new_content;
 			func_heredoc(node, node->right->content, quoted_delimit);
 		}
-		if (node->right)
-		redir_deal_quote(node->right);
 	}
-	else
-	{
-		redir_parser(node->right, flag);
-		redir_parser(node->left, flag);
-	}
+	else if (node->type == T_WORD)
+		redir_deal_quote(node);
+	redir_parser(node->right, flag);
+	redir_parser(node->left, flag);
 }
+		// if (node->right)
+		// redir_deal_quote(node->right);
 
 int	tree_parser(t_node *node, int *flag)
 {

@@ -32,9 +32,9 @@ char	**lst_to_2d_array(t_node *arg)
 }
 
 void	cmd_action(
-	t_node *cur_cmd, 
-	char **env_arr, 
-	FUNC_TYPE builtin[], 
+	t_node *cur_cmd,
+	char **env_arr,
+	FUNC_TYPE builtin[],
 	int old_stdin)
 {
 	char		*path;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_isalnum.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kyolee <kyolee@student.42.seoul.kr>        +#+  +:+       +#+        */
+/*   By: jujeon <jujeon@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 14:10:27 by kyolee            #+#    #+#             */
-/*   Updated: 2022/09/27 19:03:37 by kyolee           ###   ########.fr       */
+/*   Updated: 2022/09/28 15:02:32 by jujeon           ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,3 @@ int	ft_isalnum(int c)
 	else
 		return (0);
 }
-
