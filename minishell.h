@@ -147,14 +147,15 @@ void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstclear(t_token **lst);
 int		ft_lstsize(t_node *lst);
 
-// libft_utils_1~n.c
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
 
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
+void	print_content(char *str);			// tmp func
 
+size_t	ft_arrlen(char **arr);
 size_t	ft_strlen(char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(char *s1);
@@ -165,7 +166,6 @@ size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strjoin_no_free(char *s1, char *s2);
 int		ft_isalnum(int c);
-void	print_content(char *str);			// tmp func
 
 
 /*
