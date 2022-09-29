@@ -153,6 +153,7 @@ char	*ft_itoa(int n);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
+void	check_args(char **args);
 void	print_content(char *str);			// tmp func
 
 size_t	ft_arrlen(char **arr);
@@ -166,7 +167,6 @@ size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strjoin_no_free(char *s1, char *s2);
 int		ft_isalnum(int c);
-
 
 /*
  *						part I tokenize.c

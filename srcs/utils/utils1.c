@@ -40,6 +40,18 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
+void	check_args(char **args)
+{
+	if (!(args[1]))
+		return ;
+	if (args[2] != 0)
+	{
+		printf("too many arguments\n");
+		set_or_get_status(GENERAL_ERROR);
+		return ;
+	}
+}
+
 void	print_content(char *str)
 {
 	printf("%s", str);

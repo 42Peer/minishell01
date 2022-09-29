@@ -61,17 +61,10 @@ void	builtin_cd(char **args)
 	char		old_path[PATH_MAX];
 	char		new_path[PATH_MAX];
 
+	check_args(args);
 	path = args[1];
-	if (!(args[1]))
-		return ;
-	if (args[2] != 0)
-	{
-		printf("too many arguments\n");
-		set_or_get_status(GENERAL_ERROR);
-		return ;
-	}
 	if (get_pwd(old_path) < 0)
-		return ;	
+		return ;
 	if (chdir(path))
 	{
 		builtin_error();
