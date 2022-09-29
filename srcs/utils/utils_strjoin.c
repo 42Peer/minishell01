@@ -63,7 +63,7 @@ char	*ft_strjoin_no_free(char *s1, char *s2)
 
 char	*ft_free_and_new_str(char *str)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = ft_strdup(str);
 	free(str);
