@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **envp)
 	int			syntx_erred;
 
 	main_init(&syntx_erred, &ds, argc, argv);
-	make_env_array(envp);
+	make_g_env_array(envp);
 	while (1)
 	{
 		about_prompt(&str);

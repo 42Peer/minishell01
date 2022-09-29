@@ -1,53 +1,64 @@
-#ifndef	MINISHELL_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sumsong <sumsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/29 18:27:19 by sumsong           #+#    #+#             */
+/*   Updated: 2022/09/29 18:32:00 by sumsong          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MINISHELL_H
 # define MINISHELL_H
 
 // # include "libft/libft.h"
-# include <stdio.h>				// printf,
-# include <stdlib.h>			// malloc, free, exit, getenv,
-# include <unistd.h>			// write, close, fork, getcwd, unlink, execve, dup, dup2, pipe, chdir, isatty, ttyname, ttyslot,
-# include <fcntl.h>				// open,
-# include <sys/wait.h>			// wait, waitpid, wait3, wait4,
-# include <signal.h>			// signal, kill,
-# include <dirent.h>			// opendir, readdir, closedir,
-# include <sys/types.h>			//
-# include <sys/stat.h>			// stat, lstat, fstat,
-# include <string.h>			// strerror,
-# include <errno.h>				// errno,
-# include <sys/ioctl.h>			// ioctl,
-# include <termios.h>			// tcsetattr, tcgetattr,
-# include <term.h>				// tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
-# include <readline/readline.h>	// readline,
-# include <readline/history.h>	// rl_on_new_line, rl_replace_line, rl_redisplay, add_history,
+# include <stdio.h>				
+# include <stdlib.h>			
+# include <unistd.h>			
+# include <fcntl.h>				
+# include <sys/wait.h>			
+# include <signal.h>			
+# include <dirent.h>			
+# include <sys/types.h>			
+# include <sys/stat.h>			
+# include <string.h>			
+# include <errno.h>				
+# include <sys/ioctl.h>			
+# include <termios.h>			
+# include <term.h>				
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <limits.h>
 
 # define ERROR		1
 # define SUCCESS	0
 //# define PATH_MAX	1024
 
-typedef void	(*FUNC_TYPE)(char **);
-char **env_array;
+typedef void	(*t_func_type)(char **);
+char			**g_env_array;
 
 typedef enum e_err
 {
 	SUCCESS_EXECUTE = 0,
 	GENERAL_ERROR = 1,
 	ALLOC_FAIL = 12,
-	EXEC_FILE_FAIL = 126,//execve == -1 && errno~
+	EXEC_FILE_FAIL = 126,
 	CMD_NOT_FOUND = 127,
 	SYNTAX_ERROR = 258,
-	SIG_INT = 130,//sigint
-	SIG_QUIT = 131//sigquit
+	SIG_INT = 130,
+	SIG_QUIT = 131
 }	t_err;
 
 typedef enum e_mode
 {
-    READ,
-    WRITE,
+	READ,
+	WRITE,
 	APPEND,
-    END,
-    CONTINUE
+	END,
+	CONTINUE
 }	t_mode;
-
 
 typedef enum e_type
 {
@@ -57,7 +68,7 @@ typedef enum e_type
 	T_REDIR,
 	T_HEREDOC,
 	N_REDIR,
-	N_PHRASE, // pipe 있을 경우 필요함.
+	N_PHRASE,
 	N_PROCESS
 }	t_type;
 
@@ -81,11 +92,11 @@ typedef struct s_token_info
 	int		sin_quoted;
 	int		dou_quoted;
 	t_type	token_type;
-	t_token *token_list;
+	t_token	*token_list;
 }	t_token_info;
 
 typedef struct s_node
-{ // T_WORD, T_PIPE, T_REDIR, N_REDIR, N_PHRASE, N_PROCESS
+{
 	int				type;
 	char			*content;
 	struct s_node	*left;
@@ -124,7 +135,7 @@ void	make_env_list(char **envp, t_struct *ds);
 void	env_lstclear(t_env **lst);
 void	env_lstiter(t_env *lst, void (*f)(char *));		// tmp_func
 
-void	make_env_array(char **envp);
+void	make_g_env_array(char **envp);
 
 /*
  *						util function
@@ -222,11 +233,12 @@ int		tree_parser(t_node *node, int *flag);
 
 int		count_process(t_node *node);
 int		is_builtin_func(t_node *node);
-void	child_process(t_node *cur_phrase, FUNC_TYPE builtin[]);
-void	fork_process(t_struct *ds, int cnt, FUNC_TYPE builtin[]);
-void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[], int func, int old_stdin);
+void	child_process(t_node *cur_phrase, t_func_type builtin[]);
+void	fork_process(t_struct *ds, int cnt, t_func_type builtin[]);
+void	run_builtin(t_node *cur_cmd, t_func_type builtin[],
+			int func, int old_stdin);
 void	execute(t_struct *ds);
-void	cmd_action(t_node *cur_cmd, FUNC_TYPE builtin[], int old_stdin);
+void	cmd_action(t_node *cur_cmd, t_func_type builtin[], int old_stdin);
 void	cmd_action_init(t_node *cur_cmd, char ***p_args, int *p_func_idx);
 void	redir_action(t_node *cur_redir);
 char	**lst_to_2d_array(t_node *arg);
@@ -240,7 +252,7 @@ void	open_redir_file(char *file, int mode);
  *						func_frame
 */
 
-void	child_pipe(t_node **cur_process, FUNC_TYPE builtin[]);
+void	child_pipe(t_node **cur_process, t_func_type builtin[]);
 void	e_execve(char *path, char **args);
 char	*no_search_path(t_node *cur_cmd, char **args, char *cmd);
 

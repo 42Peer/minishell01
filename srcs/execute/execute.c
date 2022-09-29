@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[],
+void	run_builtin(t_node *cur_cmd, t_func_type builtin[],
 	int func, int old_stdin)
 {
 	char	**args;
@@ -65,7 +65,7 @@ void	execute(t_struct *ds)
 {
 	int			process_cnt;
 	int			func_idx;
-	FUNC_TYPE	builtin[7];
+	t_func_type	builtin[7];
 	int			old_stdout;
 	int			old_stdin;
 

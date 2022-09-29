@@ -30,10 +30,10 @@ void	builtin_env(char **args)
 		}
 	}
 	i = -1;
-	while (env_array[++i])
+	while (g_env_array[++i])
 	{
-		if (ft_strchr(env_array[i], '=') != -1)
-			printf("%s\n", env_array[i]);
+		if (ft_strchr(g_env_array[i], '=') != -1)
+			printf("%s\n", g_env_array[i]);
 	}
 	set_or_get_status(0);
 }

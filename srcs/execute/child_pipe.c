@@ -9,7 +9,7 @@ int	get_child_exit_value(int status)
 	return (0);
 }
 
-void	child_process(t_node *cur_phrase, FUNC_TYPE builtin[])
+void	child_process(t_node *cur_phrase, t_func_type builtin[])
 {
 	int	old_stdin;
 
@@ -21,7 +21,7 @@ void	child_process(t_node *cur_phrase, FUNC_TYPE builtin[])
 	exit(set_or_get_status(-1));
 }
 
-void	child_pipe(t_node **cur_process, FUNC_TYPE builtin[])
+void	child_pipe(t_node **cur_process, t_func_type builtin[])
 {
 	int		fd[2];
 	pid_t	pid;
@@ -42,7 +42,7 @@ void	child_pipe(t_node **cur_process, FUNC_TYPE builtin[])
 	*cur_process = (*cur_process)->right;
 }
 
-void	fork_process(t_struct *ds, int cnt, FUNC_TYPE builtin[])
+void	fork_process(t_struct *ds, int cnt, t_func_type builtin[])
 {
 	int		backup_fd;
 	int		status;

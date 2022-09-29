@@ -2,11 +2,11 @@
 
 void	put_paths(int *p_i, char ***p_other_paths)
 {
-	while (env_array[++(*p_i)])
+	while (g_env_array[++(*p_i)])
 	{
-		if (!ft_strncmp(env_array[*p_i], "PATH=", 5))
+		if (!ft_strncmp(g_env_array[*p_i], "PATH=", 5))
 		{
-			*p_other_paths = ft_split(&env_array[*p_i][5], ':');
+			*p_other_paths = ft_split(&g_env_array[*p_i][5], ':');
 			break ;
 		}
 	}

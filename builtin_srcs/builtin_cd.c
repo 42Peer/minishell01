@@ -31,11 +31,11 @@ int	is_found_str_in_environ(char *str1, char *str2)
 	int	idx;
 
 	idx = -1;
-	while (env_array[++idx])
+	while (g_env_array[++idx])
 	{
-		if (!ft_environ_cmp(str1, env_array[idx]))
+		if (!ft_environ_cmp(str1, g_env_array[idx]))
 			return (1);
-		if (!ft_environ_cmp(str2, env_array[idx]))
+		if (!ft_environ_cmp(str2, g_env_array[idx]))
 			return (1);
 	}
 	return (0);

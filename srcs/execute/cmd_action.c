@@ -7,7 +7,7 @@ void	e_execve(char *path, char **args)
 		printf("-smash: %s: Is a directory\n", path);
 		return ;
 	}
-	if (execve(path, args, env_array) == -1)
+	if (execve(path, args, g_env_array) == -1)
 		system_call_error(errno);
 }
 
@@ -39,7 +39,7 @@ void	cmd_action_init(t_node *cur_cmd, char ***p_args, int *p_func_idx)
 
 void	cmd_action(
 	t_node *cur_cmd,
-	FUNC_TYPE builtin[],
+	t_func_type builtin[],
 	int old_stdin)
 {
 	char		*path;
