@@ -36,8 +36,8 @@ int	main(int argc, char **argv, char **envp)
 			free(str);
 			continue ;
 		}
-		if (make_tree(&ds) == 0 || (!tree_parser(ds.root_node, &syntx_erred)
-				&& syntx_erred == 1))
+		if (make_tree(&ds) == ERROR
+			|| (!tree_parser(ds.root_node, &syntx_erred) && syntx_erred))
 		{
 			cleaner(str, &ds, NULL);
 			continue ;
