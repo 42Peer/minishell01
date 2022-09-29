@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int	builtin_arg_count(char **args)
+int	print_or_export(char **args)
 {
 	int	arg_cnt;
 	int	i;
@@ -14,12 +14,6 @@ int	builtin_arg_count(char **args)
 		while (env_array[++i])
 			printf("%s\n", env_array[i]);
 		set_or_get_status(0);	
-		return (0);
-	}
-	if (arg_cnt != 2)
-	{
-		printf("ERROR: syntax error!\n");
-		set_or_get_status(1);
 		return (0);
 	}
 	return (1);
@@ -54,21 +48,21 @@ static int	env_reassignment(char *args, char *tmp, char **env_array, char **spli
 	return (flag);
 }
 
-int replace_value(char **args)
+int replace_value(char *arg)
 {
     char    **split;
 	char	*tmp;
 	int     i;
     int     replace_flag;
 
-    split = ft_split(args[1], '=');
+    split = ft_split(arg, '=');
 	tmp = if_value(split);
     i = -1;
     replace_flag = 0;
     while (env_array[++i] && !replace_flag)
         if ((!ft_strncmp(split[0], env_array[i], ft_strlen(split[0])))
 		|| (tmp && !ft_strncmp(tmp, env_array[i], ft_strlen(tmp))))
-			replace_flag = env_reassignment(args[1], tmp, &(env_array[i]), split);
+			replace_flag = env_reassignment(arg, tmp, &(env_array[i]), split);
     free_2d(split);
     free(tmp);
 	return (replace_flag);
@@ -78,22 +72,24 @@ void	builtin_export(char **args)
 {
 	char	**new;
 	int		i;
+	int		j;
 
-	if (!builtin_arg_count(args))
+	if (!print_or_export(args))
 		return ;
-	if (replace_value(args))
-		return ;
+	j = 0;
+	while (env_array[j])
+		++j;
 	i = 0;
-	while (env_array[i])
-		++i;
-	new = ft_calloc(i + 2, sizeof(char *));
-	i = -1;
-	while (env_array[++i])
-		new[i] = ft_strdup(env_array[i]);
-	new[i++] = ft_strdup(args[1]);
-	i = -1;
-	while (env_array[++i])
-		free(env_array[i]);
-	free(env_array);
-	env_array = new;
+	while (args[++i])
+	{
+		if (replace_value(args[i]))
+			continue;
+		new = ft_calloc(j + 2, sizeof(char *));
+		j = -1;
+		while (env_array[++j])
+			new[j] = env_array[j];
+		new[j++] = ft_strdup(args[i]);
+		free(env_array);
+		env_array = new;
+	}
 }
