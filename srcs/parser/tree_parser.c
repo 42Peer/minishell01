@@ -40,7 +40,7 @@ void	redir_deal_quote(t_node *node)
 	node->content = new_content;
 }
 
-static void	redir_parser(t_node *node, int *syntax_errored)
+static void	redir_parser(t_node *node, int *syntx_erred)
 {
 	int		quoted_delimit;
 	char	*new_content;
@@ -50,7 +50,7 @@ static void	redir_parser(t_node *node, int *syntax_errored)
 		return ;
 	if (node->type == T_REDIR)
 	{
-		check_invalid_redir_content(node, syntax_errored);
+		check_invalid_redir_content(node, syntx_erred);
 		if (ft_strncmp(node->content, "<<", 3) == 0)
 		{
 			new_content = delquote_expand(node->right->content,
@@ -63,25 +63,25 @@ static void	redir_parser(t_node *node, int *syntax_errored)
 	}
 	else if (node->type == T_WORD)
 		redir_deal_quote(node);
-	redir_parser(node->right, syntax_errored);
-	redir_parser(node->left, syntax_errored);
+	redir_parser(node->right, syntx_erred);
+	redir_parser(node->left, syntx_erred);
 }
 		// if (node->right)
 		// redir_deal_quote(node->right);
 
-int	tree_parser(t_node *node, int *syntax_errored)
+int	tree_parser(t_node *node, int *syntx_erred)
 {
 	if (!(node))
 		return (0);
 	if (node->type == N_PHRASE)
 	{
-		redir_parser(node->left, syntax_errored);
+		redir_parser(node->left, syntx_erred);
 		cmd_parser(node->right);
 	}
 	else
 	{
-		tree_parser(node->left, syntax_errored);
-		tree_parser(node->right, syntax_errored);
+		tree_parser(node->left, syntx_erred);
+		tree_parser(node->right, syntx_erred);
 	}
 	return (0);
 }
