@@ -16,7 +16,7 @@ static void	cmd_parser(t_node *node)
 	}
 }
 
-static void	check_invalid_redir_content(t_node *node, int *flag)
+static void	check_invalid_redir_content(t_node *node, int *syntax_errored)
 {
 	if (ft_strncmp(node->content, ">>", 3) != 0
 		&& ft_strncmp(node->content, ">", 2) != 0
@@ -25,7 +25,7 @@ static void	check_invalid_redir_content(t_node *node, int *flag)
 	{
 		printf("Error: syntax error in redir_parser!\n");
 		set_or_get_status(258);
-		*flag = 1;
+		*syntax_errored = 1;
 	}
 }
 
@@ -40,7 +40,7 @@ void	redir_deal_quote(t_node *node)
 	node->content = new_content;
 }
 
-static void	redir_parser(t_node *node, int *flag)
+static void	redir_parser(t_node *node, int *syntax_errored)
 {
 	int		quoted_delimit;
 	char	*new_content;
@@ -50,7 +50,7 @@ static void	redir_parser(t_node *node, int *flag)
 		return ;
 	if (node->type == T_REDIR)
 	{
-		check_invalid_redir_content(node, flag);
+		check_invalid_redir_content(node, syntax_errored);
 		if (ft_strncmp(node->content, "<<", 3) == 0)
 		{
 			new_content = delquote_expand(node->right->content,
@@ -63,25 +63,25 @@ static void	redir_parser(t_node *node, int *flag)
 	}
 	else if (node->type == T_WORD)
 		redir_deal_quote(node);
-	redir_parser(node->right, flag);
-	redir_parser(node->left, flag);
+	redir_parser(node->right, syntax_errored);
+	redir_parser(node->left, syntax_errored);
 }
 		// if (node->right)
 		// redir_deal_quote(node->right);
 
-int	tree_parser(t_node *node, int *flag)
+int	tree_parser(t_node *node, int *syntax_errored)
 {
 	if (!(node))
 		return (0);
 	if (node->type == N_PHRASE)
 	{
-		redir_parser(node->left, flag);
+		redir_parser(node->left, syntax_errored);
 		cmd_parser(node->right);
 	}
 	else
 	{
-		tree_parser(node->left, flag);
-		tree_parser(node->right, flag);
+		tree_parser(node->left, syntax_errored);
+		tree_parser(node->right, syntax_errored);
 	}
 	return (0);
 }
