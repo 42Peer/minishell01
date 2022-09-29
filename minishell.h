@@ -270,5 +270,6 @@ builtin_exit
 void	print_and_exit(int exit_stat);
 int		ft_atoi(const char *str);
 
+void	main_init(int *p_flag, t_struct *p_ds, int argc, char **argv);
 
 #endif
