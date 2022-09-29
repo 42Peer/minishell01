@@ -1,8 +1,9 @@
 #include "../minishell.h"
 
-void	main_init(int *p_flag, t_struct *p_ds, int argc, char **argv)
+void	main_init(
+	int *syntx_erred, t_struct *p_ds, int argc, char **argv)
 {
-	*p_flag = 0;
+	*syntx_erred = 0;
 	p_ds->head_token = NULL;
 	p_ds->root_node = NULL;
 	(void)argc;
@@ -25,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 	t_struct	ds;
 	int			syntx_erred;
 
-	main_init(&syntx_erred, &ds, argc, &argv);
+	main_init(&syntx_erred, &ds, argc, argv);
 	make_env_array(envp);
 	while (1)
 	{
