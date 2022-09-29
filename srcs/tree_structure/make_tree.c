@@ -45,27 +45,24 @@ int	make_tree(t_struct *ds)
 {
 	t_node		*cur_process;
 	t_token		*cur_token;
-	int			flag;
+	int			syntx_erred;
 
 	ds->root_node = make_dummy_node();
 	cur_token = ds->head_token;
 	cur_process = ds->root_node;
-	flag = 0;
+	syntx_erred = 0;
 	while (cur_token)
 	{
 		if (cur_token->type == T_REDIR)
-			cur_token = make_redir_node(cur_process, cur_token, &flag);
+			cur_token = make_redir_node(cur_process, cur_token, &syntx_erred);
 		else if (cur_token->type == T_PIPE)
 			cur_token = make_pipe_node(&cur_process, cur_token);
 		else if (cur_token->type == T_WORD)
 			cur_token = make_cmd_node(cur_process, cur_token);
 		else
 			printf("make_tree() ERROR!!!!\n");
-		if (flag == 1)
-		{
-			printf("flag : %d\n", flag);
+		if (syntx_erred == 1)
 			return (0);
-		}
 	}
 	return (1);
 }
