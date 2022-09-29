@@ -23,9 +23,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*str;
 	t_struct	ds;
-	int			flag;
+	int			syntax_errored;
 
-	main_init(&flag, &ds, argc, &argv);
+	main_init(&syntax_errored, &ds, argc, &argv);
 	make_env_array(envp);
 	while (1)
 	{
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		if (make_tree(&ds) == 0
-			|| (!tree_parser(ds.root_node, &flag) && flag == 1))
+			|| (!tree_parser(ds.root_node, &syntax_errored) && syntax_errored == 1))
 		{
 			cleaner(str, &ds, NULL);
 			continue ;
