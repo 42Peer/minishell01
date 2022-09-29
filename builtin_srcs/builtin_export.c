@@ -77,14 +77,17 @@ void	builtin_export(char **args)
 
 	if (!print_or_export(args))
 		return ;
-	j = 0;
-	while (env_array[j])
-		++j;
 	i = 0;
 	while (args[++i])
 	{
 		if (replace_value(args[i]))
 			continue ;
+		if (!is_valid_arg(args[i]))
+		{
+			printf("export: `%s': not a valid identifier\n", args[i]);
+			continue ;
+		}
+		j = ft_arrlen(env_array);
 		new = ft_calloc(j + 2, sizeof(char *));
 		j = -1;
 		while (env_array[++j])

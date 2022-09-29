@@ -154,6 +154,7 @@ void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	check_args(char **args);
+void	ft_free_split(char **split);
 void	print_content(char *str);			// tmp func
 
 size_t	ft_arrlen(char **arr);
@@ -235,9 +236,6 @@ int		is_relative_path(char *path);
 char	*search_path(char *cmd, char **env_arr);
 void	open_redir_file(char *file, int mode);
 
-
-
-
 /*
  *						func_frame
 */
@@ -256,6 +254,7 @@ void	builtin_cd(char **args);
 void	builtin_env(char **args);
 int		builtin_arg_count(char **args);
 void	builtin_export(char **args);
+int		is_valid_arg(char *arg);
 void	builtin_unset(char **args);
 void	builtin_exit(char **args);
 
