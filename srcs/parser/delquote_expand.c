@@ -28,7 +28,7 @@ char	*dollar_sign(char *str, int *cur)
 	if (str[i] == '?')
 	{
 		*cur = i;
-		return (ft_strdup(ft_itoa(set_or_get_status(-1))));
+		return (ft_itoa(set_or_get_status(-1)));
 	}
 	else
 		return (expand_env(str, i, cur));
