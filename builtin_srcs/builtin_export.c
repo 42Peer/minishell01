@@ -13,7 +13,7 @@ int	print_or_export(char **args)
 		i = 0;
 		while (env_array[++i])
 			printf("%s\n", env_array[i]);
-		set_or_get_status(0);	
+		set_or_get_status(0);
 		return (0);
 	}
 	return (1);
@@ -24,15 +24,16 @@ static char	*if_value(char **split)
 	char	*ptr;
 
 	ptr = NULL;
-    if (split[1])
+	if (split[1])
 	{
 		ptr = ft_strdup(split[0]);
-		ptr = save(ptr, '=', ft_strlen(ptr));	
+		ptr = save(ptr, '=', ft_strlen(ptr));
 	}
 	return (ptr);
 }
 
-static int	env_reassignment(char *args, char *tmp, char **env_array, char **split)
+static int	env_reassignment(char *args, char *tmp,
+	char **env_array, char **split)
 {
 	int	flag;
 
@@ -48,23 +49,23 @@ static int	env_reassignment(char *args, char *tmp, char **env_array, char **spli
 	return (flag);
 }
 
-int replace_value(char *arg)
+int	replace_value(char *arg)
 {
-    char    **split;
+	char	**split;
 	char	*tmp;
-	int     i;
-    int     replace_flag;
+	int		i;
+	int		replace_flag;
 
-    split = ft_split(arg, '=');
+	split = ft_split(arg, '=');
 	tmp = if_value(split);
-    i = -1;
-    replace_flag = 0;
-    while (env_array[++i] && !replace_flag)
-        if ((!ft_strncmp(split[0], env_array[i], ft_strlen(split[0])))
-		|| (tmp && !ft_strncmp(tmp, env_array[i], ft_strlen(tmp))))
+	i = -1;
+	replace_flag = 0;
+	while (env_array[++i] && !replace_flag)
+		if ((!ft_strncmp(split[0], env_array[i], ft_strlen(split[0])))
+			|| (tmp && !ft_strncmp(tmp, env_array[i], ft_strlen(tmp))))
 			replace_flag = env_reassignment(arg, tmp, &(env_array[i]), split);
-    free_2d(split);
-    free(tmp);
+	free_2d(split);
+	free(tmp);
 	return (replace_flag);
 }
 
@@ -83,7 +84,7 @@ void	builtin_export(char **args)
 	while (args[++i])
 	{
 		if (replace_value(args[i]))
-			continue;
+			continue ;
 		new = ft_calloc(j + 2, sizeof(char *));
 		j = -1;
 		while (env_array[++j])
