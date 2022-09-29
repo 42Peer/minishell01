@@ -19,9 +19,9 @@ void	builtin_env(char **args)
 	int	i;
 
 	(void)args;
-	if (args[1] != 0)
+	if (ft_strncmp(args[1], "env", 4) != 0)
 	{
-		printf("too many arguments\n");
+		printf("env: %s: No such file or directory\n", args[1]);
 		set_or_get_status(GENERAL_ERROR);
 		return ;
 	}
