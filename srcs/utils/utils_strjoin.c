@@ -61,6 +61,15 @@ char	*ft_strjoin_no_free(char *s1, char *s2)
 	return (ptr);
 }
 
+char	*ft_free_and_new_str(char *str)
+{
+	char *tmp;
+
+	tmp = ft_strdup(str);
+	free(str);
+	return (tmp);
+}
+
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ptr;
@@ -70,9 +79,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1 && !s2)
 		return (NULL);
 	else if (!s1)
-		return (ft_strdup(s2));
+		return (ft_free_and_new_str(s2));
 	else if (!s2)
-		return (ft_strdup(s1));
+		return (ft_free_and_new_str(s1));
 	len_s1 = ft_strlen((char *)s1);
 	len_s2 = ft_strlen((char *)s2);
 	ptr = (char *)malloc(sizeof(char) * len_s1 + len_s2 + 1);
