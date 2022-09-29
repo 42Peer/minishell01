@@ -1,12 +1,12 @@
 #include "../minishell.h"
 
-void	main_init(int *p_flag, t_struct *p_ds, int argc, char ***p_argv)
+void	main_init(int *p_flag, t_struct *p_ds, int argc, char **argv)
 {
 	*p_flag = 0;
 	p_ds->head_token = NULL;
 	p_ds->root_node = NULL;
-	if (argc)
-		(void)(*p_argv);
+	(void)argc;
+	(void)argv;
 }
 
 void	about_prompt(char **p_str)
@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	t_struct	ds;
 	int			syntax_errored;
 
-	main_init(&syntax_errored, &ds, argc, &argv);
+	main_init(&syntax_errored, &ds, argc, argv);
 	make_env_array(envp);
 	while (1)
 	{
