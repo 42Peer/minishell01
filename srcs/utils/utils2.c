@@ -1,5 +1,17 @@
 #include "../../minishell.h"
 
+void	check_args(char **args)
+{
+	if (!(args[1]))
+		return ;
+	if (args[2] != 0)
+	{
+		printf("too many arguments\n");
+		set_or_get_status(GENERAL_ERROR);
+		return ;
+	}
+}
+
 size_t	ft_strlen(char *s)
 {
 	size_t	len;
