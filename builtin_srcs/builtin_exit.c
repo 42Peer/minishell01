@@ -8,7 +8,7 @@ void	print_and_exit(int exit_stat)
 
 void	if_non_num(void)
 {
-	printf("minishell: exit: a: numeric argument required\n");
+	printf("smash: exit: a: numeric argument required\n");
 	print_and_exit(255);
 }
 
@@ -63,7 +63,7 @@ void	builtin_exit(char **args)
 		if (is_numeric(args[1]))
 		{
 			printf("exit\n");
-			printf("minishell: exit: too many arguments\n");
+			printf("smash: exit: too many arguments\n");
 			set_or_get_status(1);
 		}
 		else

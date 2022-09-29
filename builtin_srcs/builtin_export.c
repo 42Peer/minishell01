@@ -52,20 +52,20 @@ static int	env_reassignment(char *args, char *tmp,
 int	replace_value(char *arg)
 {
 	char	**split;
-	char	*tmp;
+	char	*key;
 	int		i;
 	int		replace_flag;
 
 	split = ft_split(arg, '=');
-	tmp = if_value(split);
+	key = if_value(split);
 	i = -1;
 	replace_flag = 0;
 	while (env_array[++i] && !replace_flag)
 		if ((!ft_strncmp(split[0], env_array[i], ft_strlen(split[0])))
-			|| (tmp && !ft_strncmp(tmp, env_array[i], ft_strlen(tmp))))
-			replace_flag = env_reassignment(arg, tmp, &(env_array[i]), split);
+			|| (key && !ft_strncmp(key, env_array[i], ft_strlen(key))))
+			replace_flag = env_reassignment(arg, key, &(env_array[i]), split);
 	free_2d(split);
-	free(tmp);
+	free(key);
 	return (replace_flag);
 }
 
