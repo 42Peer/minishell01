@@ -77,11 +77,11 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 
 	fd = -1;
 	filename = ft_strdup("/tmp/here_doc_0");
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC | O_EXCL, 0666);
+	fd = open(filename, O_WRONLY | O_CREAT | O_EXCL, 0666);
 	while (fd == -1)
 	{
 		filename = save(filename, '0', ft_strlen(filename));
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC | O_EXCL, 0666);
+		fd = open(filename, O_WRONLY | O_CREAT | O_EXCL, 0666);
 	}
 	e_write_heredoc_str_to_file(fd, delimiter, quoted);
 	close(fd);

@@ -230,7 +230,7 @@ void	cmd_action(t_node *cur_cmd, char **env_arr, FUNC_TYPE builtin[], int old_st
 void	cmd_action_init(t_node *cur_cmd, char ***p_args, int *p_func_idx);
 void	redir_action(t_node *cur_redir);
 char	**lst_to_2d_array(t_node *arg);
-void	dup_frame(int fd, int std);
+void	e_dup2(int fd, int std);
 int		is_absolute_path(char *path);
 int		is_relative_path(char *path);
 char	*search_path(char *cmd, char **env_arr);
@@ -240,8 +240,8 @@ void	open_redir_file(char *file, int mode);
  *						func_frame
 */
 
-void	fork_frame(t_node **cur_process, FUNC_TYPE builtin[]);
-void	execve_frame(char *path, char **args, char **env_arr);
+void	child_pipe(t_node **cur_process, FUNC_TYPE builtin[]);
+void	e_execve(char *path, char **args, char **env_arr);
 char	*no_search_path(t_node *cur_cmd, char **args, char *cmd);
 
 /*

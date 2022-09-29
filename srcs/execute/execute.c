@@ -9,7 +9,7 @@ void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[],
 	args = lst_to_2d_array(cur_cmd);
 	cmd = ft_strdup(cur_cmd->content);
 	builtin[func](args);
-	dup_frame(old_stdin, STDIN_FILENO);
+	e_dup2(old_stdin, STDIN_FILENO);
 	close(old_stdin);
 	free(cmd);
 	free_2d(args);
@@ -86,7 +86,7 @@ void	execute(t_struct *ds)
 		}
 		run_builtin(ds->root_node->left->right, builtin, func_idx, old_stdin);
 		if (ds->root_node->left->left)
-			dup_frame(old_stdout, STDOUT_FILENO);
+			e_dup2(old_stdout, STDOUT_FILENO);
 	}
 	else
 		fork_process(ds, process_cnt, builtin);

@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-void	execve_frame(char *path, char **args, char **env_arr)
+void	e_execve(char *path, char **args, char **env_arr)
 {
 	if (opendir(path))
 	{
@@ -57,7 +57,7 @@ void	cmd_action(
 		(void)env_arr;
 		if (stat(cur_cmd->content, &statbuf) == -1)
 			cmd_not_found_error(cur_cmd);
-		execve_frame(cur_cmd->content, args, env_arr);
+		e_execve(cur_cmd->content, args, env_arr);
 	}
 	else
 	{
@@ -65,7 +65,7 @@ void	cmd_action(
 		if (!path)
 			path = no_search_path(cur_cmd, args, cur_cmd->content);
 		if (path)
-			execve_frame(path, args, env_arr);
+			e_execve(path, args, env_arr);
 	}
 	free_2d(args);
 }

@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-void	dup_frame(int fd, int std)
+void	e_dup2(int fd, int std)
 {
 	if (dup2(fd, std) == -1)
 		system_call_error(errno);
@@ -35,20 +35,20 @@ void	open_redir_file(char *file, int mode)
 		fd = open(file, O_RDONLY, 0777);
 		if (fd == -1)
 			system_call_error(errno);
-		dup_frame(fd, STDIN_FILENO);
+		e_dup2(fd, STDIN_FILENO);
 	}
 	else if (mode == WRITE)
 	{
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		if (fd == -1)
 			system_call_error(errno);
-		dup_frame(fd, STDOUT_FILENO);
+		e_dup2(fd, STDOUT_FILENO);
 	}
 	else if (mode == APPEND)
 	{
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 		if (fd == -1)
 			system_call_error(errno);
-		dup_frame(fd, STDOUT_FILENO);
+		e_dup2(fd, STDOUT_FILENO);
 	}
 }
