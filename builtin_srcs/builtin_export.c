@@ -1,8 +1,5 @@
 #include "../minishell.h"
 
-static char	*if_value(char **split);
-static int	env_reassignment(char *args, char *tmp, char *env_array, char **split);
-
 int	builtin_arg_count(char **args)
 {
 	int	arg_cnt;
@@ -41,17 +38,17 @@ static char	*if_value(char **split)
 	return (ptr);
 }
 
-static int	env_reassignment(char *args, char *tmp, char *env_array, char **split)
+static int	env_reassignment(char *args, char *tmp, char **env_array, char **split)
 {
 	int	flag;
 
 	flag = 0;
-	if (!tmp && env_array[ft_strlen(split[0])] == '=')
+	if (!tmp && (*env_array)[ft_strlen(split[0])] == '=')
 		flag = 1;
 	if (!flag && tmp)
 	{
-		free(env_array);
-		env_array = ft_strdup(args);
+		free(*env_array);
+		*env_array = ft_strdup(args);
 		flag = 1;
 	}
 	return (flag);
@@ -71,7 +68,7 @@ int replace_value(char **args)
     while (env_array[++i] && !replace_flag)
         if ((!ft_strncmp(split[0], env_array[i], ft_strlen(split[0])))
 		|| (tmp && !ft_strncmp(tmp, env_array[i], ft_strlen(tmp))))
-			replace_flag = env_reassignment(args[1], tmp, env_array[i], split);
+			replace_flag = env_reassignment(args[1], tmp, &(env_array[i]), split);
     free_2d(split);
     free(tmp);
 	return (replace_flag);
