@@ -222,18 +222,18 @@ int		tree_parser(t_node *node, int *flag);
 
 int		count_process(t_node *node);
 int		is_builtin_func(t_node *node);
-void	child_process(t_node *cur_phrase, char **env_arr, FUNC_TYPE builtin[]);
+void	child_process(t_node *cur_phrase, FUNC_TYPE builtin[]);
 void	fork_process(t_struct *ds, int cnt, FUNC_TYPE builtin[]);
 void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[], int func, int old_stdin);
 void	execute(t_struct *ds);
-void	cmd_action(t_node *cur_cmd, char **env_arr, FUNC_TYPE builtin[], int old_stdin);
+void	cmd_action(t_node *cur_cmd, FUNC_TYPE builtin[], int old_stdin);
 void	cmd_action_init(t_node *cur_cmd, char ***p_args, int *p_func_idx);
 void	redir_action(t_node *cur_redir);
 char	**lst_to_2d_array(t_node *arg);
 void	e_dup2(int fd, int std);
 int		is_absolute_path(char *path);
 int		is_relative_path(char *path);
-char	*search_path(char *cmd, char **env_arr);
+char	*search_path(char *cmd);
 void	open_redir_file(char *file, int mode);
 
 /*
@@ -241,7 +241,7 @@ void	open_redir_file(char *file, int mode);
 */
 
 void	child_pipe(t_node **cur_process, FUNC_TYPE builtin[]);
-void	e_execve(char *path, char **args, char **env_arr);
+void	e_execve(char *path, char **args);
 char	*no_search_path(t_node *cur_cmd, char **args, char *cmd);
 
 /*

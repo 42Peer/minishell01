@@ -53,7 +53,7 @@ char	*ft_strjoin_no_free(char *s1, char *s2)
 	ptr = (char *)malloc(sizeof(char) * len_s1 + len_s2 + 1);
 	if (!ptr)
 	{
-		set_or_get_status(errno);
+		set_or_get_status(ALLOC_FAIL);
 		return (NULL);
 	}
 	ft_strlcpy(ptr, s1, len_s1 + 1);

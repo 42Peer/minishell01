@@ -1,13 +1,13 @@
 #include "../../minishell.h"
 
-void	e_execve(char *path, char **args, char **env_arr)
+void	e_execve(char *path, char **args)
 {
 	if (opendir(path))
 	{
-		printf("-minishell: %s: Is a directory\n", path);
+		printf("-smash: %s: Is a directory\n", path);
 		return ;
 	}
-	if (execve(path, args, env_arr) == -1)
+	if (execve(path, args, env_array) == -1)
 		system_call_error(errno);
 }
 
@@ -39,7 +39,6 @@ void	cmd_action_init(t_node *cur_cmd, char ***p_args, int *p_func_idx)
 
 void	cmd_action(
 	t_node *cur_cmd,
-	char **env_arr,
 	FUNC_TYPE builtin[],
 	int old_stdin)
 {
@@ -54,18 +53,17 @@ void	cmd_action(
 	else if (is_absolute_path(cur_cmd->content)
 		|| is_relative_path(cur_cmd->content))
 	{
-		(void)env_arr;
 		if (stat(cur_cmd->content, &statbuf) == -1)
 			cmd_not_found_error(cur_cmd);
-		e_execve(cur_cmd->content, args, env_arr);
+		e_execve(cur_cmd->content, args);
 	}
 	else
 	{
-		path = search_path(cur_cmd->content, env_arr);
+		path = search_path(cur_cmd->content);
 		if (!path)
 			path = no_search_path(cur_cmd, args, cur_cmd->content);
 		if (path)
-			e_execve(path, args, env_arr);
+			e_execve(path, args);
 	}
 	free_2d(args);
 }
