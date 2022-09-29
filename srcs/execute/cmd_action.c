@@ -62,4 +62,5 @@ void	cmd_action(
 		if (path)
 			execve_frame(path, args, env_arr);
 	}
+	free_2d(args);
 }
