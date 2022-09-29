@@ -1,30 +1,38 @@
 #include "../minishell.h"
 
-int	is_valid_args(char **args)
+int	unset_no_args(char **args)
 {
-	int	str_idx;
+	int	cnt;
+
+	cnt = ft_arrlen(args);
+	if (cnt == 1)
+	{
+		printf("unset: not enough arguments\n");
+		set_or_get_status(1);
+		return (1);
+	}
+	return (0);
+}
+
+int	is_valid_arg(char *arg)
+{
 	int	chr_idx;
 	int	ch;
 
-	str_idx = 1;
-	while (args[str_idx])
+	chr_idx = 0;
+	while (arg[chr_idx])
 	{
-		chr_idx = 0;
-		while (args[str_idx][chr_idx])
-		{
-			ch = args[str_idx][chr_idx];
-			if ((chr_idx == 0) && (ch >= '0' && ch <= '9'))
-				return (0);
-			if (!ft_isalnum(ch) && (ch != '_'))
-				return (0);
-			++chr_idx;
-		}
-		++str_idx;
+		ch = arg[chr_idx];
+		if ((chr_idx == 0) && (ch >= '0' && ch <= '9'))
+			return (0);
+		if (!ft_isalnum(ch) && (ch != '_'))
+			return (0);
+		++chr_idx;
 	}
 	return (1);
 }
 
-int	is_exist(char **args)
+int	is_exist(char *arg)
 {
 	int		i;
 	int		j;
@@ -36,7 +44,7 @@ int	is_exist(char **args)
 	while (exist_i == -1 && env_array[++i])
 	{
 		split = ft_split(env_array[i], '=');
-		if (ft_strncmp(args[1], split[0], ft_strlen(args[1]) + 1) == 0)
+		if (ft_strncmp(arg, split[0], ft_strlen(arg) + 1) == 0)
 			exist_i = i;
 		j = -1;
 		while (split[++j])
@@ -46,31 +54,17 @@ int	is_exist(char **args)
 	return (exist_i);
 }
 
-int	builtin_unset_arg_count(char **args)
-{
-	int	arg_cnt;
-
-	arg_cnt = 0;
-	while (args[arg_cnt])
-		++arg_cnt;
-	if (arg_cnt == 1)
-		return (0);
-	if (!is_valid_args(args))
-	{
-		printf("ERROR: syntax error!\n");
-		set_or_get_status(1);
-		return (0);
-	}
-	return (1);
-}
-
-int	unset_work_condition(char **args)
+int	unset_work_condition(char *arg)
 {
 	int	exist_i;
 
-	if (!builtin_unset_arg_count(args))
+	if (!is_valid_arg(arg))
+	{
+		printf("unset: `%s': not a valid identifier\n", arg);
+		set_or_get_status(1);
 		return (-1);
-	exist_i = is_exist(args);
+	}
+	exist_i = is_exist(arg);
 	return (exist_i);
 }
 
@@ -80,22 +74,25 @@ void	builtin_unset(char **args)
 	int		exist_i;
 	int		i;
 	int		j;
+	int		new_i;
 
-	exist_i = unset_work_condition(args);
-	if (exist_i == -1)
+	if (unset_no_args(args))
 		return ;
-	i = 0;
-	while (env_array[i])
-		++i;
-	new = ft_calloc(i, sizeof(char *));
 	i = -1;
-	j = 0;
-	while (env_array[++i])
-		if (i != exist_i)
-			new[j++] = ft_strdup(env_array[i]);
-	i = -1;
-	while (env_array[++i])
-		free(env_array[i]);
-	free(env_array);
-	env_array = new;
+	while (args[++i])
+	{
+		exist_i = unset_work_condition(args[i]);
+		if (exist_i == -1)
+			continue ;
+		j = ft_arrlen(env_array);
+		new = ft_calloc(j, sizeof(char *));
+		j = -1;
+		new_i = 0;
+		while (env_array[++j])
+			if (j != exist_i)
+				new[new_i++] = env_array[j];
+		free(env_array[exist_i]);
+		free(env_array);
+		env_array = new;
+	}
 }
