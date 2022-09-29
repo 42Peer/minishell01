@@ -42,7 +42,7 @@ t_token	*make_redir_node(
 	int		i;
 
 	make_io_redir_node(&io_redir);
-	cur_node = cur_process->left;
+	cur_node = cur_process->left;//n_phrase
 	cur_node = attach_node_to_tree(cur_node, io_redir);
 	i = -1;
 	while (++i < 2)
