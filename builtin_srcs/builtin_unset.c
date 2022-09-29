@@ -24,7 +24,6 @@ int	is_valid_args(char **args)
 	return (1);
 }
 
-
 int	is_exist(char **args)
 {
 	int		i;
