@@ -63,8 +63,3 @@ void	ft_free_split(char **split)
 		free(split[i]);
 	free(split);
 }
-
-void	print_content(char *str)
-{
-	printf("%s", str);
-}
