@@ -52,6 +52,18 @@ void	check_args(char **args)
 	}
 }
 
+void	ft_free_split(char **split)
+{
+	int	i;
+
+	i = -1;
+	if (!split)
+		return ;
+	while (split && split[++i])
+		free(split[i]);
+	free(split);
+}
+
 void	print_content(char *str)
 {
 	printf("%s", str);

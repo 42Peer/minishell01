@@ -16,26 +16,32 @@ int	unset_no_args(char **args)
 
 int	is_valid_arg(char *arg)
 {
-	int	chr_idx;
-	int	ch;
+	int		i;
+	int		ch;
+	char	**split;
+	int		is_valid;
 
-	chr_idx = 0;
-	while (arg[chr_idx])
+	split = ft_split(arg, '=');
+	is_valid = 1;
+	i = 0;
+	while (split[0][i] && is_valid)
 	{
-		ch = arg[chr_idx];
-		if ((chr_idx == 0) && (ch >= '0' && ch <= '9'))
-			return (0);
+		ch = arg[i];
+		if ((i == 0) && (ch >= '0' && ch <= '9'))
+			is_valid = 0;
 		if (!ft_isalnum(ch) && (ch != '_'))
-			return (0);
-		++chr_idx;
+			is_valid = 0;
+		++i;
 	}
-	return (1);
+	ft_free_split(split);
+	if (!is_valid)
+		set_or_get_status(1);
+	return (is_valid);
 }
 
 int	is_exist(char *arg)
 {
 	int		i;
-	int		j;
 	char	**split;
 	int		exist_i;
 
@@ -46,10 +52,7 @@ int	is_exist(char *arg)
 		split = ft_split(env_array[i], '=');
 		if (ft_strncmp(arg, split[0], ft_strlen(arg) + 1) == 0)
 			exist_i = i;
-		j = -1;
-		while (split[++j])
-			free(split[j]);
-		free(split);
+		ft_free_split(split);
 	}
 	return (exist_i);
 }
@@ -61,7 +64,6 @@ int	unset_work_condition(char *arg)
 	if (!is_valid_arg(arg))
 	{
 		printf("unset: `%s': not a valid identifier\n", arg);
-		set_or_get_status(1);
 		return (-1);
 	}
 	exist_i = is_exist(arg);
