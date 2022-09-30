@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sumsong <sumsong@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: jujeon <jujeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 18:27:19 by sumsong           #+#    #+#             */
-/*   Updated: 2022/09/29 18:32:00 by sumsong          ###   ########.fr       */
+/*   Updated: 2022/09/30 17:10:59 by jujeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,8 @@ size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strjoin_no_free(char *s1, char *s2);
 int		ft_isalnum(int c);
+
+int		envir_arg_error(void);
 
 /*
  *						part I tokenize.c

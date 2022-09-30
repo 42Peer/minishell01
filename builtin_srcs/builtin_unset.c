@@ -21,6 +21,8 @@ int	is_valid_arg(char *arg)
 	char	**split;
 	int		is_valid;
 
+	if (*arg == '=')
+		return (envir_arg_error());
 	split = ft_split(arg, '=');
 	is_valid = 1;
 	i = 0;
