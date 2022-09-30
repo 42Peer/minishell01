@@ -20,6 +20,14 @@ void	about_prompt(char **p_str)
 	add_history(*p_str);
 }
 
+void	tree_parser_error(char *str, t_struct *ds, int *syntax_erred)
+{
+	if (*syntax_erred)
+		printf("Error: syntax error!\n");
+	cleaner(str, ds, NULL);
+	*syntax_erred = 0;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*str;
@@ -40,7 +48,7 @@ int	main(int argc, char **argv, char **envp)
 		if (make_tree(&ds) == ERROR
 			|| (!tree_parser(ds.root_node, &syntx_erred) && syntx_erred))
 		{
-			cleaner(str, &ds, NULL);
+			tree_parser_error(str, &ds, &syntx_erred);
 			continue ;
 		}
 		execute(&ds);

@@ -6,7 +6,7 @@
 /*   By: jujeon <jujeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 18:27:19 by sumsong           #+#    #+#             */
-/*   Updated: 2022/09/30 17:10:59 by jujeon           ###   ########.fr       */
+/*   Updated: 2022/09/30 20:35:52 by jujeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_token_info
 	int		cur_idx;
 	int		sin_quoted;
 	int		dou_quoted;
+	int		double_piped;
 	t_type	token_type;
 	t_token	*token_list;
 }	t_token_info;
@@ -196,7 +197,7 @@ void	case_operator(char *str, t_token_info *info);
 void	case_blank(char *str, t_token_info *info);
 void	case_part_of_word(char *str, t_token_info *info);
 void	case_new_word(t_token_info *info);
-int		is_case_unquoted(t_token_info *info);
+int		is_case_token_syntax_error(t_token_info *info);
 
 void	info_init(t_token_info *info);
 int		make_token(char *str, int copy_idx, t_token_info *info);

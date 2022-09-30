@@ -23,7 +23,6 @@ static void	check_invalid_redir_content(t_node *node, int *syntax_errored)
 		&& ft_strncmp(node->content, "<", 2) != 0
 		&& ft_strncmp(node->content, "<<", 3) != 0)
 	{
-		printf("Error: syntax error!\n");
 		set_or_get_status(258);
 		*syntax_errored = 1;
 	}
@@ -73,6 +72,11 @@ int	tree_parser(t_node *node, int *syntx_erred)
 		return (0);
 	if (node->type == N_PHRASE)
 	{
+		if (!node->left && !node->right)
+		{
+			*syntx_erred = 1;
+			set_or_get_status(258);
+		}
 		redir_parser(node->left, syntx_erred);
 		cmd_parser(node->right);
 	}

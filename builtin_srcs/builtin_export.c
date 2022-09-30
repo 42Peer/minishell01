@@ -40,6 +40,8 @@ static int	env_reassignment(char *args, char *tmp,
 	flag = 0;
 	if (!tmp && (*g_env_array)[ft_strlen(split[0])] == '=')
 		flag = 1;
+	else if (!tmp && (*g_env_array)[ft_strlen(split[0])] == 0)
+		flag = 2;
 	if (!flag && tmp)
 	{
 		free(*g_env_array);
@@ -63,7 +65,7 @@ int	replace_value(char *arg)
 	while (g_env_array[++i] && !replace_flag)
 		if ((!ft_strncmp(split[0], g_env_array[i], ft_strlen(split[0])))
 			|| (key && !ft_strncmp(key, g_env_array[i], ft_strlen(key))))
-			replace_flag = env_reassignment(arg, key, &(g_env_array[i]), split);
+				replace_flag = env_reassignment(arg, key, &(g_env_array[i]), split);
 	free_2d(split);
 	free(key);
 	return (replace_flag);
@@ -81,12 +83,16 @@ void	builtin_export(char **args)
 	while (args[++i])
 	{
 		if (replace_value(args[i]))
+		{
+			printf("replace success\n");
 			continue ;
+		}
 		if (!is_valid_arg(args[i]))
 		{
 			printf("export: `%s': not a valid identifier\n", args[i]);
 			continue ;
 		}
+		printf("new success\n");
 		j = ft_arrlen(g_env_array);
 		new = ft_calloc(j + 2, sizeof(char *));
 		j = -1;
