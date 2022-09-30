@@ -10,7 +10,7 @@ int	is_case_unquoted(t_token_info *info)
 {
 	if (info->sin_quoted || info->dou_quoted)
 	{
-		printf("WARNING: syntax error! unquoted!\n");
+		printf("syntax error\n");
 		set_or_get_status(SYNTAX_ERROR);
 		cleaner(NULL, NULL, info->token_list);
 		return (1);

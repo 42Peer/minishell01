@@ -23,7 +23,7 @@ static void	check_invalid_redir_content(t_node *node, int *syntax_errored)
 		&& ft_strncmp(node->content, "<", 2) != 0
 		&& ft_strncmp(node->content, "<<", 3) != 0)
 	{
-		printf("Error: syntax error!\n");
+		printf("syntax error!\n");
 		set_or_get_status(258);
 		*syntax_errored = 1;
 	}
