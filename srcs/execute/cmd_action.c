@@ -36,10 +36,6 @@ void	cmd_action_init(
 {
 	*p_args = lst_to_2d_array(cur_cmd);
 	*p_func_idx = is_builtin_func(cur_cmd);
-	/*
-	if (*p_func_idx < 0)
-		e_dup2(old_stdin, STDIN_FILENO);
-	*/
 }
 
 void	cmd_action(
