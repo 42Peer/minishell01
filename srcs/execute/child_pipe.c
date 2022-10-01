@@ -9,19 +9,22 @@ int	get_child_exit_value(int status)
 	return (0);
 }
 
-void	child_process(t_node *cur_phrase, t_func_type builtin[])
+void	child_process(t_node *cur_phrase, t_func_type builtin[], int backup_fd)
 {
 	int	old_stdin;
 
+	close(backup_fd);
 	old_stdin = dup(STDIN_FILENO);
 	if (cur_phrase->left)
 		redir_action(cur_phrase->left);
 	if (cur_phrase->right)
-		cmd_action(cur_phrase->right, builtin, old_stdin);
+		cmd_action(cur_phrase->right, builtin);
+	e_dup2(old_stdin, STDIN_FILENO);
 	exit(set_or_get_status(-1));
 }
 
-void	child_pipe(t_node **cur_process, t_func_type builtin[])
+void	child_pipe(t_node **cur_process, t_func_type builtin[],
+				int backup_fd)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -32,7 +35,7 @@ void	child_pipe(t_node **cur_process, t_func_type builtin[])
 	{
 		close(fd[0]);
 		e_dup2(fd[1], STDOUT_FILENO);
-		child_process((*cur_process)->left, builtin);
+		child_process((*cur_process)->left, builtin, backup_fd);
 	}
 	else
 	{
@@ -54,10 +57,10 @@ void	fork_process(t_struct *ds, int cnt, t_func_type builtin[])
 	cur_node = ds->root_node;
 	loop = 0;
 	while (cnt > ++loop)
-		child_pipe(&cur_node, builtin);
+		child_pipe(&cur_node, builtin, backup_fd);
 	pid = fork();
 	if (pid == 0)
-		child_process(cur_node->left, builtin);
+		child_process(cur_node->left, builtin, backup_fd);
 	else
 	{
 		status = 0;

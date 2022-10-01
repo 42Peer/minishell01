@@ -86,7 +86,10 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 	}
 	old_stdin = dup(STDIN_FILENO);
 	e_write_heredoc_str_to_file(fd, delimiter, quoted);
-	dup2(old_stdin, STDIN_FILENO);
+	if (set_or_get_heredoc_status(GET) == CTRL_C)
+		e_dup2(old_stdin, STDIN_FILENO);
+	else
+		close(old_stdin);
 	close(fd);
 	change_heredoc_node_to_redirect(node, filename);
 	return (NULL);
