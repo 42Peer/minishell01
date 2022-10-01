@@ -36,6 +36,7 @@ int	main(int argc, char **argv, char **envp)
 
 	main_init(&syntx_erred, &ds, argc, argv);
 	make_g_env_array(envp);
+	printf("%d\n", getpid());
 	while (1)
 	{
 		about_prompt(&str);
@@ -49,6 +50,11 @@ int	main(int argc, char **argv, char **envp)
 			|| (!tree_parser(ds.root_node, &syntx_erred) && syntx_erred))
 		{
 			tree_parser_error(str, &ds, &syntx_erred);
+			continue ;
+		}
+		if (set_or_get_heredoc_status(GET) == CTRL_C)
+		{
+			cleaner(str, &ds, NULL);
 			continue ;
 		}
 		execute(&ds);

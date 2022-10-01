@@ -32,27 +32,29 @@ char	**lst_to_2d_array(t_node *arg)
 }
 
 void	cmd_action_init(
-	t_node *cur_cmd, char ***p_args, int *p_func_idx, int old_stdin)
+	t_node *cur_cmd, char ***p_args, int *p_func_idx)
 {
 	*p_args = lst_to_2d_array(cur_cmd);
 	*p_func_idx = is_builtin_func(cur_cmd);
+	/*
 	if (*p_func_idx < 0)
 		e_dup2(old_stdin, STDIN_FILENO);
+	*/
 }
 
 void	cmd_action(
 	t_node *cur_cmd,
-	t_func_type builtin[],
-	int old_stdin)
+	t_func_type builtin[]
+	)
 {
 	char		*path;
 	char		**args;
 	int			func_idx;
 	struct stat	statbuf;
 
-	cmd_action_init(cur_cmd, &args, &func_idx, old_stdin);
+	cmd_action_init(cur_cmd, &args, &func_idx);
 	if (func_idx > -1)
-		run_builtin(cur_cmd, builtin, func_idx, old_stdin);
+		run_builtin(cur_cmd, builtin, func_idx);
 	else if (is_absolute_path(cur_cmd->content)
 		|| is_relative_path(cur_cmd->content))
 	{

@@ -6,7 +6,7 @@
 /*   By: jujeon <jujeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 18:27:19 by sumsong           #+#    #+#             */
-/*   Updated: 2022/09/30 23:13:19 by jujeon           ###   ########.fr       */
+/*   Updated: 2022/10/01 23:22:01 by kyolee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,14 +246,13 @@ int		tree_parser(t_node *node, int *flag);
 
 int		count_process(t_node *node);
 int		is_builtin_func(t_node *node);
-void	child_process(t_node *cur_phrase, t_func_type builtin[]);
+void	child_process(t_node *cur_phrase, t_func_type builtin[], int backup_fd);
 void	fork_process(t_struct *ds, int cnt, t_func_type builtin[]);
-void	run_builtin(t_node *cur_cmd, t_func_type builtin[],
-			int func, int old_stdin);
+void	run_builtin(t_node *cur_cmd, t_func_type builtin[], int func);
 void	execute(t_struct *ds);
-void	cmd_action(t_node *cur_cmd, t_func_type builtin[], int old_stdin);
+void	cmd_action(t_node *cur_cmd, t_func_type builtin[]);
 void	cmd_action_init(
-			t_node *cur_cmd, char ***p_args, int *p_func_idx, int old_stdin);
+			t_node *cur_cmd, char ***p_args, int *p_func_idx);
 void	redir_action(t_node *cur_redir);
 char	**lst_to_2d_array(t_node *arg);
 void	e_dup2(int fd, int std);
@@ -266,7 +265,7 @@ void	open_redir_file(char *file, int mode);
  *						func_frame
 */
 
-void	child_pipe(t_node **cur_process, t_func_type builtin[]);
+void	child_pipe(t_node **cur_process, t_func_type builtin[], int backup_fd);
 void	e_execve(char *path, char **args);
 char	*no_search_path(t_node *cur_cmd, char **args, char *cmd);
 
