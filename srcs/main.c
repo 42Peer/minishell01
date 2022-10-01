@@ -36,7 +36,6 @@ int	main(int argc, char **argv, char **envp)
 
 	main_init(&syntx_erred, &ds, argc, argv);
 	make_g_env_array(envp);
-	printf("%d\n", getpid());
 	while (1)
 	{
 		about_prompt(&str);
