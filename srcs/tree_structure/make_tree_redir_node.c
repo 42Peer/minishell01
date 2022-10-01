@@ -50,7 +50,7 @@ t_token	*make_redir_node(
 		make_io_redir_child_node(cur_node, &new_node);
 		if (!cur_token)
 		{
-			printf("Error: syntax error!\n");
+			printf("syntax error!\n");
 			set_or_get_status(258);
 			*syntx_erred = 1;
 			break ;

@@ -6,9 +6,9 @@ void	print_and_exit(int exit_stat)
 	ft_exit(exit_stat);
 }
 
-void	if_non_num(void)
+void	if_non_num(char *args1)
 {
-	printf("smash: exit: a: numeric argument required\n");
+	printf("smash: exit: %s: numeric argument required\n", args1);
 	print_and_exit(255);
 }
 
@@ -56,7 +56,7 @@ void	builtin_exit(char **args)
 		if (is_numeric(args[1]))
 			print_and_exit(ft_atoi(args[1]));
 		else
-			if_non_num();
+			if_non_num(args[1]);
 	}
 	else
 	{
@@ -67,6 +67,6 @@ void	builtin_exit(char **args)
 			set_or_get_status(1);
 		}
 		else
-			if_non_num();
+			if_non_num(args[1]);
 	}
 }
