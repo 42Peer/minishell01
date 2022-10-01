@@ -41,8 +41,8 @@ static void	e_write_heredoc_str_to_file(
 	while (1)
 	{
 		expnd_str = ft_strdup("");
-		str = readline("> ");
-		if (!ft_strncmp(str, delimiter, ft_strlen(delimiter) + 1))
+		str = readline("heredoc> ");
+		if (!str || !ft_strncmp(str, delimiter, ft_strlen(delimiter) + 1))
 			break ;
 		if (!quoted_delimit)
 		{
@@ -74,6 +74,7 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 {
 	int		fd;
 	char	*filename;
+	int		old_stdin;
 
 	fd = -1;
 	filename = ft_strdup("/tmp/here_doc_0");
@@ -83,7 +84,9 @@ char	**func_heredoc(t_node *node, char *delimiter, int quoted)
 		filename = save(filename, '0', ft_strlen(filename));
 		fd = open(filename, O_WRONLY | O_CREAT | O_EXCL, 0666);
 	}
+	old_stdin = dup(STDIN_FILENO);
 	e_write_heredoc_str_to_file(fd, delimiter, quoted);
+	dup2(old_stdin, STDIN_FILENO);
 	close(fd);
 	change_heredoc_node_to_redirect(node, filename);
 	return (NULL);

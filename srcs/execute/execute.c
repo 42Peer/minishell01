@@ -69,6 +69,7 @@ void	execute(t_struct *ds)
 	int			old_stdout;
 	int			old_stdin;
 
+	in_process_signal_handler();
 	format_specifier(builtin);
 	func_idx = is_builtin_func(ds->root_node->left->right);
 	process_cnt = count_process(ds->root_node);

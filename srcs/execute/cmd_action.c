@@ -31,10 +31,13 @@ char	**lst_to_2d_array(t_node *arg)
 	return (ptr);
 }
 
-void	cmd_action_init(t_node *cur_cmd, char ***p_args, int *p_func_idx)
+void	cmd_action_init(
+	t_node *cur_cmd, char ***p_args, int *p_func_idx, int old_stdin)
 {
 	*p_args = lst_to_2d_array(cur_cmd);
 	*p_func_idx = is_builtin_func(cur_cmd);
+	if (*p_func_idx < 0)
+		e_dup2(old_stdin, STDIN_FILENO);
 }
 
 void	cmd_action(
@@ -47,7 +50,7 @@ void	cmd_action(
 	int			func_idx;
 	struct stat	statbuf;
 
-	cmd_action_init(cur_cmd, &args, &func_idx);
+	cmd_action_init(cur_cmd, &args, &func_idx, old_stdin);
 	if (func_idx > -1)
 		run_builtin(cur_cmd, builtin, func_idx, old_stdin);
 	else if (is_absolute_path(cur_cmd->content)

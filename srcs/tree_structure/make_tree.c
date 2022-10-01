@@ -47,6 +47,7 @@ int	make_tree(t_struct *ds)
 	t_token		*cur_token;
 	int			syntx_erred;
 
+	here_doc_handler();
 	ds->root_node = make_dummy_node();
 	cur_token = ds->head_token;
 	cur_process = ds->root_node;

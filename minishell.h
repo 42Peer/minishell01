@@ -6,7 +6,7 @@
 /*   By: jujeon <jujeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 18:27:19 by sumsong           #+#    #+#             */
-/*   Updated: 2022/09/30 20:35:52 by jujeon           ###   ########.fr       */
+/*   Updated: 2022/09/30 23:13:19 by jujeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@
 
 typedef void	(*t_func_type)(char **);
 char			**g_env_array;
+
+typedef enum e_set_or_get_status
+{
+	GET = -1,
+	CTRL_C = 3
+}	t_set_or_get_status;
 
 typedef enum e_err
 {
@@ -125,6 +131,10 @@ void	sigint_handler(int signum);
 void	process_handler(int signum);
 void	signal_handler(void);
 void	in_process_signal_handler(void);
+
+void	here_doc_handler(void);
+void	heredoc_sigint_handler(int signum);
+int		set_or_get_heredoc_status(int status);
 
 /*
  *						env function
@@ -242,7 +252,8 @@ void	run_builtin(t_node *cur_cmd, t_func_type builtin[],
 			int func, int old_stdin);
 void	execute(t_struct *ds);
 void	cmd_action(t_node *cur_cmd, t_func_type builtin[], int old_stdin);
-void	cmd_action_init(t_node *cur_cmd, char ***p_args, int *p_func_idx);
+void	cmd_action_init(
+			t_node *cur_cmd, char ***p_args, int *p_func_idx, int old_stdin);
 void	redir_action(t_node *cur_redir);
 char	**lst_to_2d_array(t_node *arg);
 void	e_dup2(int fd, int std);

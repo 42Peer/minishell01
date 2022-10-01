@@ -45,7 +45,7 @@ static void	redir_parser(t_node *node, int *syntx_erred)
 	char	*new_content;
 
 	quoted_delimit = 0;
-	if (!node)
+	if (!node || set_or_get_heredoc_status(GET) == CTRL_C)
 		return ;
 	if (node->type == T_REDIR)
 	{
