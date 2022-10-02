@@ -45,25 +45,19 @@ void	child_pipe(t_node **cur_process, t_func_type builtin[],
 	}
 	*cur_process = (*cur_process)->right;
 }
-/*
-void	wait_for_remain_child_processes(int cnt)
+
+void	wait_for_remain_child_processes(void)
 {
 	int	status;
-	int	idx;
 
-	idx = 0;
-	while (idx < cnt)
+	while (1)
 	{
-		if (waitpid(-1, &status, 0) < 0)
-		{
-			if (errno == EINTR)
-				continue;
-			else
-				idx++;
-		}
+		waitpid(-1, &status, 0);
+		if (errno == ECHILD)
+			break ;
 	}
 }
-*/
+
 void	fork_process(t_struct *ds, int cnt, t_func_type builtin[])
 {
 	int		backup_fd;
@@ -82,12 +76,10 @@ void	fork_process(t_struct *ds, int cnt, t_func_type builtin[])
 		child_process(cur_node->left, builtin, backup_fd);
 	else
 	{
+		e_dup2(backup_fd, STDIN_FILENO);
 		status = 0;
 		waitpid(pid, &status, 0);
 		set_or_get_status(get_child_exit_value(status));
-		//wait_for_remain_child_processes(cnt - 1);
-		while (cnt-- > loop)
-			wait(NULL);
-		e_dup2(backup_fd, STDIN_FILENO);
+		wait_for_remain_child_processes();
 	}
 }
