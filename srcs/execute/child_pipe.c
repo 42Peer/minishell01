@@ -12,11 +12,15 @@ int	get_child_exit_value(int status)
 void	child_process(t_node *cur_phrase, t_func_type builtin[], int backup_fd)
 {
 	int	old_stdin;
+	int	redir_errored;
+	int	b_child_process;
 
 	close(backup_fd);
 	old_stdin = dup(STDIN_FILENO);
+	redir_errored = 0;
+	b_child_process = 1;
 	if (cur_phrase->left)
-		redir_action(cur_phrase->left);
+		redir_action(cur_phrase->left, b_child_process, &redir_errored);
 	if (cur_phrase->right)
 		cmd_action(cur_phrase->right, builtin);
 	e_dup2(old_stdin, STDIN_FILENO);
