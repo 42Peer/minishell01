@@ -253,13 +253,14 @@ void	execute(t_struct *ds);
 void	cmd_action(t_node *cur_cmd, t_func_type builtin[]);
 void	cmd_action_init(
 			t_node *cur_cmd, char ***p_args, int *p_func_idx);
-void	redir_action(t_node *cur_redir);
+void	redir_action(t_node *cur_redir, int b_child_process, int *predir_erred);
 char	**lst_to_2d_array(t_node *arg);
 void	e_dup2(int fd, int std);
 int		is_absolute_path(char *path);
 int		is_relative_path(char *path);
 char	*search_path(char *cmd);
-void	open_redir_file(char *file, int mode);
+int		open_redir_file(char *file, int mode, int b_child_process);
+int		exec_builtin(t_struct *ds, int func_idx, t_func_type *builtin);
 
 /*
  *						func_frame
