@@ -23,7 +23,7 @@ void	cmd_not_found_error(t_node *cmd)
 	write(STDERR_FILENO, err_str, ft_strlen(err_str));
 	err_str = cmd->content;
 	write(STDERR_FILENO, err_str, ft_strlen(err_str));
-	err_str = " 🍾 hey~ command not found\n";
+	err_str = " command not found\n";
 	write(STDERR_FILENO, err_str, ft_strlen(err_str));
 	ft_exit(CMD_NOT_FOUND);
 }
