@@ -62,7 +62,7 @@ int	make_tree(t_struct *ds)
 		else
 			printf("make_tree() ERROR!!!!\n");
 		if (syntx_erred == 1)
-			return (0);
+			return (ERROR);
 	}
-	return (1);
+	return (SUCCESS);
 }

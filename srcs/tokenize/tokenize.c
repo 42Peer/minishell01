@@ -6,6 +6,7 @@ void	info_init(t_token_info *info)
 	info->cur_idx = 0;
 	info->sin_quoted = 0;
 	info->dou_quoted = 0;
+	info->double_piped = 0;
 	info->token_type = NONE;
 	info->token_list = NULL;
 }
@@ -59,7 +60,7 @@ t_token	*tokenize(char *str)
 		token_search(str, &info);
 		++info.cur_idx;
 	}
-	if (is_case_unquoted(&info))
+	if (is_case_token_syntax_error(&info))
 		return (NULL);
 	if (info.token_type != NONE)
 		make_token(str, info.cur_idx - 1, &info);

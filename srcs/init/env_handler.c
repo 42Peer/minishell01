@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-void	make_env_array(char **envp)
+void	make_g_env_array(char **envp)
 {
 	int		i;
 	char	**env;
@@ -14,5 +14,5 @@ void	make_env_array(char **envp)
 	i = -1;
 	while (envp[++i])
 		env[i] = ft_strdup(envp[i]);
-	env_array = env;
+	g_env_array = env;
 }

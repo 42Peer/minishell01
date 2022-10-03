@@ -1,7 +1,7 @@
 #include "../../minishell.h"
 #include <limits.h>
 
-static int	ft_sign_env_array(const char *str);
+static int	ft_sign_g_env_array(const char *str);
 
 int	ft_isdigit(int c)
 {
@@ -23,7 +23,7 @@ int	ft_atoi(const char *str)
 	while ((9 <= str[i] && str[i] <= 13) || str[i] == ' ')
 		++i;
 	if (str[i] == '+' || str[i] == '-')
-		sign = ft_sign_env_array(&str[i++]);
+		sign = ft_sign_g_env_array(&str[i++]);
 	while (str[i] && ft_isdigit(str[i]))
 	{
 		if (sign == 1 && ((nb > LONG_MAX / 10)
@@ -37,7 +37,7 @@ int	ft_atoi(const char *str)
 	return (sign * (int)nb);
 }
 
-static int	ft_sign_env_array(const char *str)
+static int	ft_sign_g_env_array(const char *str)
 {
 	if (*str == '+')
 		return (1);

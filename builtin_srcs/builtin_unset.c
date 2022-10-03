@@ -21,6 +21,8 @@ int	is_valid_arg(char *arg)
 	char	**split;
 	int		is_valid;
 
+	if (*arg == '=')
+		return (envir_arg_error());
 	split = ft_split(arg, '=');
 	is_valid = 1;
 	i = 0;
@@ -47,9 +49,9 @@ int	is_exist(char *arg)
 
 	exist_i = -1;
 	i = -1;
-	while (exist_i == -1 && env_array[++i])
+	while (exist_i == -1 && g_env_array[++i])
 	{
-		split = ft_split(env_array[i], '=');
+		split = ft_split(g_env_array[i], '=');
 		if (ft_strncmp(arg, split[0], ft_strlen(arg) + 1) == 0)
 			exist_i = i;
 		ft_free_split(split);
@@ -86,15 +88,15 @@ void	builtin_unset(char **args)
 		exist_i = unset_work_condition(args[i]);
 		if (exist_i == -1)
 			continue ;
-		j = ft_arrlen(env_array);
+		j = ft_arrlen(g_env_array);
 		new = ft_calloc(j, sizeof(char *));
 		j = -1;
 		new_i = 0;
-		while (env_array[++j])
+		while (g_env_array[++j])
 			if (j != exist_i)
-				new[new_i++] = env_array[j];
-		free(env_array[exist_i]);
-		free(env_array);
-		env_array = new;
+				new[new_i++] = g_env_array[j];
+		free(g_env_array[exist_i]);
+		free(g_env_array);
+		g_env_array = new;
 	}
 }

@@ -1,18 +1,20 @@
 #include "../../minishell.h"
 
-void	put_paths(char **env_arr, int *p_i, char ***p_other_paths)
+int	put_paths(int *p_i, char ***p_other_paths, char *path)
 {
-	while (env_arr[++(*p_i)])
+	while (g_env_array[++(*p_i)])
 	{
-		if (!ft_strncmp(env_arr[*p_i], "PATH=", 5))
+		if (!ft_strncmp(g_env_array[*p_i], "PATH=", 5))
 		{
-			*p_other_paths = ft_split(&env_arr[*p_i][5], ':');
-			break ;
+			*p_other_paths = ft_split(&g_env_array[*p_i][5], ':');
+			return (SUCCESS);
 		}
 	}
+	free(path);
+	return (ERROR);
 }
 
-char	*search_path(char *cmd, char **env_arr)
+char	*search_path(char *cmd)
 {
 	char		**other_paths;
 	char		*path;
@@ -25,7 +27,8 @@ char	*search_path(char *cmd, char **env_arr)
 	i = -1;
 	path = ft_strjoin_no_free("/", cmd);
 	other_paths = NULL;
-	put_paths(env_arr, &i, &other_paths);
+	if (put_paths(&i, &other_paths, path) == ERROR)
+		return (NULL);
 	i = -1;
 	while (other_paths[++i])
 	{

@@ -1,17 +1,14 @@
 #include "../../minishell.h"
 
-void	run_builtin(t_node *cur_cmd, FUNC_TYPE builtin[],
+void	run_builtin(t_node *cur_cmd, t_func_type builtin[],
 	int func, int old_stdin)
 {
-	char	*cmd;
 	char	**args;
 
 	args = lst_to_2d_array(cur_cmd);
-	cmd = ft_strdup(cur_cmd->content);
 	builtin[func](args);
-	dup_frame(old_stdin, STDIN_FILENO);
+	e_dup2(old_stdin, STDIN_FILENO);
 	close(old_stdin);
-	free(cmd);
 	free_2d(args);
 }
 
@@ -68,7 +65,7 @@ void	execute(t_struct *ds)
 {
 	int			process_cnt;
 	int			func_idx;
-	FUNC_TYPE	builtin[7];
+	t_func_type	builtin[7];
 	int			old_stdout;
 	int			old_stdin;
 
@@ -86,7 +83,7 @@ void	execute(t_struct *ds)
 		}
 		run_builtin(ds->root_node->left->right, builtin, func_idx, old_stdin);
 		if (ds->root_node->left->left)
-			dup_frame(old_stdout, STDOUT_FILENO);
+			e_dup2(old_stdout, STDOUT_FILENO);
 	}
 	else
 		fork_process(ds, process_cnt, builtin);

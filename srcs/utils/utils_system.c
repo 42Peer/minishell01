@@ -19,7 +19,7 @@ void	cmd_not_found_error(t_node *cmd)
 {
 	char	*err_str;
 
-	err_str = "❀ ❂ smash 🍾 ";
+	err_str = "smash 🍾 ";
 	write(STDERR_FILENO, err_str, ft_strlen(err_str));
 	err_str = cmd->content;
 	write(STDERR_FILENO, err_str, ft_strlen(err_str));

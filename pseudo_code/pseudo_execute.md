@@ -172,9 +172,9 @@ void	get_ps(t_struct *ds, char **envp)
     while (count++ <= 프로세스갯수)
 	{
 		if (count == )
-			fork_frame(ds->root_node->right, envp, outfile, END);
+			child_pipe(ds->root_node->right, envp, outfile, END);
 		else
-			fork_frame(ds->root_node->right, envp, outfile, CONTINUE);
+			child_pipe(ds->root_node->right, envp, outfile, CONTINUE);
 	}
 	while (--count >= 0)
 		waitpid(-1, 0, 0);

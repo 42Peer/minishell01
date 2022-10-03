@@ -20,9 +20,9 @@ char	*ft_getenv(char *key)
 
 	value = NULL;
 	i = -1;
-	while (env_array[++i] && !value)
+	while (g_env_array[++i] && !value)
 	{
-		split = ft_split(env_array[i], '=');
+		split = ft_split(g_env_array[i], '=');
 		if (ft_strncmp(split[0], key, ft_strlen(key) + 1) == 0)
 			value = ft_strdup(split[1]);
 		j = -1;

@@ -25,7 +25,7 @@ void	make_io_redir_child_node(t_node *cur_node, t_node **new_node)
 	cur_node->right = *new_node;
 }
 
-void	make_io_redir_chile_node_content(
+void	make_io_redir_child_node_content(
 	t_node *new_node, t_token **cur_token, t_node **cur_node)
 {
 	new_node->content = ft_strdup((*cur_token)->content);
@@ -42,7 +42,7 @@ t_token	*make_redir_node(
 	int		i;
 
 	make_io_redir_node(&io_redir);
-	cur_node = cur_process->left;//n_phrase
+	cur_node = cur_process->left;
 	cur_node = attach_node_to_tree(cur_node, io_redir);
 	i = -1;
 	while (++i < 2)
@@ -50,14 +50,14 @@ t_token	*make_redir_node(
 		make_io_redir_child_node(cur_node, &new_node);
 		if (!cur_token)
 		{
-			printf("Error: syntax error!\n");
+			printf("syntax error!\n");
 			set_or_get_status(258);
 			*syntx_erred = 1;
 			break ;
 		}
 		else
 			new_node->type = cur_token->type;
-		make_io_redir_chile_node_content(new_node, &cur_token, &cur_node);
+		make_io_redir_child_node_content(new_node, &cur_token, &cur_node);
 	}
 	return (cur_token);
 }

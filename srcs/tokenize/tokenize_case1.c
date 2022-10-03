@@ -3,7 +3,11 @@
 void	case_part_of_operator(char *str, t_token_info *info)
 {
 	if (is_operator(str[info->cur_idx]))
+	{
+		if (str[info->cur_idx - 1] == '|' && str[info->cur_idx] == '|')
+			info->double_piped = 1;
 		make_token(str, info->cur_idx, info);
+	}
 	else
 	{
 		make_token(str, info->cur_idx - 1, info);
