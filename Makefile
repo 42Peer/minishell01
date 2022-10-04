@@ -4,10 +4,10 @@ CC 			=	gcc
 CCFLAGS		=	-Wall -Wextra -Werror -g
 CCFLAGS_G	=	-Wall -Wextra -Werror -g
 SANITIZER	=	-fsanitize=address
-# IREADLINE	=	LDFLAGS="-L/usr/local/opt/readline/lib"
-# LREADLINE	=	-L/opt/homebrew/opt/readline/lib
-IREADLINE = -I/Users/jeekim/.brew/opt/readline/include
-LREADLINE = -L/Users/jeekim/.brew/opt/readline/lib
+IREADLINE	=	-I/usr/local/opt/readline/include
+LREADLINE	=	-L/usr/local/opt/readline/lib
+# IREADLINE = -I/Users/jeekim/.brew/opt/readline/include
+# LREADLINE = -L/Users/jeekim/.brew/opt/readline/lib
 #LREADLINE = -L/Users/jujeon/.brew/opt/readline/lib
 #IREADLINE = -I/Users/jujeon/.brew/opt/readline/include
 RM			=	rm -f
@@ -18,7 +18,7 @@ SRC			=	main.c \
 				tokenize/tokenize.c tokenize/tokenize_utils.c tokenize/tokenize_case1.c tokenize/tokenize_case2.c \
 				tree_structure/make_tree.c tree_structure/make_tree_redir_node.c \
 				parser/tree_parser.c parser/tree_parser_heredoc.c parser/delquote_expand.c parser/delquote_utils.c \
-				execute/execute.c execute/cmd_action.c execute/child_pipe.c execute/open_redir_file.c execute/path.c \
+				execute/execute.c execute/cmd_action.c execute/child_pipe.c execute/open_redir_file.c execute/path.c execute/execute_builtin.c\
 				utils/utils1.c utils/utils2.c utils/utils_cleaners.c utils/utils_system.c utils/utils_list.c \
 				utils/utils_atoi.c utils/utils_itoa.c utils/utils_split.c utils/utils_strjoin.c utils/utils_isalnum.c\
 				utils/utils_envir_error.c test.c		# tmp file

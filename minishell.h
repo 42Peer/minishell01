@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jujeon <jujeon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sumsong <sumsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 18:27:19 by sumsong           #+#    #+#             */
-/*   Updated: 2022/09/30 20:35:52 by jujeon           ###   ########.fr       */
+/*   Updated: 2022/10/04 15:31:50 by sumsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,21 +235,25 @@ int		tree_parser(t_node *node, int *flag);
 */
 
 int		count_process(t_node *node);
-int		is_builtin_func(t_node *node);
+void	execute(t_struct *ds);
+
 void	child_process(t_node *cur_phrase, t_func_type builtin[]);
 void	fork_process(t_struct *ds, int cnt, t_func_type builtin[]);
-void	run_builtin(t_node *cur_cmd, t_func_type builtin[],
-			int func, int old_stdin);
-void	execute(t_struct *ds);
+
 void	cmd_action(t_node *cur_cmd, t_func_type builtin[], int old_stdin);
 void	cmd_action_init(t_node *cur_cmd, char ***p_args, int *p_func_idx);
-void	redir_action(t_node *cur_redir);
+int		redir_action(t_node *cur_redir, int is_child);
 char	**lst_to_2d_array(t_node *arg);
 void	e_dup2(int fd, int std);
 int		is_absolute_path(char *path);
 int		is_relative_path(char *path);
 char	*search_path(char *cmd);
-void	open_redir_file(char *file, int mode);
+int		open_redir_file(char *file, int mode, int is_child);
+
+void	run_builtin(t_node *cur_cmd, t_func_type builtin[],
+			int func, int old_stdin);
+int		is_builtin_func(t_node *cmd);
+void	format_specifier(void (*f[])(char **));
 
 /*
  *						func_frame
