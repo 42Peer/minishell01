@@ -13,18 +13,6 @@ t_token	*ft_lstnew(int type, char *content)
 	return (new);
 }
 
-void	ft_lstiter(t_token *lst, void (*f)(char *))
-{
-	while (lst)
-	{
-		printf("type : %d", lst->type);
-		printf(" content : ");
-		f(lst->content);
-		printf("\n");
-		lst = lst->next;
-	}
-}
-
 void	ft_lstadd_back(t_token **lst, t_token *new)
 {
 	t_token	*cur;

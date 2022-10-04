@@ -6,14 +6,13 @@
 /*   By: sumsong <sumsong@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 18:27:19 by sumsong           #+#    #+#             */
-/*   Updated: 2022/10/04 15:31:50 by sumsong          ###   ########.fr       */
+/*   Updated: 2022/10/04 15:37:18 by sumsong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-// # include "libft/libft.h"
 # include <stdio.h>				
 # include <stdlib.h>			
 # include <unistd.h>			
@@ -34,7 +33,7 @@
 
 # define ERROR		1
 # define SUCCESS	0
-//# define PATH_MAX	1024
+# define PATH_MAX	1024
 
 typedef void	(*t_func_type)(char **);
 char			**g_env_array;
@@ -134,7 +133,6 @@ t_env	*env_lstnew(char *env);
 void	env_lstadd_back(t_env **lst, t_env *new);
 void	make_env_list(char **envp, t_struct *ds);
 void	env_lstclear(t_env **lst);
-void	env_lstiter(t_env *lst, void (*f)(char *));		// tmp_func
 
 void	make_g_env_array(char **envp);
 
@@ -145,7 +143,6 @@ void	make_g_env_array(char **envp);
 void	free_2d(char **str);
 void	free_tree(t_node *node);
 void	cleaner(char *str, t_struct *ds, t_token *token);
-void	clean_exit(int error, char *str, t_token *token_list, t_struct *ds);
 
 void	ft_exit(int error);
 int		set_or_get_status(int error);
@@ -154,7 +151,6 @@ void	system_call_error(int error);
 void	builtin_error(void);
 
 t_token	*ft_lstnew(int type, char *content);
-void	ft_lstiter(t_token *lst, void (*f)(char *));
 void	ft_lstadd_back(t_token **lst, t_token *new);
 void	ft_lstclear(t_token **lst);
 int		ft_lstsize(t_node *lst);
@@ -167,7 +163,6 @@ void	*ft_calloc(size_t count, size_t size);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	check_args(char **args);
 void	ft_free_split(char **split);
-void	print_content(char *str);			// tmp func
 
 size_t	ft_arrlen(char **arr);
 size_t	ft_strlen(char *s);
@@ -278,14 +273,9 @@ void	builtin_unset(char **args);
 void	builtin_exit(char **args);
 
 /*
- *						test function
-*/
-
-void	ft_traverse(t_node *node);
-
-/*
 builtin_exit
 */
+
 void	print_and_exit(int exit_stat);
 int		ft_atoi(const char *str);
 
