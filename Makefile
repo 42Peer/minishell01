@@ -1,7 +1,7 @@
 NAME = minishell
-CC 			=	gcc
+CC 			=	cc
 #CCFLAGS	=	-I/usr/local/opt/readline/include -L/usr/local/opt/readline/lib -g -lreadline
-CCFLAGS		=	-Wall -Wextra -Werror -g
+CCFLAGS		=	-Wall -Wextra -Werror
 CCFLAGS_G	=	-Wall -Wextra -Werror -g
 SANITIZER	=	-fsanitize=address
 # IREADLINE	=	LDFLAGS="-L/usr/local/opt/readline/lib"
@@ -49,7 +49,7 @@ bonus	:
 	make WITH_BONUS=1 all
 
 .c.o	:
-	$(CC) $(CCFLAGS_G) $(IREADLINE) -c -o $@ $<
+	$(CC) $(CCFLAGS) $(IREADLINE) -c -o $@ $<
 
 $(NAME)	: $(OBJS)
 	$(CC) $(OBJS) $(CCFLAGS) $(LREADLINE) -lreadline -o $(NAME)
