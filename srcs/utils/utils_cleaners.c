@@ -24,35 +24,35 @@ void	free_tree(t_node *node)
 	free(node);
 }
 
-void	cleaner(char *str, t_struct *ds, t_token *token)
+void	cleaner(char *str, t_head *p_head, t_token *token)
 {
 	if (str)
 		free(str);
-	if (ds && ds->root_node)
+	if (p_head && p_head->node)
 	{
-		free_tree(ds->root_node);
-		ds->root_node = NULL;
+		free_tree(p_head->node);
+		p_head->node = NULL;
 	}
-	if (ds && ds->head_token)
+	if (p_head && p_head->token)
 	{
-		ft_lstclear(&(ds->head_token));
-		ds->head_token = NULL;
+		ft_lstclear(&(p_head->token));
+		p_head->token = NULL;
 	}
 	if (token)
 		ft_lstclear(&token);
 }
 
-void	clean_exit(int flag, char *str, t_token *token_list, t_struct *ds)
+void	clean_exit(int flag, char *str, t_token *token_list, t_head *p_head)
 {
 	printf("\n!ALERT! now clean_exit\n\n");
 	if (str)
 		free(str);
 	if (token_list)
 		ft_lstclear(&(token_list));
-	if (ds && ds->root_node)
-		free_tree(ds->root_node);
-	if (ds && ds->head_token)
-		ft_lstclear(&(ds->head_token));
+	if (p_head && p_head->node)
+		free_tree(p_head->node);
+	if (p_head && p_head->token)
+		ft_lstclear(&(p_head->token));
 	if (flag == SUCCESS)
 		printf("!ALERT! 정상 종료!\n");
 	exit (flag);

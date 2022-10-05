@@ -6,7 +6,7 @@
 /*   By: jujeon <jujeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 18:27:19 by sumsong           #+#    #+#             */
-/*   Updated: 2022/10/01 23:22:01 by kyolee           ###   ########.fr       */
+/*   Updated: 2022/10/05 12:34:25 by kyolee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,9 @@ typedef struct s_env
 
 typedef struct s_struct
 {
-	t_token	*head_token;
-	t_node	*root_node;
-}	t_struct;
+	t_token	*token;
+	t_node	*node;
+}	t_head;
 
 /*
  *						signal handler
@@ -142,7 +142,7 @@ int		set_or_get_heredoc_status(int status);
 
 t_env	*env_lstnew(char *env);
 void	env_lstadd_back(t_env **lst, t_env *new);
-void	make_env_list(char **envp, t_struct *ds);
+void	make_env_list(char **envp, t_head *p_head);
 void	env_lstclear(t_env **lst);
 void	env_lstiter(t_env *lst, void (*f)(char *));		// tmp_func
 
@@ -154,8 +154,8 @@ void	make_g_env_array(char **envp);
 
 void	free_2d(char **str);
 void	free_tree(t_node *node);
-void	cleaner(char *str, t_struct *ds, t_token *token);
-void	clean_exit(int error, char *str, t_token *token_list, t_struct *ds);
+void	cleaner(char *str, t_head *p_head, t_token *token);
+void	clean_exit(int error, char *str, t_token *token_list, t_head *p_head);
 
 void	ft_exit(int error);
 int		set_or_get_status(int error);
@@ -221,8 +221,8 @@ t_token	*tokenize(char *str);
 t_token	*make_redir_node(t_node *cur_process, t_token *cur_token, int *flag);
 t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token);
 t_token	*make_pipe_node(t_node **cur_process, t_token *cur_token);
-t_node	*make_dummy_node(void);
-int		make_tree(t_struct *ds);
+t_node	*make_process_and_phrase_node(void);
+int		make_tree(t_head *p_head);
 
 /*
  *						part III quote & expand & here_doc
@@ -247,9 +247,9 @@ int		tree_parser(t_node *node, int *flag);
 int		count_process(t_node *node);
 int		is_builtin_func(t_node *node);
 void	child_process(t_node *cur_phrase, t_func_type builtin[], int backup_fd);
-void	fork_process(t_struct *ds, int cnt, t_func_type builtin[]);
+void	fork_process(t_head *p_head, int cnt, t_func_type builtin[]);
 void	run_builtin(t_node *cur_cmd, t_func_type builtin[], int func);
-void	execute(t_struct *ds);
+void	execute(t_head *p_head);
 void	cmd_action(t_node *cur_cmd, t_func_type builtin[]);
 void	cmd_action_init(
 			t_node *cur_cmd, char ***p_args, int *p_func_idx);
@@ -260,7 +260,7 @@ int		is_absolute_path(char *path);
 int		is_relative_path(char *path);
 char	*search_path(char *cmd);
 int		open_redir_file(char *file, int mode, int b_child_process);
-int		exec_builtin(t_struct *ds, int func_idx, t_func_type *builtin);
+int		exec_builtin(t_head *p_head, int func_idx, t_func_type *builtin);
 
 /*
  *						func_frame
@@ -296,6 +296,6 @@ builtin_exit
 void	print_and_exit(int exit_stat);
 int		ft_atoi(const char *str);
 
-void	main_init(int *p_flag, t_struct *p_ds, int argc, char **argv);
+void	main_init(int *p_flag, t_head *p_head, int argc, char **argv);
 
 #endif

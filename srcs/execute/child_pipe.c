@@ -58,7 +58,7 @@ void	wait_for_remain_child_processes(void)
 	}
 }
 
-void	fork_process(t_struct *ds, int cnt, t_func_type builtin[])
+void	fork_process(t_head *p_head, int cnt, t_func_type builtin[])
 {
 	int		backup_fd;
 	int		status;
@@ -67,7 +67,7 @@ void	fork_process(t_struct *ds, int cnt, t_func_type builtin[])
 	t_node	*cur_node;
 
 	backup_fd = dup(STDIN_FILENO);
-	cur_node = ds->root_node;
+	cur_node = p_head->node;
 	loop = 0;
 	while (cnt > ++loop)
 		child_pipe(&cur_node, builtin, backup_fd);

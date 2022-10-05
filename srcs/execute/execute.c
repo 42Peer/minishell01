@@ -58,7 +58,7 @@ void	format_specifier(void (*f[])(char **))
 	f[6] = builtin_exit;
 }
 
-void	execute(t_struct *ds)
+void	execute(t_head *p_head)
 {
 	int			process_cnt;
 	int			func_idx;
@@ -66,10 +66,10 @@ void	execute(t_struct *ds)
 
 	in_process_signal_handler();
 	format_specifier(builtin);
-	func_idx = is_builtin_func(ds->root_node->left->right);
-	process_cnt = count_process(ds->root_node);
+	func_idx = is_builtin_func(p_head->node->left->right);
+	process_cnt = count_process(p_head->node);
 	if (process_cnt == 1 && func_idx > -1)
-		exec_builtin(ds, func_idx, builtin);
+		exec_builtin(p_head, func_idx, builtin);
 	else
-		fork_process(ds, process_cnt, builtin);
+		fork_process(p_head, process_cnt, builtin);
 }

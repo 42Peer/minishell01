@@ -19,12 +19,12 @@ t_token	*make_cmd_node(t_node *cur_process, t_token *cur_token)
 
 t_token	*make_pipe_node(t_node **cur_process, t_token *cur_token)
 {
-	(*cur_process)->right = make_dummy_node();
+	(*cur_process)->right = make_process_and_phrase_node();
 	*cur_process = (*cur_process)->right;
 	return (cur_token->next);
 }
 
-t_node	*make_dummy_node(void)
+t_node	*make_process_and_phrase_node(void)
 {
 	t_node	*process;
 	t_node	*phrase;
@@ -41,16 +41,16 @@ t_node	*make_dummy_node(void)
 	return (process);
 }
 
-int	make_tree(t_struct *ds)
+int	make_tree(t_head *p_head)
 {
 	t_node		*cur_process;
 	t_token		*cur_token;
 	int			syntx_erred;
 
 	here_doc_handler();
-	ds->root_node = make_dummy_node();
-	cur_token = ds->head_token;
-	cur_process = ds->root_node;
+	p_head->node = make_process_and_phrase_node();
+	cur_token = p_head->token;
+	cur_process = p_head->node;
 	syntx_erred = 0;
 	while (cur_token)
 	{
