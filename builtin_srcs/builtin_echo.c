@@ -32,7 +32,10 @@ int	not_newline(char *str)
 void	print_str(char **str, int i, int idx_last_word)
 {
 	if (i != idx_last_word)
+	{
 		write(1, str[i], ft_strlen(str[i]));
+		write(1, " ", 1);
+	}
 	else
 		write(1, str[i], ft_strlen(str[i]));
 }
