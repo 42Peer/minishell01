@@ -15,7 +15,7 @@ void	child_process(t_node *cur_phrase, t_func_type builtin[])
 
 	old_stdin = dup(STDIN_FILENO);
 	if (cur_phrase->left)
-		redir_action(cur_phrase->left);
+		redir_action(cur_phrase->left, 1);
 	if (cur_phrase->right)
 		cmd_action(cur_phrase->right, builtin, old_stdin);
 	exit(set_or_get_status(-1));

@@ -41,19 +41,3 @@ void	cleaner(char *str, t_struct *ds, t_token *token)
 	if (token)
 		ft_lstclear(&token);
 }
-
-void	clean_exit(int flag, char *str, t_token *token_list, t_struct *ds)
-{
-	printf("\n!ALERT! now clean_exit\n\n");
-	if (str)
-		free(str);
-	if (token_list)
-		ft_lstclear(&(token_list));
-	if (ds && ds->root_node)
-		free_tree(ds->root_node);
-	if (ds && ds->head_token)
-		ft_lstclear(&(ds->head_token));
-	if (flag == SUCCESS)
-		printf("!ALERT! 정상 종료!\n");
-	exit (flag);
-}

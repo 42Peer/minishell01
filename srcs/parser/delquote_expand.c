@@ -23,7 +23,7 @@ char	*dollar_sign(char *str, int *cur)
 	int		i;
 
 	i = *cur + 1;
-	if (str[i] == '\0' || is_whitespace(str[i]))
+	if (str[i] == '\0' || str[i] == '"' || is_whitespace(str[i]))
 		return (ft_strdup("$"));
 	if (str[i] == '?')
 	{

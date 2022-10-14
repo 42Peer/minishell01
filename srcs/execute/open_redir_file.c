@@ -7,26 +7,41 @@ void	e_dup2(int fd, int std)
 	close(fd);
 }
 
-void	redir_action(t_node *cur_redir)
+int	redir_action(t_node *cur_redir, int is_child)
 {
 	char	*file_name;
+	int		error;
 
+	error = 0;
 	if (!cur_redir)
-		return ;
+		return (error);
 	if (cur_redir->type == N_REDIR)
 	{
 		file_name = cur_redir->right->right->content;
 		if (!ft_strncmp(cur_redir->right->content, "<", 2))
-			open_redir_file(file_name, READ);
+			error = open_redir_file(file_name, READ, is_child);
 		else if (!ft_strncmp(cur_redir->right->content, ">", 2))
-			open_redir_file(file_name, WRITE);
+			error = open_redir_file(file_name, WRITE, is_child);
 		else if (!ft_strncmp(cur_redir->right->content, ">>", 3))
-			open_redir_file(file_name, APPEND);
+			error = open_redir_file(file_name, APPEND, is_child);
 	}
-	redir_action(cur_redir->left);
+	if (!error)
+		redir_action(cur_redir->left, is_child);
+	return (error);
 }
 
-void	open_redir_file(char *file, int mode)
+int	redir_error(int error, int is_child)
+{
+	if (is_child)
+	{
+		system_call_error(error);
+		return (0);
+	}
+	builtin_error();
+	return (1);
+}
+
+int	open_redir_file(char *file, int mode, int is_child)
 {
 	int	fd;
 
@@ -34,21 +49,22 @@ void	open_redir_file(char *file, int mode)
 	{
 		fd = open(file, O_RDONLY, 0777);
 		if (fd == -1)
-			system_call_error(errno);
+			return (redir_error(errno, is_child));
 		e_dup2(fd, STDIN_FILENO);
 	}
 	else if (mode == WRITE)
 	{
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 		if (fd == -1)
-			system_call_error(errno);
+			return (redir_error(errno, is_child));
 		e_dup2(fd, STDOUT_FILENO);
 	}
 	else if (mode == APPEND)
 	{
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 		if (fd == -1)
-			system_call_error(errno);
+			return (redir_error(errno, is_child));
 		e_dup2(fd, STDOUT_FILENO);
 	}
+	return (0);
 }
